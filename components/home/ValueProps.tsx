@@ -1,0 +1,29 @@
+const props = [
+  {
+    title: 'Local crews, local know-how',
+    body: 'Halton-region soils, climate, and bylaws are second nature to our teams.',
+  },
+  {
+    title: 'Residential & commercial',
+    body: 'From condominium grounds to single-family yards — one team, one standard.',
+  },
+  {
+    title: 'Year-round programs',
+    body: 'Lawn care, landscaping, hardscaping, and snow management on one schedule.',
+  },
+];
+
+export default function ValueProps() {
+  return (
+    <section className="mx-auto max-w-7xl px-4 py-20 lg:px-8">
+      <div className="grid gap-10 md:grid-cols-3">
+        {props.map((p) => (
+          <div key={p.title}>
+            <p className="font-display text-2xl text-forest-900">{p.title}</p>
+            <p className="mt-2 text-ink-700">{p.body}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
