@@ -1,9 +1,15 @@
 import ServiceCard from './ServiceCard';
-import { services, type ServiceMeta } from '@/content/services/_meta';
+import { services, type ServiceCategory } from '@/content/services/_meta';
 
-export default function RelatedServices({ current }: { current: ServiceMeta }) {
+export default function RelatedServices({
+  category,
+  slug,
+}: {
+  category: ServiceCategory;
+  slug: string;
+}) {
   const siblings = services
-    .filter((s) => s.category === current.category && s.slug !== current.slug)
+    .filter((s) => s.category === category && s.slug !== slug)
     .slice(0, 3);
 
   if (siblings.length === 0) return null;
