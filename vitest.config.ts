@@ -5,6 +5,27 @@ export default defineConfig({
   test: {
     environment: 'node',
     include: ['tests/unit/**/*.test.ts'],
+    setupFiles: ['tests/unit/setup.ts'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'json-summary', 'lcov', 'html'],
+      reportsDirectory: 'coverage',
+      include: ['lib/**', 'content/**'],
+      exclude: [
+        'lib/redirects.ts', // generated file
+        'node_modules/**',
+        '**/*.d.ts',
+        'tests/**',
+        // scripts/ are one-shot CLI tools — invoked manually, not at runtime
+      ],
+      thresholds: {
+        lines: 100,
+        functions: 100,
+        statements: 100,
+        branches: 90,
+      },
+      all: true,
+    },
   },
   resolve: {
     alias: { '@': path.resolve(__dirname, './') },

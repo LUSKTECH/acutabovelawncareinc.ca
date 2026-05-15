@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Fraunces, Inter } from 'next/font/google';
+import PostHogProvider from '@/components/analytics/PostHogProvider';
 import './globals.css';
 
 const fraunces = Fraunces({
@@ -44,7 +45,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${fraunces.variable} ${inter.variable}`}>
-      <body>{children}</body>
+      <body>
+        <PostHogProvider>{children}</PostHogProvider>
+      </body>
     </html>
   );
 }

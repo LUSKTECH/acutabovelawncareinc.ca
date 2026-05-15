@@ -11,8 +11,11 @@ const Schema = z.object({
   email: z.string().email(),
   phone: z.string().max(40).optional().or(z.literal('')),
   message: z.string().min(10).max(5000),
-  // honeypot: bots fill any field they see; humans don't
-  company: z.string().max(0).optional(),
+  // Honeypot: bots fill any field they see; humans don't. We allow the field
+  // through schema validation so the runtime check below can silently drop
+  // the submission with `status: 'success'`, which gives bots no signal that
+  // their submission failed.
+  company: z.string().max(200).optional(),
 });
 
 export type ContactState =
