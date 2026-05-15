@@ -92,11 +92,11 @@ describe('submitContact', () => {
     );
     expect(res).toEqual({ status: 'success' });
     expect(sendMock).toHaveBeenCalledOnce();
-    const call = sendMock.mock.calls[0][0];
-    expect(call.to).toEqual([expect.any(String)]);
-    expect(call.replyTo).toBe('alice@example.com');
-    expect(call.subject).toMatch(/Alice/);
-    expect(call.text).toMatch(/Phone: 905-555-1234/);
+    const call = sendMock.mock.calls[0]?.[0];
+    expect(call?.to).toEqual([expect.any(String)]);
+    expect(call?.replyTo).toBe('alice@example.com');
+    expect(call?.subject).toMatch(/Alice/);
+    expect(call?.text).toMatch(/Phone: 905-555-1234/);
   });
 
   it('strips control characters from the name before composing the subject', async () => {
@@ -110,7 +110,8 @@ describe('submitContact', () => {
         message: 'Quote please for the back yard near Mountain Brow.',
       }),
     );
-    const subj = sendMock.mock.calls[0][0].subject as string;
+    const subj = sendMock.mock.calls[0]?.[0]?.subject as string | undefined;
+    expect(subj).toBeDefined();
     expect(subj).not.toMatch(/[\r\n]/);
   });
 

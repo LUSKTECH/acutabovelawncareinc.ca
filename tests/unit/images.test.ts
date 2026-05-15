@@ -50,9 +50,9 @@ describe('getGalleryItems', () => {
       '/images/gallery/banner.webp',
       '/images/gallery/zebra-stones.jpg',
     ]);
-    expect(items[0].alt).toBe('Apple Orchard');
-    expect(items[1].alt).toBe('Banner');
-    expect(items[2].alt).toBe('Zebra Stones');
+    expect(items[0]?.alt).toBe('Apple Orchard');
+    expect(items[1]?.alt).toBe('Banner');
+    expect(items[2]?.alt).toBe('Zebra Stones');
     for (const item of items) {
       expect(item.width).toBe(1200);
       expect(item.height).toBe(800);
@@ -66,6 +66,6 @@ describe('getGalleryItems', () => {
       metadata: vi.fn().mockResolvedValue({ width: 800, height: 600 }),
     });
     const items = await getGalleryItems();
-    expect(items[0].alt).toBe('Landscaping project');
+    expect(items[0]?.alt).toBe('Landscaping project');
   });
 });
