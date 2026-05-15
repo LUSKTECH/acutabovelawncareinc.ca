@@ -1,8 +1,19 @@
+import Hero from '@/components/home/Hero';
+import ValueProps from '@/components/home/ValueProps';
+import FeaturedServices from '@/components/home/FeaturedServices';
+import ServiceAreasStrip from '@/components/home/ServiceAreasStrip';
+import ClosingCta from '@/components/home/ClosingCta';
+import LocalBusinessJsonLd from '@/components/seo/LocalBusinessJsonLd';
+
 export default function HomePage() {
   return (
-    <section className="mx-auto max-w-4xl px-4 py-24 text-center lg:px-8">
-      <p className="text-sm uppercase tracking-widest text-sage-500">Coming soon</p>
-      <h1 className="mt-3 font-display text-5xl text-forest-900">A Cut Above Lawn Care</h1>
-    </section>
+    <>
+      <LocalBusinessJsonLd />
+      <Hero />
+      <ValueProps />
+      <FeaturedServices />
+      <ServiceAreasStrip />
+      <ClosingCta />
+    </>
   );
 }
