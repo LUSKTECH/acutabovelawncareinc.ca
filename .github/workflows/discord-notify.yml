@@ -1,0 +1,84 @@
+name: Discord notify
+
+on:
+  pull_request:
+    types: [opened, reopened, ready_for_review, closed]
+  workflow_run:
+    workflows: ['CI', 'Security', 'Lighthouse', 'Accessibility', 'Secret scan']
+    types: [completed]
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  pr-event:
+    name: PR webhook
+    if: ${{ github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Discord
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+          PR_ACTION: ${{ github.event.action }}
+          PR_MERGED: ${{ github.event.pull_request.merged }}
+        run: |
+          if [ -z "$DISCORD_WEBHOOK_URL" ]; then
+            echo "DISCORD_WEBHOOK_URL not set; skipping"
+            exit 0
+          fi
+          case "$PR_ACTION" in
+            opened)
+              EMOJI=":sparkles:"; STATUS="opened"; COLOR=3447003 ;;
+            reopened)
+              EMOJI=":arrows_counterclockwise:"; STATUS="reopened"; COLOR=15105570 ;;
+            ready_for_review)
+              EMOJI=":eyes:"; STATUS="ready for review"; COLOR=15844367 ;;
+            closed)
+              if [ "$PR_MERGED" = "true" ]; then
+                EMOJI=":white_check_mark:"; STATUS="merged"; COLOR=5763719
+              else
+                EMOJI=":x:"; STATUS="closed without merging"; COLOR=15548997
+              fi ;;
+            *)
+              exit 0 ;;
+          esac
+          PAYLOAD=$(jq -n \
+            --arg title "$EMOJI PR $STATUS by $PR_AUTHOR" \
+            --arg description "$PR_TITLE" \
+            --arg url "$PR_URL" \
+            --argjson color "$COLOR" \
+            '{embeds: [{title: $title, description: $description, url: $url, color: $color}]}')
+          curl -fsS -H "Content-Type: application/json" -d "$PAYLOAD" "$DISCORD_WEBHOOK_URL"
+
+  workflow-event:
+    name: Workflow result webhook
+    if: ${{ github.event_name == 'workflow_run' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Discord
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          WORKFLOW_NAME: ${{ github.event.workflow_run.name }}
+          WORKFLOW_URL: ${{ github.event.workflow_run.html_url }}
+          WORKFLOW_BRANCH: ${{ github.event.workflow_run.head_branch }}
+          WORKFLOW_CONCLUSION: ${{ github.event.workflow_run.conclusion }}
+          WORKFLOW_ACTOR: ${{ github.event.workflow_run.actor.login }}
+        run: |
+          if [ -z "$DISCORD_WEBHOOK_URL" ]; then
+            echo "DISCORD_WEBHOOK_URL not set; skipping"
+            exit 0
+          fi
+          if [ "$WORKFLOW_CONCLUSION" != "failure" ] && [ "$WORKFLOW_CONCLUSION" != "timed_out" ]; then
+            echo "Skipping (conclusion=$WORKFLOW_CONCLUSION)"
+            exit 0
+          fi
+          PAYLOAD=$(jq -n \
+            --arg title ":rotating_light: $WORKFLOW_NAME failed on \`$WORKFLOW_BRANCH\`" \
+            --arg description "Triggered by $WORKFLOW_ACTOR · conclusion: \`$WORKFLOW_CONCLUSION\`" \
+            --arg url "$WORKFLOW_URL" \
+            '{embeds: [{title: $title, description: $description, url: $url, color: 15548997}]}')
+          curl -fsS -H "Content-Type: application/json" -d "$PAYLOAD" "$DISCORD_WEBHOOK_URL"

@@ -14,6 +14,7 @@ const config = [
       'playwright-report/**',
       'test-results/**',
       'public/**',
+      'coverage/**',
     ],
   },
 ];
