@@ -15,6 +15,11 @@ export default async function ServiceAreasPage() {
   const { content } = await compileMDX({
     source: raw,
     options: { parseFrontmatter: false },
+    components: {
+      h1: (props) => <h2 {...props} />,
+      h2: (props) => <h3 {...props} />,
+      h3: (props) => <h4 {...props} />,
+    },
   });
 
   return (

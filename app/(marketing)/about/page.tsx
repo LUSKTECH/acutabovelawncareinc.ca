@@ -12,6 +12,11 @@ export default async function AboutPage() {
   const { content } = await compileMDX({
     source: raw,
     options: { parseFrontmatter: false },
+    components: {
+      h1: (props) => <h2 {...props} />,
+      h2: (props) => <h3 {...props} />,
+      h3: (props) => <h4 {...props} />,
+    },
   });
 
   const title = typeof data.title === 'string' ? data.title : 'About us';
