@@ -8,15 +8,13 @@ import { getCategorizedServices } from '@/content/services/_meta';
 const groups = getCategorizedServices();
 
 export default function MobileNav() {
+  // Drawer is rendered via createPortal outside the sticky `<header>` because
+  // the header's `backdrop-blur` establishes a containing block that would
+  // collapse the drawer's `position: fixed` against the header instead of the
+  // viewport. The drawer only mounts when `open` is true (post-click), so
+  // there's no SSR/hydration mismatch — initial server render has `open=false`
+  // and renders nothing for the portal.
   const [open, setOpen] = useState(false);
-  // Portal target — render the drawer outside the sticky `<header>` so the
-  // header's `backdrop-blur` (which establishes a containing block) doesn't
-  // collapse the drawer's `position: fixed` against the viewport.
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
@@ -108,7 +106,7 @@ export default function MobileNav() {
           {open ? <path d="M6 6l12 12M6 18L18 6" /> : <path d="M3 6h18M3 12h18M3 18h18" />}
         </svg>
       </button>
-      {mounted && open && createPortal(drawer, document.body)}
+      {open && typeof document !== 'undefined' && createPortal(drawer, document.body)}
     </>
   );
 }
