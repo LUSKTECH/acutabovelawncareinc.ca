@@ -1,0 +1,23 @@
+WordPress Export Summary
+========================
+Export Date: Tue Jan 13 22:31:18 EST 2026
+Server: rouge
+Site Directory: /var/www/acutabovelawncareinc.ca/htdocs/
+
+Files Exported:
+- posts.json: List of all posts
+- posts-detailed.json: Detailed post content
+- media.json: Media library list
+- media-detailed.json: Detailed media information
+- categories.json: Category taxonomy
+- tags.json: Tag taxonomy
+- site-name.txt: Site name
+- site-description.txt: Site description
+- admin-email.txt: Admin email
+- permalink-structure.txt: URL structure
+- rewrite-rules.json: Rewrite rules
+
+Next Steps:
+1. Review exported data
+2. Run: npm run migrate:import
+3. Verify content in Sanity CMS
