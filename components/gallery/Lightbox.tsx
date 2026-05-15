@@ -17,7 +17,10 @@ export default function Lightbox({ items, openIndex, onClose, onPrev, onNext }: 
   const lastFocusedRef = useRef<HTMLElement | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
 
-  // Capture the element that had focus before the dialog opened so we can restore it on close.
+  // Capture pre-open focus once when transitioning closed → open, so cycling
+  // images via Next/Prev doesn't reset lastFocusedRef to the previously-focused
+  // arrow button (which would mean Escape returns focus to the arrow, not the
+  // originating thumbnail).
   useEffect(() => {
     if (openIndex === null) return;
     lastFocusedRef.current = document.activeElement as HTMLElement | null;
@@ -25,7 +28,9 @@ export default function Lightbox({ items, openIndex, onClose, onPrev, onNext }: 
     return () => {
       lastFocusedRef.current?.focus?.();
     };
-  }, [openIndex]);
+    // Intentionally only run when transitioning open ↔ closed.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [openIndex === null]);
 
   // Lock background scroll while open.
   useEffect(() => {
@@ -80,9 +85,10 @@ export default function Lightbox({ items, openIndex, onClose, onPrev, onNext }: 
   if (openIndex === null) return null;
   const item = items[openIndex];
   if (!item) {
-    // Indicates a logic bug in the parent — surface in dev rather than hide silently.
     if (process.env.NODE_ENV !== 'production') {
-      console.error(`Lightbox: openIndex ${openIndex} is out of bounds (items.length=${items.length})`);
+      console.error(
+        `Lightbox: openIndex ${openIndex} is out of bounds (items.length=${items.length})`,
+      );
     }
     return null;
   }
@@ -96,6 +102,7 @@ export default function Lightbox({ items, openIndex, onClose, onPrev, onNext }: 
       className="fixed inset-0 z-50 bg-forest-900/95"
     >
       <button
+        type="button"
         ref={closeButtonRef}
         onClick={onClose}
         aria-label="Close"
@@ -104,16 +111,18 @@ export default function Lightbox({ items, openIndex, onClose, onPrev, onNext }: 
         Close
       </button>
       <button
+        type="button"
         onClick={onPrev}
         aria-label="Previous image"
-        className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-cream-50/10 px-4 py-3 text-cream-50 hover:bg-cream-50/20"
+        className="absolute left-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-cream-50/10 px-4 py-3 text-cream-50 hover:bg-cream-50/20"
       >
         ‹
       </button>
       <button
+        type="button"
         onClick={onNext}
         aria-label="Next image"
-        className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-cream-50/10 px-4 py-3 text-cream-50 hover:bg-cream-50/20"
+        className="absolute right-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-cream-50/10 px-4 py-3 text-cream-50 hover:bg-cream-50/20"
       >
         ›
       </button>

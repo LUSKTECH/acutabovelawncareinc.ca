@@ -117,10 +117,22 @@ function htmlToMarkdown(html: string): string {
     .join('');
 }
 
+// Map legacy WordPress permalinks onto the new Next.js routes so MDX bodies
+// don't ship internal 308 redirect hops.
+const LEGACY_LINKS: Record<string, string> = {
+  '/contact-us/': '/contact',
+  '/about-us/': '/about',
+};
+function rewriteLegacyLinks(s: string): string {
+  for (const [from, to] of Object.entries(LEGACY_LINKS)) s = s.split(from).join(to);
+  return s;
+}
+
 function cleanContent(raw: string): string {
   let s = stripShortcodes(raw);
   s = expandTokens(s);
   s = htmlToMarkdown(s);
+  s = rewriteLegacyLinks(s);
   s = collapseWhitespace(s);
   return s;
 }
