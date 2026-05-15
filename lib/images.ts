@@ -1,4 +1,4 @@
-import { readdirSync } from 'node:fs';
+import { existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import sharp from 'sharp';
 
@@ -21,14 +21,20 @@ function humanize(filename: string): string {
 
 export async function getGalleryItems(): Promise<GalleryItem[]> {
   const dir = join(process.cwd(), 'public/images/gallery');
+  if (!existsSync(dir)) {
+    throw new Error(`Gallery directory not found: ${dir}`);
+  }
   const files = readdirSync(dir).filter((f) => /\.(jpe?g|png|webp)$/i.test(f));
   const items = await Promise.all(
     files.map(async (f) => {
       const meta = await sharp(join(dir, f)).metadata();
+      if (!meta.width || !meta.height) {
+        throw new Error(`Could not read dimensions for gallery image: ${f}`);
+      }
       return {
         src: `/images/gallery/${f}`,
-        width: meta.width ?? 1600,
-        height: meta.height ?? 1067,
+        width: meta.width,
+        height: meta.height,
         alt: humanize(f) || 'Landscaping project',
       };
     }),

@@ -24,7 +24,7 @@ export default function LocalBusinessJsonLd() {
   };
 
   return (
-    <Script id="local-business-jsonld" type="application/ld+json" strategy="beforeInteractive">
+    <Script id="local-business-jsonld" type="application/ld+json" strategy="afterInteractive">
       {JSON.stringify(data)}
     </Script>
   );

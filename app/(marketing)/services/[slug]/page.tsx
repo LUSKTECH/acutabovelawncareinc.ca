@@ -55,7 +55,7 @@ export default async function ServicePage({
           {content}
         </div>
       </article>
-      <RelatedServices current={service} />
+      <RelatedServices category={service.category} slug={service.slug} />
     </>
   );
 }
