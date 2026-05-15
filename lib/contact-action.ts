@@ -1,8 +1,10 @@
 'use server';
 
+import { headers } from 'next/headers';
 import { z } from 'zod';
 import { Resend } from 'resend';
 import { site } from '@/content/site';
+import { rateLimit } from '@/lib/rate-limit';
 
 const Schema = z.object({
   name: z.string().min(2).max(100),
@@ -22,6 +24,17 @@ export async function submitContact(
   _prev: ContactState,
   formData: FormData,
 ): Promise<ContactState> {
+  // IP-bucketed rate limit: 5 submissions per IP per 10 minutes.
+  const hdrs = await headers();
+  const ip = (hdrs.get('x-forwarded-for') ?? '').split(',')[0]?.trim() || 'unknown';
+  const rl = rateLimit(`contact:${ip}`, { max: 5, windowMs: 10 * 60 * 1000 });
+  if (!rl.ok) {
+    return {
+      status: 'error',
+      message: `Too many requests right now — please try again later or call ${site.phone}.`,
+    };
+  }
+
   const parsed = Schema.safeParse(Object.fromEntries(formData.entries()));
   if (!parsed.success) {
     const fieldErrors: Record<string, string> = {};
@@ -30,7 +43,11 @@ export async function submitContact(
     }
     return { status: 'error', message: 'Please fix the highlighted fields.', fieldErrors };
   }
-  if (parsed.data.company) return { status: 'success' }; // silently drop bots
+  // Bot tripped the honeypot: log so we can spot false positives from password managers etc.
+  if (parsed.data.company) {
+    console.info('[contact] honeypot tripped from ip=%s', ip);
+    return { status: 'success' };
+  }
 
   const apiKey = process.env.RESEND_API_KEY;
   const to = process.env.CONTACT_TO_EMAIL ?? site.email;

@@ -4,14 +4,19 @@ import './globals.css';
 
 const fraunces = Fraunces({
   subsets: ['latin'],
+  weight: ['500'],
+  style: ['normal'],
   variable: '--font-display',
   display: 'swap',
+  preload: true,
 });
 
 const inter = Inter({
   subsets: ['latin'],
+  weight: ['400', '500', '600'],
   variable: '--font-sans',
   display: 'swap',
+  preload: true,
 });
 
 export const viewport: Viewport = {

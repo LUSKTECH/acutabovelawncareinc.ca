@@ -11,13 +11,14 @@ export default function Hero() {
           alt=""
           fill
           priority
+          quality={75}
           sizes="100vw"
           className="object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-tr from-forest-900/75 via-forest-900/40 to-transparent" />
       </div>
-      <div className="absolute inset-0">
-        <div className="mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-16 lg:px-8 lg:pb-24">
+      <div className="pointer-events-none absolute inset-0">
+        <div className="pointer-events-auto mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-16 lg:px-8 lg:pb-24">
           <p className="text-sm uppercase tracking-[0.3em] text-moss-100/80">
             Burlington · Oakville · Milton
           </p>

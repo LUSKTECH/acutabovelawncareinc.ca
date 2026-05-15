@@ -4,7 +4,7 @@ export default function ServiceHero({ title, image }: { title: string; image: st
   return (
     <section className="relative isolate">
       <div className="relative h-[44vh] min-h-[320px] w-full overflow-hidden">
-        <Image src={image} alt="" fill priority sizes="100vw" className="object-cover" />
+        <Image src={image} alt="" fill priority quality={75} sizes="100vw" className="object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-forest-900/80 via-forest-900/40 to-transparent" />
       </div>
       <div className="mx-auto max-w-4xl px-4 lg:px-8">

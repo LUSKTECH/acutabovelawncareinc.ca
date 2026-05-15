@@ -2,7 +2,19 @@ import Link from 'next/link';
 import Image from 'next/image';
 import type { ServiceMeta } from '@/content/services/_meta';
 
-export default function ServiceCard({ service }: { service: ServiceMeta }) {
+/** Default sizes match the densest grid (4-col at lg+) so we don't under-fetch. */
+const DEFAULT_SIZES =
+  '(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw';
+
+export default function ServiceCard({
+  service,
+  sizes = DEFAULT_SIZES,
+  priority = false,
+}: {
+  service: ServiceMeta;
+  sizes?: string;
+  priority?: boolean;
+}) {
   return (
     <Link
       href={`/services/${service.slug}`}
@@ -13,7 +25,9 @@ export default function ServiceCard({ service }: { service: ServiceMeta }) {
           src={service.image}
           alt=""
           fill
-          sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+          sizes={sizes}
+          priority={priority}
+          quality={75}
           className="object-cover transition duration-500 group-hover:scale-[1.03]"
         />
         <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-forest-900/85 via-forest-900/30 to-transparent p-5">
