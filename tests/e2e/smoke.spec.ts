@@ -32,6 +32,25 @@ test('gallery opens lightbox on image click and closes on Escape', async ({ page
   await expect(page.getByRole('dialog')).toBeHidden();
 });
 
+test('gallery lightbox Next/Prev advance images without page navigation', async ({ page }) => {
+  await page.goto('/gallery');
+  await page.getByRole('button', { name: /open image/i }).first().click();
+  const dialog = page.getByRole('dialog');
+  await expect(dialog).toBeVisible();
+  const initialSrc = await dialog.locator('img').getAttribute('src');
+
+  await page.getByRole('button', { name: 'Next image' }).click();
+  // URL must not change — the original bug was that arrows navigated to /
+  await expect(page).toHaveURL(/\/gallery\/?$/);
+  await expect(dialog).toBeVisible();
+  const afterNextSrc = await dialog.locator('img').getAttribute('src');
+  expect(afterNextSrc).not.toBe(initialSrc);
+
+  await page.getByRole('button', { name: 'Previous image' }).click();
+  await expect(page).toHaveURL(/\/gallery\/?$/);
+  await expect(dialog).toBeVisible();
+});
+
 test('contact form rejects submission without required fields', async ({ page }) => {
   await page.goto('/contact');
   // Required HTML5 validation prevents server submission; just confirm we stay on page
