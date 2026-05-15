@@ -41,27 +41,38 @@ export async function submitContact(
     };
   }
 
-  const resend = new Resend(apiKey);
-  const { error } = await resend.emails.send({
-    from: 'A Cut Above <noreply@acutabovelawncareinc.ca>',
-    to: [to],
-    replyTo: parsed.data.email,
-    subject: `New estimate request from ${parsed.data.name}`,
-    text: [
-      `From: ${parsed.data.name} <${parsed.data.email}>`,
-      parsed.data.phone ? `Phone: ${parsed.data.phone}` : '',
-      '',
-      parsed.data.message,
-    ]
-      .filter(Boolean)
-      .join('\n'),
-  });
+  // Defense in depth: strip control characters from name before it lands in the subject
+  const safeName = parsed.data.name.replace(/[\r\n\t]+/g, ' ');
 
-  if (error) {
+  const resend = new Resend(apiKey);
+  try {
+    const { error } = await resend.emails.send({
+      from: 'A Cut Above <noreply@acutabovelawncareinc.ca>',
+      to: [to],
+      replyTo: parsed.data.email,
+      subject: `New estimate request from ${safeName}`,
+      text: [
+        `From: ${safeName} <${parsed.data.email}>`,
+        parsed.data.phone ? `Phone: ${parsed.data.phone}` : '',
+        '',
+        parsed.data.message,
+      ]
+        .filter(Boolean)
+        .join('\n'),
+    });
+    if (error) {
+      console.error('[contact] Resend API error:', error);
+      return {
+        status: 'error',
+        message: `Could not send right now — please call us at ${site.phone}.`,
+      };
+    }
+    return { status: 'success' };
+  } catch (err) {
+    console.error('[contact] Resend SDK threw:', err);
     return {
       status: 'error',
       message: `Could not send right now — please call us at ${site.phone}.`,
     };
   }
-  return { status: 'success' };
 }

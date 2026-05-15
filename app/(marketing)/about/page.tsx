@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import { compileMDX } from 'next-mdx-remote/rsc';
 import { getPageBySlug } from '@/lib/content';
+import { renderMdx } from '@/lib/mdx';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -9,15 +9,7 @@ export const metadata: Metadata = {
 
 export default async function AboutPage() {
   const { content: raw, data } = getPageBySlug('about');
-  const { content } = await compileMDX({
-    source: raw,
-    options: { parseFrontmatter: false },
-    components: {
-      h1: (props) => <h2 {...props} />,
-      h2: (props) => <h3 {...props} />,
-      h3: (props) => <h4 {...props} />,
-    },
-  });
+  const content = await renderMdx(raw);
 
   const title = typeof data.title === 'string' ? data.title : 'About us';
 

@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { compileMDX } from 'next-mdx-remote/rsc';
-import { getServiceBySlug, getServiceSlugs } from '@/lib/content';
+import { getServiceBySlug, getServiceSlugs, UnknownServiceError } from '@/lib/content';
+import { renderMdx } from '@/lib/mdx';
 import ServiceHero from '@/components/service/ServiceHero';
 import RelatedServices from '@/components/service/RelatedServices';
 
@@ -20,17 +20,14 @@ export async function generateMetadata({
   try {
     const s = getServiceBySlug(slug);
     return {
-      title: s.frontmatter.title,
+      title: s.title,
       description: s.blurb,
-      openGraph: {
-        title: s.frontmatter.title,
-        description: s.blurb,
-        images: [s.image],
-      },
+      openGraph: { title: s.title, description: s.blurb, images: [s.image] },
       alternates: { canonical: `/services/${s.slug}` },
     };
-  } catch {
-    return {};
+  } catch (err) {
+    if (err instanceof UnknownServiceError) return {};
+    throw err;
   }
 }
 
@@ -43,23 +40,16 @@ export default async function ServicePage({
   let service;
   try {
     service = getServiceBySlug(slug);
-  } catch {
-    notFound();
+  } catch (err) {
+    if (err instanceof UnknownServiceError) notFound();
+    throw err;
   }
 
-  const { content } = await compileMDX({
-    source: service.body,
-    options: { parseFrontmatter: false },
-    components: {
-      h1: (props) => <h2 {...props} />,
-      h2: (props) => <h3 {...props} />,
-      h3: (props) => <h4 {...props} />,
-    },
-  });
+  const content = await renderMdx(service.body);
 
   return (
     <>
-      <ServiceHero title={service.frontmatter.title} image={service.image} />
+      <ServiceHero title={service.title} image={service.image} />
       <article className="container-prose px-4 py-16 lg:px-0">
         <div className="prose prose-lg max-w-none prose-headings:font-display prose-headings:text-forest-900 prose-a:text-forest-700">
           {content}
