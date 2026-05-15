@@ -57,16 +57,16 @@ function collapseWhitespace(s: string): string {
 function htmlToMarkdown(html: string): string {
   const $ = cheerio.load(`<root>${html}</root>`, null, false);
 
-  function walk(node: cheerio.AnyNode): string {
-    // Text nodes
-    if (node.type === 'text') return (node as { data: string }).data;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function walk(node: any): string {
+    if (node.type === 'text') return node.data as string;
     if (node.type !== 'tag') return '';
 
-    const el = node as cheerio.Element;
-    const tag = el.tagName.toLowerCase();
+    const el = node;
+    const tag = String(el.tagName).toLowerCase();
     const inner = $(el)
       .contents()
-      .map((_, c) => walk(c as cheerio.AnyNode))
+      .map((_, c) => walk(c))
       .get()
       .join('');
 
@@ -87,7 +87,7 @@ function htmlToMarkdown(html: string): string {
       case 'ul': {
         const items = $(el)
           .children('li')
-          .map((_, li) => `- ${walk(li as cheerio.AnyNode).trim()}`)
+          .map((_, li) => `- ${walk(li).trim()}`)
           .get()
           .join('\n');
         return `\n\n${items}\n\n`;
@@ -95,7 +95,7 @@ function htmlToMarkdown(html: string): string {
       case 'ol': {
         const items = $(el)
           .children('li')
-          .map((i, li) => `${i + 1}. ${walk(li as cheerio.AnyNode).trim()}`)
+          .map((i, li) => `${i + 1}. ${walk(li).trim()}`)
           .get()
           .join('\n');
         return `\n\n${items}\n\n`;
@@ -112,7 +112,7 @@ function htmlToMarkdown(html: string): string {
 
   return $('root')
     .children()
-    .map((_, e) => walk(e as cheerio.AnyNode))
+    .map((_, e) => walk(e))
     .get()
     .join('');
 }
