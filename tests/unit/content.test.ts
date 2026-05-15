@@ -10,10 +10,10 @@ describe('content layer', () => {
     expect(slugs.length).toBe(22);
   });
 
-  it('loads MDX body + frontmatter for each service', () => {
+  it('loads MDX body for each service', () => {
     for (const slug of getServiceSlugs()) {
       const s = getServiceBySlug(slug);
-      expect(s.frontmatter.title.length).toBeGreaterThan(0);
+      expect(s.title.length).toBeGreaterThan(0);
       expect(s.body.length).toBeGreaterThan(50);
     }
   });

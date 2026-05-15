@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { compileMDX } from 'next-mdx-remote/rsc';
 import { getPageBySlug } from '@/lib/content';
+import { renderMdx } from '@/lib/mdx';
 import { site } from '@/content/site';
 
 export const metadata: Metadata = {
@@ -12,15 +12,7 @@ export const metadata: Metadata = {
 
 export default async function ServiceAreasPage() {
   const { content: raw } = getPageBySlug('service-areas');
-  const { content } = await compileMDX({
-    source: raw,
-    options: { parseFrontmatter: false },
-    components: {
-      h1: (props) => <h2 {...props} />,
-      h2: (props) => <h3 {...props} />,
-      h3: (props) => <h4 {...props} />,
-    },
-  });
+  const content = await renderMdx(raw);
 
   return (
     <>
