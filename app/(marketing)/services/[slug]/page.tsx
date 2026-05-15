@@ -50,6 +50,11 @@ export default async function ServicePage({
   const { content } = await compileMDX({
     source: service.body,
     options: { parseFrontmatter: false },
+    components: {
+      h1: (props) => <h2 {...props} />,
+      h2: (props) => <h3 {...props} />,
+      h3: (props) => <h4 {...props} />,
+    },
   });
 
   return (

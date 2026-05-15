@@ -1,8 +1,21 @@
 import next from 'eslint-config-next';
-import nextCoreWebVitals from 'eslint-config-next/core-web-vitals.js';
+import nextCoreWebVitals from 'eslint-config-next/core-web-vitals';
+import nextTypescript from 'eslint-config-next/typescript';
 
-export default [
+const config = [
   ...next,
   ...nextCoreWebVitals,
-  { ignores: ['.next/**', 'node_modules/**', 'wordpress-export/**', 'playwright-report/**', 'test-results/**'] },
+  ...nextTypescript,
+  {
+    ignores: [
+      '.next/**',
+      'node_modules/**',
+      'wordpress-export/**',
+      'playwright-report/**',
+      'test-results/**',
+      'public/**',
+    ],
+  },
 ];
+
+export default config;

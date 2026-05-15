@@ -2,8 +2,8 @@
  * Sort deduped source images into hero/services/gallery folders and pick
  * featured imagery per service. Idempotent — safe to re-run.
  */
-import { copyFileSync, mkdirSync, readdirSync, existsSync } from 'node:fs';
-import { join, basename } from 'node:path';
+import { copyFileSync, mkdirSync, existsSync } from 'node:fs';
+import { join } from 'node:path';
 
 const SRC = 'public/images/source';
 const HERO = 'public/images/hero';
