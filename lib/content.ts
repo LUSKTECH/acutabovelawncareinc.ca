@@ -44,8 +44,13 @@ export function getAllServices(): ServiceContent[] {
 }
 
 export function getPageBySlug(slug: 'about' | 'service-areas') {
-  const raw = readFileSync(join(process.cwd(), 'content/pages', `${slug}.mdx`), 'utf8');
-  return matter(raw);
+  try {
+    const raw = readFileSync(join(process.cwd(), 'content/pages', `${slug}.mdx`), 'utf8');
+    return matter(raw);
+  } catch (err) {
+    console.error('[content] getPageBySlug failed for slug=%s:', slug, err);
+    throw new Error('Page content not found: ' + slug + '.mdx', { cause: err });
+  }
 }
 
 export function getFeaturedServices(): ServiceMeta[] {

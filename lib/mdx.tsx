@@ -9,10 +9,15 @@ const components = {
 };
 
 export async function renderMdx(source: string) {
-  const { content } = await compileMDX({
-    source,
-    options: { parseFrontmatter: false },
-    components,
-  });
-  return content;
+  try {
+    const { content } = await compileMDX({
+      source,
+      options: { parseFrontmatter: false },
+      components,
+    });
+    return content;
+  } catch (err) {
+    console.error('[mdx] compileMDX failed:', err);
+    throw new Error('Failed to render page content — check MDX syntax.', { cause: err });
+  }
 }

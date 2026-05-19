@@ -1,7 +1,15 @@
 /**
- * Tiny in-memory sliding-window rate limiter. Single-server only — fine for the
- * landscaping site since contact submissions are infrequent and Vercel functions
- * frequently reuse the same instance. For higher traffic, swap for Upstash/Vercel KV.
+ * Tiny in-memory sliding-window rate limiter.
+ *
+ * ⚠ KNOWN LIMITATION (C2): In-memory state is **not shared across serverless
+ * function instances** on Vercel. A cold-start resets the counter, so a
+ * determined attacker can bypass this by triggering new containers.
+ *
+ * This is acceptable for a low-traffic landscaping site where the Resend free
+ * tier provides a secondary hard limit, and honeypot + HTML5 validation filter
+ * most bots. For stricter enforcement, replace `store` with Vercel KV (Upstash)
+ * using the same interface:
+ *   https://vercel.com/docs/storage/vercel-kv/usage-examples
  */
 type Hit = { count: number; firstAt: number };
 

@@ -4,7 +4,25 @@ import { redirects as wpRedirects } from './lib/redirects';
 
 const withMDX = createMDX({ extension: /\.mdx?$/ });
 
+// Allowed script origins:
+//  - 'self'                   Next.js inline chunks
+//  - us.i.posthog.com         PostHog analytics (conditional — present only when key is set)
+//  - cdn.vercel-insights.com  Vercel Speed Insights (if added later)
+//  - 'unsafe-inline'          next/script inline JSON-LD block (no hash/nonce available for static export)
+const CSP = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline' https://us.i.posthog.com https://app.posthog.com",
+  "connect-src 'self' https://us.i.posthog.com https://app.posthog.com",
+  "img-src 'self' data: blob:",
+  "font-src 'self' https://fonts.gstatic.com",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "frame-ancestors 'none'",
+  "form-action 'self'",
+  "base-uri 'self'",
+].join('; ');
+
 const securityHeaders = [
+  { key: 'Content-Security-Policy', value: CSP },
   { key: 'X-Content-Type-Options', value: 'nosniff' },
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
   { key: 'X-Frame-Options', value: 'SAMEORIGIN' },

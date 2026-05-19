@@ -9,7 +9,9 @@ import { rateLimit } from '@/lib/rate-limit';
 const Schema = z.object({
   name: z.string().min(2).max(100),
   email: z.string().email(),
-  phone: z.string().max(40).optional().or(z.literal('')),
+  // Accept either a non-empty phone string or no value at all (empty string from
+  // an unfilled input comes through as ''; treat that as absent).
+  phone: z.string().max(40).optional().transform((v) => v?.trim() || undefined),
   message: z.string().min(10).max(5000),
   // Honeypot: bots fill any field they see; humans don't. We allow the field
   // through schema validation so the runtime check below can silently drop
@@ -61,18 +63,19 @@ export async function submitContact(
     };
   }
 
-  // Defense in depth: strip control characters from name before it lands in the subject
+  // Strip control characters before any field lands in an email header or body.
   const safeName = parsed.data.name.replace(/[\r\n\t]+/g, ' ');
+  const safeEmail = parsed.data.email.replace(/[\r\n\t]+/g, '');
 
   const resend = new Resend(apiKey);
   try {
     const { error } = await resend.emails.send({
       from: 'A Cut Above <noreply@acutabovelawncareinc.ca>',
       to: [to],
-      replyTo: parsed.data.email,
+      replyTo: safeEmail,
       subject: `New estimate request from ${safeName}`,
       text: [
-        `From: ${safeName} <${parsed.data.email}>`,
+        `From: ${safeName} <${safeEmail}>`,
         parsed.data.phone ? `Phone: ${parsed.data.phone}` : '',
         '',
         parsed.data.message,
@@ -81,7 +84,7 @@ export async function submitContact(
         .join('\n'),
     });
     if (error) {
-      console.error('[contact] Resend API error:', error);
+      console.error('[contact] Resend API error: name=%s message=%s', error.name, error.message, error);
       return {
         status: 'error',
         message: `Could not send right now — please call us at ${site.phone}.`,

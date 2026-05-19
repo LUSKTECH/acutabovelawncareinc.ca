@@ -7,7 +7,9 @@ export default defineConfig({
   workers: 1,
   reporter: [['list']],
   webServer: {
-    command: 'npm run build && npm run start -- -p 3400',
+    // In CI the build artifact is already downloaded into .next/ by the workflow.
+    // Locally, build first if .next/ is missing.
+    command: 'test -d .next && npm run start -- -p 3400 || (npm run build && npm run start -- -p 3400)',
     url: 'http://localhost:3400',
     timeout: 240_000,
     reuseExistingServer: false,

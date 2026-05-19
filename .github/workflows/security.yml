@@ -50,7 +50,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Snyk test
-        uses: snyk/actions/node@master
+        uses: snyk/actions/node@9cf6ca713d71123d2d229cc3d7f145b96ea3c518 # master
         continue-on-error: false
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}

@@ -18,7 +18,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: TruffleHog OSS scan
-        uses: trufflesecurity/trufflehog@main
+        uses: trufflesecurity/trufflehog@d86254ee022cc6533192c5601c143a42706c1004 # main
         with:
           path: ./
           base: ${{ github.event.repository.default_branch }}
