@@ -25,6 +25,7 @@ function Field({
         type={type}
         name={name}
         required={required}
+        aria-label={label}
         className="mt-1 w-full rounded-lg border border-ink-300 bg-white p-3 focus:border-forest-700 focus:outline-none"
       />
       {error && <span className="mt-1 block text-sm text-clay-500">{error}</span>}
@@ -68,6 +69,7 @@ export default function ContactForm() {
         <textarea
           name="message"
           required
+          aria-label="How can we help?"
           rows={5}
           className="mt-1 w-full rounded-lg border border-ink-300 bg-white p-3 focus:border-forest-700 focus:outline-none"
         />
