@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { renderMdx } from '@/lib/mdx';
 import { renderToString } from 'react-dom/server';
 
@@ -16,5 +16,12 @@ describe('renderMdx', () => {
     const node = await renderMdx('This is just **bold** text.');
     const html = renderToString(node as React.ReactElement);
     expect(html).toContain('<strong>bold</strong>');
+  });
+
+  it('throws a descriptive error with cause when MDX is invalid', async () => {
+    const errSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    // Unclosed JSX element is invalid MDX and causes compileMDX to throw.
+    await expect(renderMdx('<InvalidUnclosed')).rejects.toThrow('Failed to render');
+    expect(errSpy).toHaveBeenCalled();
   });
 });

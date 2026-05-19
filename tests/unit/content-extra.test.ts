@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import {
   getAllServices,
   getPageBySlug,
@@ -40,6 +40,21 @@ describe('content loader edge cases', () => {
     const areas = getPageBySlug('service-areas');
     expect(about.content.length).toBeGreaterThan(50);
     expect(areas.content.length).toBeGreaterThan(50);
+  });
+});
+
+describe('getPageBySlug error path', () => {
+  it('throws and logs when the MDX file is missing', () => {
+    const errSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    // Force a read error by temporarily patching cwd to a non-existent path.
+    const origCwd = process.cwd;
+    process.cwd = () => '/nonexistent-path-12345';
+    try {
+      expect(() => getPageBySlug('about')).toThrow('Page content not found');
+      expect(errSpy).toHaveBeenCalled();
+    } finally {
+      process.cwd = origCwd;
+    }
   });
 });
 

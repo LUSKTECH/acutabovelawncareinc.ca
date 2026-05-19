@@ -10,9 +10,10 @@ vi.mock('next/headers', () => ({
 // Hoisted send mock so we can re-wire return values per test.
 const sendMock = vi.hoisted(() => vi.fn());
 vi.mock('resend', () => ({
-  Resend: vi.fn().mockImplementation(() => ({
-    emails: { send: sendMock },
-  })),
+  // vitest 4 requires regular function (not arrow) for `new` constructors.
+  Resend: vi.fn().mockImplementation(function () {
+    return { emails: { send: sendMock } };
+  }),
 }));
 
 // Use distinct IPs/keys per test by passing different forwarded-for values

@@ -24,7 +24,7 @@ export default defineConfig({
         statements: 100,
         branches: 90,
       },
-      all: true,
+      // `all` was removed in vitest 4; coverage of uncovered files is now the default
     },
   },
   resolve: {
