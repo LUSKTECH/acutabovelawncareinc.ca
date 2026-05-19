@@ -106,10 +106,16 @@ jobs:
 
       - run: npm ci
 
+      - name: Download pre-built .next output
+        uses: actions/download-artifact@v4
+        with:
+          name: next-build
+
       - name: Install Chromium
         run: npx playwright install chromium --with-deps
 
       - name: Run smoke tests
+        # playwright.config.ts starts the server via `npm run start` — no rebuild needed
         run: npm run test:e2e
 
       - name: Upload Playwright report

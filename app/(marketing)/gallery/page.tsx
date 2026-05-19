@@ -17,7 +17,13 @@ export default async function GalleryPage() {
         <h1 className="mt-2 font-display text-4xl text-forest-900 sm:text-5xl">Gallery</h1>
       </section>
       <section className="mx-auto max-w-7xl px-4 pb-24 lg:px-8">
-        <Masonry items={items} />
+        {items.length === 0 ? (
+          <p className="py-16 text-center text-ink-500">
+            Gallery photos are coming soon.
+          </p>
+        ) : (
+          <Masonry items={items} />
+        )}
       </section>
     </>
   );
