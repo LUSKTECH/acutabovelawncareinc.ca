@@ -18,18 +18,28 @@ function Field({
   required?: boolean;
   error?: string;
 }) {
+  const errorId = error ? `${name}-error` : undefined;
   return (
-    <label className="block">
-      <span className="text-sm font-medium text-ink-700">{label}</span>
+    <div>
+      <label htmlFor={name} className="block text-sm font-medium text-ink-700">
+        {label}
+      </label>
       <input
+        id={name}
         type={type}
         name={name}
         required={required}
         aria-label={label}
+        aria-describedby={errorId}
+        aria-invalid={error ? true : undefined}
         className="mt-1 w-full rounded-lg border border-ink-300 bg-white p-3 focus:border-forest-700 focus:outline-none"
       />
-      {error && <span className="mt-1 block text-sm text-clay-500">{error}</span>}
-    </label>
+      {error && (
+        <span id={errorId} role="alert" className="mt-1 block text-sm text-clay-500">
+          {error}
+        </span>
+      )}
+    </div>
   );
 }
 
@@ -64,21 +74,30 @@ export default function ContactForm() {
       <Field label="Name" name="name" required error={err['name']} />
       <Field label="Email" name="email" type="email" required error={err['email']} />
       <Field label="Phone (optional)" name="phone" type="tel" error={err['phone']} />
-      <label className="block">
-        <span className="text-sm font-medium text-ink-700">How can we help?</span>
+      <div>
+        <label htmlFor="message" className="block text-sm font-medium text-ink-700">
+          How can we help?
+        </label>
         <textarea
+          id="message"
           name="message"
           required
           aria-label="How can we help?"
+          aria-describedby={err['message'] ? 'message-error' : undefined}
+          aria-invalid={err['message'] ? true : undefined}
           rows={5}
           className="mt-1 w-full rounded-lg border border-ink-300 bg-white p-3 focus:border-forest-700 focus:outline-none"
         />
         {err['message'] && (
-          <span className="mt-1 block text-sm text-clay-500">{err['message']}</span>
+          <span id="message-error" role="alert" className="mt-1 block text-sm text-clay-500">
+            {err['message']}
+          </span>
         )}
-      </label>
+      </div>
       {state.status === 'error' && !Object.keys(err).length && (
-        <p className="text-sm text-clay-500">{state.message}</p>
+        <p role="alert" className="text-sm text-clay-500">
+          {state.message}
+        </p>
       )}
       <button
         type="submit"

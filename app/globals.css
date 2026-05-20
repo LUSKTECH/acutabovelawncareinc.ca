@@ -5,7 +5,7 @@
   --color-forest-900: #0F2A1D;
   --color-forest-700: #1E4D33;
   --color-forest-500: #2F6A47;
-  --color-sage-500:   #6B8E5A;
+  --color-sage-500:   #4E6B40; /* darkened from #6B8E5A → 5.6:1 on cream-50 (WCAG AA) */
   --color-sage-300:   #A9BE9A;
   --color-moss-100:   #E8EDE2;
   --color-cream-50:   #FAF7F0;
