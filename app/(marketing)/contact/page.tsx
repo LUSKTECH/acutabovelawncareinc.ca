@@ -4,6 +4,7 @@ import ContactForm from '@/components/contact/ContactForm';
 import ContactDetails from '@/components/contact/ContactDetails';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/contact' },
   title: 'Contact',
   description: 'Request a free landscaping estimate from A Cut Above Lawn Care Inc.',
 };

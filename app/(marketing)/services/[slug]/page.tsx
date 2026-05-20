@@ -5,6 +5,7 @@ import { renderMdx } from '@/lib/mdx';
 import ServiceHero from '@/components/service/ServiceHero';
 import ServiceGallery from '@/components/service/ServiceGallery';
 import RelatedServices from '@/components/service/RelatedServices';
+import ServiceJsonLd from '@/components/seo/ServiceJsonLd';
 
 export const dynamicParams = false;
 
@@ -23,7 +24,14 @@ export async function generateMetadata({
     return {
       title: s.title,
       description: s.blurb,
-      openGraph: { title: s.title, description: s.blurb, images: [s.image] },
+      openGraph: {
+        type: 'website',
+        title: s.title,
+        description: s.blurb,
+        images: [{ url: s.image, alt: `${s.title} — A Cut Above Lawn Care Inc` }],
+        url: `/services/${s.slug}`,
+      },
+      twitter: { card: 'summary_large_image', images: [s.image] },
       alternates: { canonical: `/services/${s.slug}` },
     };
   } catch (err) {
@@ -50,6 +58,12 @@ export default async function ServicePage({
 
   return (
     <>
+      <ServiceJsonLd
+        title={service.title}
+        description={service.blurb}
+        slug={service.slug}
+        image={service.image}
+      />
       <ServiceHero title={service.title} image={service.image} />
       <article className="container-prose px-4 py-16 lg:px-0">
         <div className="prose prose-lg max-w-none prose-headings:font-display prose-headings:text-forest-900 prose-a:text-forest-700">

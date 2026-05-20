@@ -4,6 +4,7 @@ import { getPageBySlug } from '@/lib/content';
 import { renderMdx } from '@/lib/mdx';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/about' },
   title: 'About',
   description: 'A Cut Above Lawn Care Inc — local landscaping in Burlington and the Halton Region.',
 };
