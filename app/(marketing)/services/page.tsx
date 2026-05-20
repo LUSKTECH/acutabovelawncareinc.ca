@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { getCategorizedServices } from '@/content/services/_meta';
 import ServiceCategorySection from '@/components/service/ServiceCategorySection';
 
@@ -12,13 +13,28 @@ export default function ServicesIndex() {
   const groups = getCategorizedServices();
   return (
     <>
-      <section className="mx-auto max-w-7xl px-4 pt-20 pb-8 lg:px-8">
-        <p className="text-sm uppercase tracking-widest text-sage-500">What we do</p>
-        <h1 className="mt-2 font-display text-4xl text-forest-900 sm:text-5xl">Services</h1>
-        <p className="mt-4 max-w-2xl text-lg text-ink-700">
-          Full-service landscaping, lawn care, and hardscaping for residential and commercial
-          properties across Halton.
-        </p>
+      {/* Hero banner */}
+      <section className="relative isolate">
+        <div className="relative h-[36vh] min-h-[240px] w-full overflow-hidden">
+          <Image
+            src="/images/projects/hardscapes-02.jpg"
+            alt="Landscaping and hardscaping services by A Cut Above Lawn Care"
+            fill
+            priority
+            quality={75}
+            sizes="100vw"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-forest-900/80 via-forest-900/30 to-transparent" />
+        </div>
+        <div className="mx-auto max-w-7xl px-4 lg:px-8">
+          <p className="relative -mt-14 text-sm uppercase tracking-widest text-cream-50/80">What we do</p>
+          <h1 className="font-display text-4xl text-cream-50 sm:text-5xl">Services</h1>
+          <p className="mt-3 max-w-2xl text-base text-cream-50/85">
+            Full-service landscaping, lawn care, and hardscaping for residential and commercial
+            properties across Halton.
+          </p>
+        </div>
       </section>
       {groups.map((g) => (
         <ServiceCategorySection key={g.category} label={g.label} services={g.services} />
