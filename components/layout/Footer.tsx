@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { site } from '@/content/site';
 import { getCategorizedServices } from '@/content/services/_meta';
 
@@ -8,7 +9,16 @@ export default function Footer() {
     <footer className="mt-24 border-t border-moss-100 bg-forest-900 text-moss-100">
       <div className="mx-auto grid max-w-7xl gap-12 px-4 py-16 lg:grid-cols-4 lg:px-8">
         <div>
-          <p className="font-display text-2xl text-cream-50">A Cut Above Lawn Care</p>
+          <div className="flex items-center gap-3">
+            <Image
+              src="/images/logo.png"
+              alt={site.name}
+              width={48}
+              height={48}
+              className="h-12 w-12 rounded-full object-cover brightness-0 invert opacity-90"
+            />
+            <p className="font-display text-2xl text-cream-50">A Cut Above Lawn Care</p>
+          </div>
           <p className="mt-2 italic text-moss-100/70">{site.tagline}</p>
           <p className="mt-6 text-sm">
             {site.address.locality}, {site.address.region}

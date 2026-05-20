@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { site } from '@/content/site';
 import MegaNav from './MegaNav';
 import MobileNav from './MobileNav';
@@ -7,7 +8,15 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-moss-100 bg-cream-50/85 backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-4 lg:px-8">
-        <Link href="/" className="group flex items-baseline gap-3">
+        <Link href="/" className="group flex items-center gap-3">
+          <Image
+            src="/images/logo.png"
+            alt={site.name}
+            width={44}
+            height={44}
+            className="h-11 w-11 rounded-full object-cover"
+            priority
+          />
           <span className="font-display text-2xl leading-none text-forest-900">A Cut Above</span>
           <span className="hidden text-xs italic text-ink-500 sm:inline">Lawn Care Inc.</span>
         </Link>
