@@ -1,12 +1,24 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import Image from 'next/image';
 import type { GalleryItem } from '@/lib/images';
 import Lightbox from './Lightbox';
 
 export default function Masonry({ items }: { items: GalleryItem[] }) {
   const [open, setOpen] = useState<number | null>(null);
+  const handleOpen = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+    setOpen(Number(e.currentTarget.dataset.index));
+  }, []);
+  const handleClose = useCallback(() => setOpen(null), []);
+  const handlePrev = useCallback(
+    () => setOpen((i) => (i === null ? null : (i - 1 + items.length) % items.length)),
+    [items.length],
+  );
+  const handleNext = useCallback(
+    () => setOpen((i) => (i === null ? null : (i + 1) % items.length)),
+    [items.length],
+  );
 
   return (
     <>
@@ -15,7 +27,8 @@ export default function Masonry({ items }: { items: GalleryItem[] }) {
           <button
             key={item.src}
             type="button"
-            onClick={() => setOpen(i)}
+            data-index={i}
+            onClick={handleOpen}
             className="block w-full overflow-hidden rounded-xl"
             aria-label={`Open image: ${item.alt}`}
           >
@@ -33,11 +46,9 @@ export default function Masonry({ items }: { items: GalleryItem[] }) {
       <Lightbox
         items={items}
         openIndex={open}
-        onClose={() => setOpen(null)}
-        onPrev={() =>
-          setOpen((i) => (i === null ? null : (i - 1 + items.length) % items.length))
-        }
-        onNext={() => setOpen((i) => (i === null ? null : (i + 1) % items.length))}
+        onClose={handleClose}
+        onPrev={handlePrev}
+        onNext={handleNext}
       />
     </>
   );
