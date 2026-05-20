@@ -19,11 +19,8 @@ updates:
           - 'react-*'
           - '@types/react'
           - '@types/react-dom'
-      eslint-and-lint:
+      lint-and-format:
         patterns:
-          - 'eslint'
-          - 'eslint-*'
-          - '@eslint/*'
           - 'oxlint'
           - 'prettier'
           - 'prettier-*'
