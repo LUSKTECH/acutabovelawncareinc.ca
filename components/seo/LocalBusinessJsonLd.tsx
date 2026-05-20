@@ -1,10 +1,6 @@
 import Script from 'next/script';
 import { site } from '@/content/site';
-
-// JSON-LD via next/script. `strategy` controls hydration ordering for executable
-// scripts; for `application/ld+json` (data, not code) Next.js renders the inline
-// content into the SSR HTML directly, so crawlers see the structured data on
-// first byte. No `dangerouslySetInnerHTML` needed — next/script handles escaping.
+import { safeJsonLd } from '@/lib/json-ld';
 export default function LocalBusinessJsonLd() {
   const data = {
     '@context': 'https://schema.org',
@@ -25,7 +21,7 @@ export default function LocalBusinessJsonLd() {
 
   return (
     <Script id="local-business-jsonld" type="application/ld+json" strategy="afterInteractive">
-      {JSON.stringify(data)}
+      {safeJsonLd(data)}
     </Script>
   );
 }

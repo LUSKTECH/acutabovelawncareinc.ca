@@ -1,5 +1,17 @@
 import { services } from '@/content/services/_meta';
 
+/** Thrown only when the requested slug is not in the cities allowlist. */
+export class CityNotFoundError extends Error {
+  readonly slug: string;
+  constructor(slug: string) {
+    super(`Unknown city: ${slug}`);
+    this.name = 'CityNotFoundError';
+    this.slug = slug;
+  }
+}
+
+export type FAQItem = { question: string; answer: string };
+
 export type CityArea = {
   slug: string;
   name: string;
@@ -8,7 +20,7 @@ export type CityArea = {
   intro: string;
   localContext: string;
   highlights: string[];
-  faq: Array<{ question: string; answer: string }>;
+  faq: FAQItem[];
   featuredServiceSlugs: string[];
 };
 
@@ -142,12 +154,20 @@ export const cities: CityArea[] = [
 
 export function getCityBySlug(slug: string): CityArea {
   const city = cities.find((c) => c.slug === slug);
-  if (!city) throw new Error(`Unknown city: ${slug}`);
+  if (!city) throw new CityNotFoundError(slug);
   return city;
 }
 
 export function getCityServices(city: CityArea) {
-  return city.featuredServiceSlugs
-    .map((slug) => services.find((s) => s.slug === slug))
-    .filter(Boolean);
+  return city.featuredServiceSlugs.map((slug) => {
+    const svc = services.find((s) => s.slug === slug);
+    if (!svc) {
+      // Log in dev so stale slugs surface immediately rather than silently
+      // rendering fewer cards.
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn(`[areas] city="${city.slug}" — featuredServiceSlug "${slug}" not found in services`);
+      }
+    }
+    return svc;
+  }).filter(Boolean);
 }
