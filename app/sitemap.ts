@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { getServiceSlugs } from '@/lib/content';
+import { cities } from '@/content/areas';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://acutabovelawncareinc.ca';
@@ -14,6 +15,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${base}/services/${slug}`,
       changeFrequency: 'yearly' as const,
       priority: 0.7,
+    })),
+    ...cities.map((c) => ({
+      url: `${base}/areas/${c.slug}`,
+      changeFrequency: 'monthly' as const,
+      priority: 0.85,
     })),
   ];
 }

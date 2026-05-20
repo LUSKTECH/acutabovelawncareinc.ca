@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { site } from '@/content/site';
 import { getCategorizedServices } from '@/content/services/_meta';
+import { cities } from '@/content/areas';
 
 export default function Footer() {
   const groups = getCategorizedServices();
@@ -31,6 +32,23 @@ export default function Footer() {
               {site.email}
             </a>
           </p>
+          <div className="mt-6">
+            <p className="font-medium text-cream-50">Service areas</p>
+            <ul className="mt-2 space-y-1 text-sm">
+              {cities.map((c) => (
+                <li key={c.slug}>
+                  <Link href={`/areas/${c.slug}`} className="hover:text-cream-50">
+                    {c.name}
+                  </Link>
+                </li>
+              ))}
+              <li>
+                <Link href="/service-areas" className="hover:text-cream-50">
+                  All areas →
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
         {groups.map((g) => (
           <div key={g.category}>

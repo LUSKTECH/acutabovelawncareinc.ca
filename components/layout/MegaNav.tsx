@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { getCategorizedServices, type ServiceCategory } from '@/content/services/_meta';
+import { cities } from '@/content/areas';
 
 const groups = getCategorizedServices();
 
@@ -68,6 +69,15 @@ export default function MegaNav() {
   const containerRef = useRef<HTMLElement | null>(null);
 
   const handleClose = useCallback(() => setOpen(null), []);
+  const handleAreasEnter = useCallback(() => setOpen('areas'), []);
+  const handleAreasLeave = useCallback(
+    () => setOpen((v) => (v === 'areas' ? null : v)),
+    [],
+  );
+  const handleAreasToggle = useCallback(
+    () => setOpen((v) => (v === 'areas' ? null : 'areas')),
+    [],
+  );
   const handleToggle = useCallback(
     (category: ServiceCategory) => setOpen((v) => (v === category ? null : category)),
     [],
@@ -129,12 +139,47 @@ export default function MegaNav() {
       >
         About
       </Link>
-      <Link
-        href="/service-areas"
-        className="rounded px-3 py-2 text-sm font-medium text-ink-700 hover:text-forest-700"
+      <div
+        className="relative"
+        onMouseEnter={handleAreasEnter}
+        onMouseLeave={handleAreasLeave}
       >
-        Areas
-      </Link>
+        <button
+          type="button"
+          aria-expanded={open === 'areas'}
+          aria-haspopup="true"
+          aria-controls="meganav-panel-areas"
+          onClick={handleAreasToggle}
+          className="rounded px-3 py-2 text-sm font-medium text-ink-700 hover:text-forest-700"
+        >
+          Areas
+        </button>
+        {open === 'areas' && (
+          <div
+            id="meganav-panel-areas"
+            className="absolute left-1/2 top-full w-56 -translate-x-1/2 rounded-xl border border-moss-100 bg-cream-50 p-2 shadow-card"
+          >
+            {cities.map((c) => (
+              <Link
+                key={c.slug}
+                href={`/areas/${c.slug}`}
+                className="block rounded-lg px-3 py-2 text-sm text-ink-700 hover:bg-moss-100 hover:text-forest-900"
+                onClick={handleClose}
+              >
+                {c.name}
+              </Link>
+            ))}
+            <div className="mx-3 my-1 border-t border-moss-100" />
+            <Link
+              href="/service-areas"
+              className="block rounded-lg px-3 py-2 text-sm text-ink-500 hover:bg-moss-100 hover:text-forest-900"
+              onClick={handleClose}
+            >
+              All service areas →
+            </Link>
+          </div>
+        )}
+      </div>
     </nav>
   );
 }
