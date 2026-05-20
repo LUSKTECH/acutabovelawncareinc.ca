@@ -30,7 +30,7 @@ Visit http://localhost:3000.
 | `npm run build` | Production build (SSG) |
 | `npm run start` | Serve the production build |
 | `npm run typecheck` | `tsc --noEmit` |
-| `npm run lint` | ESLint (flat config) |
+| `npm run lint` | oxlint |
 | `npm test` | Vitest unit tests |
 | `npm run test:e2e` | Playwright smoke tests (starts server on port 3100) |
 | `npm run content:images` | Dedupe WP media into `public/images/source/` |
