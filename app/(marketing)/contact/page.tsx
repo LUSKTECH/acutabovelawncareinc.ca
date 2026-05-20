@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import ContactForm from '@/components/contact/ContactForm';
 import ContactDetails from '@/components/contact/ContactDetails';
 
@@ -17,7 +18,25 @@ export default function ContactPage() {
       </p>
       <div className="mt-12 grid gap-12 lg:grid-cols-[1fr_minmax(260px,1fr)]">
         <ContactForm />
-        <ContactDetails />
+        <div className="space-y-8">
+          <ContactDetails />
+          {/* Project photo panel */}
+          <div className="overflow-hidden rounded-2xl">
+            <div className="relative aspect-[4/3]">
+              <Image
+                src="/images/projects/landscape-design-03.jpg"
+                alt="A completed landscaping project by A Cut Above Lawn Care"
+                fill
+                quality={75}
+                sizes="(min-width: 1024px) 30vw, 100vw"
+                className="object-cover"
+              />
+            </div>
+            <p className="bg-moss-100 px-4 py-3 text-sm text-ink-700 italic">
+              &ldquo;We love transforming outdoor spaces — let&rsquo;s talk about yours.&rdquo;
+            </p>
+          </div>
+        </div>
       </div>
     </section>
   );

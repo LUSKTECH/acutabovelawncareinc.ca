@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { getServiceBySlug, getServiceSlugs, UnknownServiceError } from '@/lib/content';
 import { renderMdx } from '@/lib/mdx';
 import ServiceHero from '@/components/service/ServiceHero';
+import ServiceGallery from '@/components/service/ServiceGallery';
 import RelatedServices from '@/components/service/RelatedServices';
 
 export const dynamicParams = false;
@@ -55,6 +56,9 @@ export default async function ServicePage({
           {content}
         </div>
       </article>
+      {service.gallery && service.gallery.length > 0 && (
+        <ServiceGallery images={service.gallery} title={service.title} />
+      )}
       <RelatedServices category={service.category} slug={service.slug} />
     </>
   );
