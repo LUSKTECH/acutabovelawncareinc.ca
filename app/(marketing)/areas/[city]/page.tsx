@@ -3,7 +3,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import Script from 'next/script';
-import { cities, getCityBySlug, getCityServices } from '@/content/areas';
+import { cities, getCityBySlug, getCityServices, CityNotFoundError } from '@/content/areas';
+import { safeJsonLd } from '@/lib/json-ld';
 import ServiceCard from '@/components/service/ServiceCard';
 import { site } from '@/content/site';
 
@@ -20,7 +21,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { city: slug } = await params;
   let city;
-  try { city = getCityBySlug(slug); } catch { return {}; }
+  try { city = getCityBySlug(slug); } catch (err) { if (err instanceof CityNotFoundError) return {}; throw err; }
 
   const title = `Landscaping & Lawn Care in ${city.name}, Ontario`;
   const description = `Professional landscaping, hardscaping, and lawn care in ${city.name}. Local crews, free estimates. Serving ${city.name} and the ${city.region}.`;
@@ -47,7 +48,7 @@ export default async function CityPage({
 }) {
   const { city: slug } = await params;
   let city;
-  try { city = getCityBySlug(slug); } catch { notFound(); }
+  try { city = getCityBySlug(slug); } catch (err) { if (err instanceof CityNotFoundError) notFound(); throw err; }
 
   const cityServices = getCityServices(city!);
   const c = city!;
@@ -77,7 +78,7 @@ export default async function CityPage({
   return (
     <>
       <Script id={`city-jsonld-${c.slug}`} type="application/ld+json" strategy="afterInteractive">
-        {JSON.stringify(jsonLd)}
+        {safeJsonLd(jsonLd)}
       </Script>
 
       {/* Hero */}

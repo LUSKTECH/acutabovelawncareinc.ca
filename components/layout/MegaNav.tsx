@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { getCategorizedServices, type ServiceCategory } from '@/content/services/_meta';
+
+type NavOpen = ServiceCategory | 'areas' | null;
 import { cities } from '@/content/areas';
 
 const groups = getCategorizedServices();
@@ -65,7 +67,7 @@ function CategoryDropdown({
 }
 
 export default function MegaNav() {
-  const [open, setOpen] = useState<string | null>(null);
+  const [open, setOpen] = useState<NavOpen>(null);
   const containerRef = useRef<HTMLElement | null>(null);
 
   const handleClose = useCallback(() => setOpen(null), []);

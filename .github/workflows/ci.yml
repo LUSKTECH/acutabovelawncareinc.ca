@@ -78,6 +78,9 @@ jobs:
 
       - run: npm ci
 
+      - name: Generate redirects
+        run: npm run content:redirects
+
       - name: Build
         run: npm run build
         env:

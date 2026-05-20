@@ -982,3 +982,136 @@ test.describe('Footer', () => {
     expect(servicesLinkCount).toBe(SERVICE_SLUGS.length);
   });
 });
+
+// ---------------------------------------------------------------------------
+// City hub pages (/areas/[city])
+// ---------------------------------------------------------------------------
+
+const CITIES = [
+  { slug: 'burlington', name: 'Burlington' },
+  { slug: 'oakville', name: 'Oakville' },
+  { slug: 'milton', name: 'Milton' },
+] as const;
+
+test.describe('City hub pages', () => {
+  for (const { slug, name } of CITIES) {
+    test.describe(`/areas/${slug}`, () => {
+      test.beforeEach(async ({ page }) => {
+        await page.goto(`/areas/${slug}`);
+      });
+
+      test('H1 contains the city name', async ({ page }) => {
+        await expect(page.getByRole('heading', { level: 1 })).toContainText(name);
+      });
+
+      test('hero image loads', async ({ page }) => {
+        const img = page.locator('section.relative img').first();
+        await expect(img).toBeVisible();
+        const loaded = await img.evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth > 0);
+        expect(loaded).toBe(true);
+      });
+
+      test('intro text and local context section are present', async ({ page }) => {
+        // Local context is in a rounded callout box
+        const callout = page.locator('.rounded-2xl.bg-moss-100, .bg-moss-100.rounded-2xl, .rounded-2xl').first();
+        await expect(callout).toBeVisible();
+      });
+
+      test('at least 3 service cards rendered', async ({ page }) => {
+        // Count cards that link to /services/
+        const links = page.locator('a[href^="/services/"]');
+        const count = await links.count();
+        expect(count).toBeGreaterThanOrEqual(3);
+      });
+
+      test('FAQ section has at least 3 details elements', async ({ page }) => {
+        const details = page.locator('details');
+        const count = await details.count();
+        expect(count).toBeGreaterThanOrEqual(3);
+      });
+
+      test('expanding first FAQ shows answer text', async ({ page }) => {
+        const firstDetails = page.locator('details').first();
+        const summary = firstDetails.locator('summary');
+        await summary.click();
+        const answer = firstDetails.locator('p');
+        await expect(answer).toBeVisible();
+        const text = await answer.textContent();
+        expect((text ?? '').length).toBeGreaterThan(30);
+      });
+
+      test('CTA links to /contact', async ({ page }) => {
+        const cta = page.getByRole('link', { name: /free estimate/i }).last();
+        await expect(cta).toBeVisible();
+        const href = await cta.getAttribute('href');
+        expect(href).toBe('/contact');
+      });
+
+      test('page title tag contains city name', async ({ page }) => {
+        const title = await page.title();
+        expect(title.toLowerCase()).toContain(name.toLowerCase());
+      });
+
+      test('canonical link points to /areas/' + slug, async ({ page }) => {
+        const canonical = await page.$eval('link[rel="canonical"]', (el) => el.getAttribute('href'));
+        expect(canonical).toContain(`/areas/${slug}`);
+      });
+    });
+  }
+
+  test('unknown city slug returns 404', async ({ page }) => {
+    await page.goto('/areas/timbuktu');
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(/couldn.*find/i);
+  });
+
+  test('Areas dropdown in nav shows Burlington, Oakville, Milton', async ({ page }) => {
+    await page.goto('/');
+    const nav = page.getByRole('navigation', { name: 'Primary' });
+    const areasBtn = nav.getByRole('button', { name: /areas/i });
+    await areasBtn.hover();
+    await expect(nav.getByRole('link', { name: 'Burlington' })).toBeVisible();
+    await expect(nav.getByRole('link', { name: 'Oakville' })).toBeVisible();
+    await expect(nav.getByRole('link', { name: 'Milton' })).toBeVisible();
+  });
+
+  test('clicking Burlington in Areas nav navigates to /areas/burlington', async ({ page }) => {
+    await page.goto('/');
+    const nav = page.getByRole('navigation', { name: 'Primary' });
+    const areasBtn = nav.getByRole('button', { name: /areas/i });
+    await areasBtn.hover();
+    await nav.getByRole('link', { name: 'Burlington' }).click();
+    await expect(page).toHaveURL(/\/areas\/burlington/);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// New LNM + city-service redirects
+// ---------------------------------------------------------------------------
+
+test.describe('LNM landing page redirects', () => {
+  const lnmCases = [
+    { from: '/lnm_landing_pages/burlington-aeration/', to: '/areas/burlington' },
+    { from: '/lnm_landing_pages/oakville-landscape-design/', to: '/areas/oakville' },
+    { from: '/lnm_landing_pages/milton-lawn-care/', to: '/areas/milton' },
+  ] as const;
+
+  for (const { from, to } of lnmCases) {
+    test(`${from} → ${to}`, async ({ page }) => {
+      const response = await page.goto(from);
+      expect(response?.url()).toContain(to);
+    });
+  }
+
+  const cityCases = [
+    { from: '/burlington-lawn-care', to: '/areas/burlington' },
+    { from: '/oakville-hardscapes', to: '/areas/oakville' },
+    { from: '/milton-landscaping', to: '/areas/milton' },
+  ] as const;
+
+  for (const { from, to } of cityCases) {
+    test(`${from} → ${to}`, async ({ page }) => {
+      const response = await page.goto(from);
+      expect(response?.url()).toContain(to);
+    });
+  }
+});
