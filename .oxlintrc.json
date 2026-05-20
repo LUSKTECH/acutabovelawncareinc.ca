@@ -12,6 +12,7 @@
   },
   "rules": {
     "no-console": "off",
+    "no-await-in-loop": "off",
     "react/react-in-jsx-scope": "off",
     "react/no-unknown-property": "off",
     "import/no-unassigned-import": "off",

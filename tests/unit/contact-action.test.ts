@@ -165,12 +165,15 @@ describe('submitContact', () => {
       message: 'Please send me a quote, I need lawn aeration this April.',
     };
 
-    let lastStatus = '';
+    // Rate limit is sequential by design — each call must consume its slot before
+    // the next checks the counter, so Promise.all would bypass the limiter logic.
+    // eslint-disable-next-line no-await-in-loop, @typescript-eslint/no-unused-expressions
+    const results = [];
     for (let i = 0; i < 6; i++) {
-      const r = await submitContact({ status: 'idle' }, fd(valid));
-      lastStatus = r.status;
+      // oxlint: disable-next-line no-await-in-loop
+      results.push(await submitContact({ status: 'idle' }, fd(valid)));
     }
     // 5 allowed + 1 blocked
-    expect(lastStatus).toBe('error');
+    expect(results[5]?.status).toBe('error');
   });
 });
