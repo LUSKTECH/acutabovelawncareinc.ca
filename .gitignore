@@ -9,3 +9,13 @@ test-results
 next-env.d.ts
 *.tsbuildinfo
 public/images/source/
+
+# WordPress migration data — content already extracted to content/ and public/images/
+# Keep locally for re-running scripts but never commit raw export
+wordpress-export/
+
+# Test/dev screenshots
+.playwright-mcp/
+
+# Accidentally introduced test library
+public/axe.min.js
