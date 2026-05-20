@@ -34,7 +34,8 @@ export default async function ServiceAreasPage() {
         </div>
       </section>
       <article className="container-prose px-4 py-16 lg:px-0">
-        <div className="prose prose-lg max-w-none prose-headings:font-display prose-headings:text-forest-900 prose-a:text-forest-700">
+        <h2 className="font-display text-3xl text-forest-900">Services by city</h2>
+        <div className="mt-6 prose prose-lg max-w-none prose-headings:font-display prose-headings:text-forest-900 prose-a:text-forest-700">
           {content}
         </div>
       </article>

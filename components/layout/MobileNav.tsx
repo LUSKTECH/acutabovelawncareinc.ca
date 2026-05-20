@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { getCategorizedServices } from '@/content/services/_meta';
@@ -15,32 +15,68 @@ export default function MobileNav() {
   // there's no SSR/hydration mismatch — initial server render has `open=false`
   // and renders nothing for the portal.
   const [open, setOpen] = useState(false);
+  const hamburgerRef = useRef<HTMLButtonElement | null>(null);
+  const drawerRef = useRef<HTMLDivElement | null>(null);
+
   const close = useCallback(() => setOpen(false), []);
   const toggle = useCallback(() => setOpen((v) => !v), []);
 
+  // Move focus into the drawer when it opens; restore to hamburger on close.
   useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : '';
-    return () => {
-      document.body.style.overflow = '';
-    };
+    if (open) {
+      // Focus the first focusable element inside the drawer.
+      const first = drawerRef.current?.querySelector<HTMLElement>(
+        'a, button, [tabindex]:not([tabindex="-1"])',
+      );
+      first?.focus();
+    } else {
+      hamburgerRef.current?.focus();
+    }
   }, [open]);
 
-  // Close drawer on Escape. Use window + capture phase so we catch the event
-  // even if focus is inside a <details> or a focused link that might absorb it.
+  // Background scroll lock.
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [open]);
+
+  // Escape to close (capture phase so <details> can't absorb it).
   useEffect(() => {
     if (!open) return;
     function onKey(e: KeyboardEvent) {
-      if (e.key === 'Escape') {
-        e.preventDefault();
-        setOpen(false);
-      }
+      if (e.key === 'Escape') { e.preventDefault(); setOpen(false); }
     }
     window.addEventListener('keydown', onKey, true);
     return () => window.removeEventListener('keydown', onKey, true);
   }, [open]);
 
+  // Tab trap: keep focus inside the open drawer.
+  useEffect(() => {
+    if (!open || !drawerRef.current) return;
+    function onTab(e: KeyboardEvent) {
+      if (e.key !== 'Tab' || !drawerRef.current) return;
+      const focusables = drawerRef.current.querySelectorAll<HTMLElement>(
+        'a, button, [tabindex]:not([tabindex="-1"])',
+      );
+      if (!focusables.length) return;
+      const first = focusables[0]!;
+      const last = focusables[focusables.length - 1]!;
+      const active = document.activeElement;
+      if (e.shiftKey && active === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && active === last) { e.preventDefault(); first.focus(); }
+    }
+    window.addEventListener('keydown', onTab);
+    return () => window.removeEventListener('keydown', onTab);
+  }, [open]);
+
   const drawer = (
-    <div className="fixed inset-x-0 top-[72px] bottom-0 z-50 overflow-y-auto bg-cream-50">
+    <div
+      ref={drawerRef}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Site navigation"
+      className="fixed inset-x-0 top-[72px] bottom-0 z-50 overflow-y-auto bg-cream-50"
+    >
       <nav aria-label="Mobile" className="mx-auto max-w-2xl space-y-4 px-4 py-6">
         <Link onClick={close} href="/" className="block py-2 text-xl">
           Home
@@ -71,11 +107,7 @@ export default function MobileNav() {
         <Link onClick={close} href="/about" className="block py-2 text-xl">
           About
         </Link>
-        <Link
-          onClick={close}
-          href="/service-areas"
-          className="block py-2 text-xl"
-        >
+        <Link onClick={close} href="/service-areas" className="block py-2 text-xl">
           Service Areas
         </Link>
         <Link
@@ -92,9 +124,11 @@ export default function MobileNav() {
   return (
     <>
       <button
+        ref={hamburgerRef}
         type="button"
         aria-label={open ? 'Close menu' : 'Open menu'}
         aria-expanded={open}
+        aria-controls="mobile-nav-drawer"
         onClick={toggle}
         className="inline-flex h-11 w-11 items-center justify-center rounded-md text-forest-700"
       >

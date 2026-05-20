@@ -166,6 +166,7 @@ export default async function CityPage({
               <summary className="flex cursor-pointer items-center justify-between px-5 py-4 font-medium text-forest-900 marker:content-none">
                 {item.question}
                 <svg
+                  aria-hidden="true"
                   className="h-5 w-5 shrink-0 text-sage-500 transition group-open:rotate-180"
                   fill="none"
                   viewBox="0 0 24 24"
