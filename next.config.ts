@@ -40,7 +40,12 @@ const config: NextConfig = {
     minimumCacheTTL: 31536000, // 1 year — sources are checked into the repo and stable
   },
   async redirects() {
-    return wpRedirects;
+    return [
+      // Browsers that request /favicon.ico directly (ignoring <link rel="icon">) get
+      // redirected to the app/icon.png that Next.js serves at /icon.png.
+      { source: '/favicon.ico', destination: '/icon.png', permanent: false },
+      ...wpRedirects,
+    ];
   },
   async headers() {
     return [{ source: '/:path*', headers: securityHeaders }];

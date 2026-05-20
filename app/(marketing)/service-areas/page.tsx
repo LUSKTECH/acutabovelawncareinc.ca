@@ -5,6 +5,7 @@ import { renderMdx } from '@/lib/mdx';
 import { site } from '@/content/site';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/service-areas' },
   title: 'Service Areas',
   description:
     'Landscaping and lawn care across Burlington, Oakville, Milton, and the Halton Region.',

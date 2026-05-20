@@ -3,6 +3,7 @@ import { getGalleryItems } from '@/lib/images';
 import Masonry from '@/components/gallery/Masonry';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/gallery' },
   title: 'Gallery',
   description:
     'Recent landscaping, hardscaping, and lawn care projects across Burlington and the Halton Region.',

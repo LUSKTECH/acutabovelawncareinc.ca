@@ -5,7 +5,7 @@
  * all 22 service detail pages, gallery, about, service-areas, contact,
  * 404, legacy WP redirects, SEO/metadata, security headers, and footer.
  */
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 
 // ---------------------------------------------------------------------------
 // Data used across multiple tests
@@ -60,14 +60,6 @@ const SERVICE_TITLES: Record<string, string> = {
   'commercial-property-maintenance': 'Commercial Property Maintenance',
   'commercial-snow-removal': 'Commercial Snow Removal',
 };
-
-/** Returns true when an img element at `selector` has a positive naturalWidth. */
-async function imageLoaded(page: Page, selector: string): Promise<boolean> {
-  return page.evaluate((sel) => {
-    const img = document.querySelector(sel) as HTMLImageElement | null;
-    return img !== null && img.complete && img.naturalWidth > 0;
-  }, selector);
-}
 
 // ---------------------------------------------------------------------------
 // Homepage

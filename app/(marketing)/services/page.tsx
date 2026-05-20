@@ -4,6 +4,7 @@ import { getCategorizedServices } from '@/content/services/_meta';
 import ServiceCategorySection from '@/components/service/ServiceCategorySection';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/services' },
   title: 'Services',
   description:
     'Landscaping, lawn care, hardscaping, and seasonal services across Burlington, Oakville, and Milton.',

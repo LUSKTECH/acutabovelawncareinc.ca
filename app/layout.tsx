@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Fraunces, Inter } from 'next/font/google';
 import PostHogProvider from '@/components/analytics/PostHogProvider';
+import LocalBusinessJsonLd from '@/components/seo/LocalBusinessJsonLd';
 import './globals.css';
 
 const fraunces = Fraunces({
@@ -38,6 +39,18 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_CA',
     siteName: 'A Cut Above Lawn Care Inc',
+    images: [
+      {
+        url: '/images/hero/hero.jpg',
+        width: 1024,
+        height: 683,
+        alt: 'Professional landscaping by A Cut Above Lawn Care Inc — Burlington, Ontario',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: ['/images/hero/hero.jpg'],
   },
   robots: { index: true, follow: true },
 };
@@ -46,6 +59,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${fraunces.variable} ${inter.variable}`}>
       <body>
+        <LocalBusinessJsonLd />
         <PostHogProvider>{children}</PostHogProvider>
       </body>
     </html>
