@@ -17,8 +17,10 @@ export default function Header() {
             className="h-11 w-11 rounded-full object-cover"
             priority
           />
-          <span className="font-display text-2xl leading-none text-forest-900">A Cut Above</span>
-          <span className="hidden text-xs italic text-ink-500 sm:inline">Lawn Care Inc.</span>
+          <div className="flex flex-col leading-tight">
+            <span className="font-display text-xl leading-none text-forest-900">A Cut Above</span>
+            <span className="text-xs italic text-ink-500">Lawn Care Inc.</span>
+          </div>
         </Link>
         <div className="hidden md:block">
           <MegaNav />
@@ -26,13 +28,13 @@ export default function Header() {
         <div className="flex items-center gap-3">
           <a
             href={`tel:${site.phoneE164}`}
-            className="hidden rounded-full border border-forest-700 px-4 py-2 text-sm font-medium text-forest-700 transition hover:bg-forest-700 hover:text-cream-50 lg:inline-block"
+            className="hidden whitespace-nowrap rounded-full border border-forest-700 px-5 py-2 text-sm font-medium text-forest-700 transition hover:bg-forest-700 hover:text-cream-50 lg:inline-block"
           >
             {site.phone}
           </a>
           <Link
             href="/contact"
-            className="hidden rounded-full bg-forest-700 px-4 py-2 text-sm font-medium text-cream-50 transition hover:bg-forest-900 md:inline-block"
+            className="hidden whitespace-nowrap rounded-full bg-forest-700 px-5 py-2 text-sm font-medium text-cream-50 transition hover:bg-forest-900 md:inline-block"
           >
             Free estimate
           </Link>
