@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import {
   cities,
   getCityBySlug,
@@ -56,6 +56,18 @@ describe('getCityServices', () => {
         expect(svc?.image.startsWith('/')).toBe(true);
       }
     }
+  });
+});
+
+describe('getCityServices dev warning', () => {
+  it('logs a dev warning when a featuredServiceSlug does not exist', () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const fakeCity = { ...cities[0]!, featuredServiceSlugs: ['nonexistent-slug'] };
+    const result = getCityServices(fakeCity);
+    expect(result).toHaveLength(0);
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining('nonexistent-slug'),
+    );
   });
 });
 

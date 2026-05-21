@@ -94,14 +94,14 @@ export default async function CityPage({
             className="object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-forest-900/80 via-forest-900/40 to-transparent" />
-        </div>
-        <div className="mx-auto max-w-4xl px-4 lg:px-8">
-          <p className="relative -mt-20 text-sm uppercase tracking-[0.3em] text-cream-50/80 md:-mt-24">
-            Serving {c.region}
-          </p>
-          <h1 className="font-display text-4xl text-cream-50 sm:text-5xl md:text-6xl">
-            Landscaping in {c.name}
-          </h1>
+          <div className="absolute inset-x-0 bottom-0 mx-auto max-w-4xl px-4 pb-8 lg:px-8">
+            <p className="text-sm uppercase tracking-[0.3em] text-cream-50/80">
+              Serving {c.region}
+            </p>
+            <h1 className="font-display text-4xl text-cream-50 sm:text-5xl md:text-6xl">
+              Landscaping in {c.name}
+            </h1>
+          </div>
         </div>
       </section>
 

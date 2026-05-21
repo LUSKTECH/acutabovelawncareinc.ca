@@ -15,6 +15,7 @@ export default defineConfig({
         'lib/redirects.ts', // generated file
         'node_modules/**',
         '**/*.d.ts',
+        '**/*.mdx', // MDX has YAML frontmatter — rolldown can't parse it as JS
         'tests/**',
         // scripts/ are one-shot CLI tools — invoked manually, not at runtime
       ],

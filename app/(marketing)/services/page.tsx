@@ -27,14 +27,14 @@ export default function ServicesIndex() {
             className="object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-forest-900/80 via-forest-900/30 to-transparent" />
-        </div>
-        <div className="mx-auto max-w-7xl px-4 lg:px-8">
-          <p className="relative -mt-14 text-sm uppercase tracking-widest text-cream-50/80">What we do</p>
-          <h1 className="font-display text-4xl text-cream-50 sm:text-5xl">Services</h1>
-          <p className="mt-3 max-w-2xl text-base text-cream-50/85">
-            Full-service landscaping, lawn care, and hardscaping for residential and commercial
-            properties across Halton.
-          </p>
+          <div className="absolute inset-x-0 bottom-0 mx-auto max-w-7xl px-4 pb-8 lg:px-8">
+            <p className="text-sm uppercase tracking-widest text-cream-50/80">What we do</p>
+            <h1 className="font-display text-4xl text-cream-50 sm:text-5xl">Services</h1>
+            <p className="mt-3 max-w-2xl text-base text-cream-50/85">
+              Full-service landscaping, lawn care, and hardscaping for residential and commercial
+              properties across Halton.
+            </p>
+          </div>
         </div>
       </section>
       {groups.map((g) => (

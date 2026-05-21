@@ -30,12 +30,12 @@ export default async function AboutPage() {
             className="object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-forest-900/70 via-forest-900/30 to-transparent" />
-        </div>
-        <div className="mx-auto max-w-3xl px-4 lg:px-8">
-          <p className="relative -mt-16 text-sm uppercase tracking-widest text-cream-50/80">
-            Who we are
-          </p>
-          <h1 className="font-display text-5xl text-cream-50 sm:text-6xl">{title}</h1>
+          <div className="absolute inset-x-0 bottom-0 mx-auto max-w-3xl px-4 pb-8 lg:px-8">
+            <p className="text-sm uppercase tracking-widest text-cream-50/80">
+              Who we are
+            </p>
+            <h1 className="font-display text-5xl text-cream-50 sm:text-6xl">{title}</h1>
+          </div>
         </div>
       </section>
 
