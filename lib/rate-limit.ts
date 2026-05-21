@@ -1,15 +1,13 @@
 /**
  * Tiny in-memory sliding-window rate limiter.
  *
- * ⚠ KNOWN LIMITATION (C2): In-memory state is **not shared across serverless
+ * ⚠ KNOWN LIMITATION: In-memory state is **not shared across serverless
  * function instances** on Vercel. A cold-start resets the counter, so a
  * determined attacker can bypass this by triggering new containers.
  *
- * This is acceptable for a low-traffic landscaping site where the Resend free
- * tier provides a secondary hard limit, and honeypot + HTML5 validation filter
- * most bots. For stricter enforcement, replace `store` with Vercel KV (Upstash)
- * using the same interface:
- *   https://vercel.com/docs/storage/vercel-kv/usage-examples
+ * This is acceptable for a low-traffic landscaping site where honeypot +
+ * HTML5 validation filter most bots. For stricter enforcement, replace
+ * `store` with Vercel KV (Upstash) using the same interface.
  */
 type Hit = { count: number; firstAt: number };
 
@@ -20,6 +18,14 @@ export function rateLimit(
   { max, windowMs }: { max: number; windowMs: number },
 ): { ok: true } | { ok: false; retryAfterMs: number } {
   const now = Date.now();
+  // Prevent unbounded growth on long-lived processes (non-serverless deploys).
+  // Prune expired entries rather than store.clear() — a full clear can be
+  // triggered by flooding unique IPs to reset other callers' counters.
+  if (store.size > 10_000) {
+    for (const [k, v] of store) {
+      if (now - v.firstAt > windowMs) store.delete(k);
+    }
+  }
   const hit = store.get(key);
 
   if (!hit || now - hit.firstAt > windowMs) {
