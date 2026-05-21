@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage",
+    "test:coverage": "vitest run --coverage --reporter=default --reporter=junit --outputFile=test-report.junit.xml",
     "test:e2e": "playwright test",
     "content:extract": "tsx scripts/extract-content.ts",
     "content:images": "tsx scripts/dedupe-and-copy-images.ts",

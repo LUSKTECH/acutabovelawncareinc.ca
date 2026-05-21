@@ -9,6 +9,7 @@ test-results
 next-env.d.ts
 *.tsbuildinfo
 public/images/source/
+test-report.junit.xml
 
 # WordPress migration data — content already extracted to content/ and public/images/
 # Keep locally for re-running scripts but never commit raw export
