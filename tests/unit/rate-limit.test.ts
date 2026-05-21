@@ -41,4 +41,13 @@ describe('rateLimit', () => {
     vi.advanceTimersByTime(1001);
     expect(rateLimit(key, { max: 1, windowMs: 1000 })).toEqual({ ok: true });
   });
+
+  it('clears the store when it exceeds 10 000 entries', () => {
+    for (let i = 0; i < 10_001; i++) {
+      rateLimit(`circuit-${i}`, { max: 1, windowMs: 1000 });
+    }
+    // store.size is now 10_001 > 10_000; next call triggers clear then adds entry
+    const result = rateLimit('circuit-trigger', { max: 1, windowMs: 1000 });
+    expect(result).toEqual({ ok: true });
+  });
 });

@@ -22,11 +22,12 @@ export type ContactState =
   | { status: 'success' }
   | { status: 'error'; message: string; fieldErrors?: Record<string, string> };
 
+const SEND_ERROR = `Could not send right now — please call us at ${site.phone}.`;
+
 export async function submitContact(
   _prev: ContactState,
   formData: FormData,
 ): Promise<ContactState> {
-  // IP-bucketed rate limit: 5 submissions per IP per 10 minutes.
   const hdrs = await headers();
   const ip = (hdrs.get('x-forwarded-for') ?? '').split(',')[0]?.trim() || 'unknown';
   const rl = rateLimit(`contact:${ip}`, { max: 5, windowMs: 10 * 60 * 1000 });
@@ -60,7 +61,7 @@ export async function submitContact(
     };
   }
 
-  // Strip control characters before any field lands in an email header or body.
+  // Prevent email header injection.
   const safeName = parsed.data.name.replace(/[\r\n\t]+/g, ' ');
   const safeEmail = parsed.data.email.replace(/[\r\n\t]+/g, '');
 
@@ -86,18 +87,12 @@ export async function submitContact(
 
     if (!json.success) {
       console.error('[contact] Web3Forms error: status=%d message=%s', res.status, json.message);
-      return {
-        status: 'error',
-        message: `Could not send right now — please call us at ${site.phone}.`,
-      };
+      return { status: 'error', message: SEND_ERROR };
     }
 
     return { status: 'success' };
   } catch (err) {
     console.error('[contact] Web3Forms fetch threw:', err);
-    return {
-      status: 'error',
-      message: `Could not send right now — please call us at ${site.phone}.`,
-    };
+    return { status: 'error', message: SEND_ERROR };
   }
 }

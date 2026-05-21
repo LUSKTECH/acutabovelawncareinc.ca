@@ -1,13 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-// Mock next/headers to return a controlled IP.
 vi.mock('next/headers', () => ({
-  headers: vi.fn(async () => ({
-    get: (k: string) => (k === 'x-forwarded-for' ? '1.2.3.4' : null),
-  })),
+  headers: vi.fn(),
 }));
 
-// Mock global fetch.
 const fetchMock = vi.hoisted(() => vi.fn());
 vi.stubGlobal('fetch', fetchMock);
 
@@ -144,6 +140,23 @@ describe('submitContact', () => {
     expect(res.status).toBe('error');
     if (res.status === 'error') expect(res.message).toMatch(/please call us/i);
     expect(errSpy).toHaveBeenCalled();
+  });
+
+  it('falls back to "unknown" IP when x-forwarded-for header is absent', async () => {
+    process.env.WEB3FORMS_ACCESS_KEY = 'test-key';
+    vi.mocked(headers).mockResolvedValueOnce({
+      get: () => null,
+    } as unknown as Awaited<ReturnType<typeof headers>>);
+    fetchMock.mockResolvedValueOnce({ json: async () => ({ success: true }) });
+    const res = await submitContact(
+      { status: 'idle' },
+      fd({
+        name: 'Eve',
+        email: 'eve@example.com',
+        message: 'Looking for a quote on spring cleanup, roughly 800 sqft.',
+      }),
+    );
+    expect(res).toEqual({ status: 'success' });
   });
 
   it('blocks requests once the per-IP rate limit is exceeded', async () => {

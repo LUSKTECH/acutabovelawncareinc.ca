@@ -69,6 +69,19 @@ describe('getCityServices dev warning', () => {
       expect.stringContaining('nonexistent-slug'),
     );
   });
+
+  it('suppresses the warning when NODE_ENV is production', () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    vi.stubEnv('NODE_ENV', 'production');
+    try {
+      const fakeCity = { ...cities[0]!, featuredServiceSlugs: ['nonexistent-slug'] };
+      getCityServices(fakeCity);
+      expect(warnSpy).not.toHaveBeenCalled();
+    } finally {
+      vi.unstubAllEnvs();
+      warnSpy.mockRestore();
+    }
+  });
 });
 
 describe('city data shape', () => {
