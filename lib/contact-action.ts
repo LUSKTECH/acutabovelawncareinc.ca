@@ -2,15 +2,12 @@
 
 import { headers } from 'next/headers';
 import { z } from 'zod';
-import { Resend } from 'resend';
 import { site } from '@/content/site';
 import { rateLimit } from '@/lib/rate-limit';
 
 const Schema = z.object({
   name: z.string().min(2).max(100),
   email: z.string().email(),
-  // Accept either a non-empty phone string or no value at all (empty string from
-  // an unfilled input comes through as ''; treat that as absent).
   phone: z.string().max(40).optional().transform((v) => v?.trim() || undefined),
   message: z.string().min(10).max(5000),
   // Honeypot: bots fill any field they see; humans don't. We allow the field
@@ -48,18 +45,18 @@ export async function submitContact(
     }
     return { status: 'error', message: 'Please fix the highlighted fields.', fieldErrors };
   }
+
   // Bot tripped the honeypot: log so we can spot false positives from password managers etc.
   if (parsed.data.company) {
     console.info('[contact] honeypot tripped from ip=%s', ip);
     return { status: 'success' };
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
-  const to = process.env.CONTACT_TO_EMAIL ?? site.email;
-  if (!apiKey) {
+  const accessKey = process.env.WEB3FORMS_ACCESS_KEY;
+  if (!accessKey) {
     return {
       status: 'error',
-      message: `Email service is not configured. Please call us at ${site.phone}.`,
+      message: `Contact form isn't configured yet — please call us at ${site.phone}.`,
     };
   }
 
@@ -67,32 +64,37 @@ export async function submitContact(
   const safeName = parsed.data.name.replace(/[\r\n\t]+/g, ' ');
   const safeEmail = parsed.data.email.replace(/[\r\n\t]+/g, '');
 
-  const resend = new Resend(apiKey);
   try {
-    const { error } = await resend.emails.send({
-      from: 'A Cut Above <noreply@acutabovelawncareinc.ca>',
-      to: [to],
-      replyTo: safeEmail,
+    const payload = {
+      access_key: accessKey,
       subject: `New estimate request from ${safeName}`,
-      text: [
-        `From: ${safeName} <${safeEmail}>`,
-        parsed.data.phone ? `Phone: ${parsed.data.phone}` : '',
-        '',
-        parsed.data.message,
-      ]
-        .filter(Boolean)
-        .join('\n'),
+      from_name: safeName,
+      replyto: safeEmail,
+      name: safeName,
+      email: safeEmail,
+      phone: parsed.data.phone ?? '',
+      message: parsed.data.message,
+    };
+
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(payload),
     });
-    if (error) {
-      console.error('[contact] Resend API error: name=%s message=%s', error.name, error.message, error);
+
+    const json = (await res.json()) as { success: boolean; message?: string };
+
+    if (!json.success) {
+      console.error('[contact] Web3Forms error: status=%d message=%s', res.status, json.message);
       return {
         status: 'error',
         message: `Could not send right now — please call us at ${site.phone}.`,
       };
     }
+
     return { status: 'success' };
   } catch (err) {
-    console.error('[contact] Resend SDK threw:', err);
+    console.error('[contact] Web3Forms fetch threw:', err);
     return {
       status: 'error',
       message: `Could not send right now — please call us at ${site.phone}.`,
