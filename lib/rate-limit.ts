@@ -19,7 +19,13 @@ export function rateLimit(
 ): { ok: true } | { ok: false; retryAfterMs: number } {
   const now = Date.now();
   // Prevent unbounded growth on long-lived processes (non-serverless deploys).
-  if (store.size > 10_000) store.clear();
+  // Prune expired entries rather than store.clear() — a full clear can be
+  // triggered by flooding unique IPs to reset other callers' counters.
+  if (store.size > 10_000) {
+    for (const [k, v] of store) {
+      if (now - v.firstAt > windowMs) store.delete(k);
+    }
+  }
   const hit = store.get(key);
 
   if (!hit || now - hit.firstAt > windowMs) {

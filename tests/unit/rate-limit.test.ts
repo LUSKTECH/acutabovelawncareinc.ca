@@ -42,12 +42,21 @@ describe('rateLimit', () => {
     expect(rateLimit(key, { max: 1, windowMs: 1000 })).toEqual({ ok: true });
   });
 
-  it('clears the store when it exceeds 10 000 entries', () => {
+  it('prunes expired entries when the store exceeds 10 000 entries', () => {
     for (let i = 0; i < 10_001; i++) {
-      rateLimit(`circuit-${i}`, { max: 1, windowMs: 1000 });
+      rateLimit(`prune-${i}`, { max: 1, windowMs: 1000 });
     }
-    // store.size is now 10_001 > 10_000; next call triggers clear then adds entry
-    const result = rateLimit('circuit-trigger', { max: 1, windowMs: 1000 });
+    vi.advanceTimersByTime(1001); // all 10 001 entries are now expired
+    const result = rateLimit('prune-new', { max: 1, windowMs: 1000 });
+    expect(result).toEqual({ ok: true });
+  });
+
+  it('does not prune recent entries when the store is overwhelmed', () => {
+    for (let i = 0; i < 10_001; i++) {
+      rateLimit(`flood-${i}`, { max: 2, windowMs: 60_000 });
+    }
+    // Store > 10 000 but all entries are recent — no deletions, new key falls through
+    const result = rateLimit('flood-new', { max: 2, windowMs: 60_000 });
     expect(result).toEqual({ ok: true });
   });
 });
