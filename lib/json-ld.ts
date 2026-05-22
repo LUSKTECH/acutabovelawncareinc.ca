@@ -8,5 +8,5 @@
  * This is the same approach React uses internally for SSR inline data.
  */
 export function safeJsonLd(data: unknown): string {
-  return JSON.stringify(data).replace(/</g, '\\u003c');
+  return JSON.stringify(data).replaceAll('<', '\\u003c');
 }

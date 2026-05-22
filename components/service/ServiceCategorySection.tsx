@@ -4,10 +4,10 @@ import type { ServiceMeta } from '@/content/services/_meta';
 export default function ServiceCategorySection({
   label,
   services,
-}: {
+}: Readonly<{
   label: string;
   services: ServiceMeta[];
-}) {
+}>) {
   return (
     <section className="mx-auto max-w-7xl px-4 py-12 lg:px-8">
       <h2 className="font-display text-3xl text-forest-900">{label}</h2>

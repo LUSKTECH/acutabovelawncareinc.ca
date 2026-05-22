@@ -21,7 +21,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { city: slug } = await params;
   let city;
-  try { city = getCityBySlug(slug); } catch (err) { if (err instanceof CityNotFoundError) return {}; throw err; }
+  try {
+    city = getCityBySlug(slug);
+  } catch (err) {
+    if (err instanceof CityNotFoundError) return {};
+    throw err;
+  }
 
   const title = `Landscaping & Lawn Care in ${city.name}, Ontario`;
   const description = `Professional landscaping, hardscaping, and lawn care in ${city.name}. Local crews, free estimates. Serving ${city.name} and the ${city.region}.`;
@@ -48,10 +53,15 @@ export default async function CityPage({
 }) {
   const { city: slug } = await params;
   let city;
-  try { city = getCityBySlug(slug); } catch (err) { if (err instanceof CityNotFoundError) notFound(); throw err; }
+  try {
+    city = getCityBySlug(slug);
+  } catch (err) {
+    if (err instanceof CityNotFoundError) notFound();
+    throw err;
+  }
 
-  const cityServices = getCityServices(city!);
-  const c = city!;
+  const cityServices = getCityServices(city);
+  const c = city;
 
   const jsonLd = {
     '@context': 'https://schema.org',

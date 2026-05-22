@@ -11,13 +11,13 @@ function Field({
   type = 'text',
   required,
   error,
-}: {
+}: Readonly<{
   label: string;
   name: string;
   type?: string;
   required?: boolean;
   error?: string;
-}) {
+}>) {
   const errorId = error ? `${name}-error` : undefined;
   return (
     <div>

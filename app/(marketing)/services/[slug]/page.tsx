@@ -15,9 +15,9 @@ export function generateStaticParams() {
 
 export async function generateMetadata({
   params,
-}: {
+}: Readonly<{
   params: Promise<{ slug: string }>;
-}): Promise<Metadata> {
+}>): Promise<Metadata> {
   const { slug } = await params;
   try {
     const s = getServiceBySlug(slug);
@@ -42,9 +42,9 @@ export async function generateMetadata({
 
 export default async function ServicePage({
   params,
-}: {
+}: Readonly<{
   params: Promise<{ slug: string }>;
-}) {
+}>) {
   const { slug } = await params;
   let service;
   try {

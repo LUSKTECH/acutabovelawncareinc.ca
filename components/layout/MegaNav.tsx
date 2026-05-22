@@ -9,7 +9,7 @@ import { cities } from '@/content/areas';
 
 const groups = getCategorizedServices();
 
-type CategoryDropdownProps = {
+type CategoryDropdownProps = Readonly<{
   category: ServiceCategory;
   label: string;
   services: Array<{ slug: string; title: string }>;
@@ -18,7 +18,7 @@ type CategoryDropdownProps = {
   onClose: () => void;
   onMouseEnter: (category: ServiceCategory) => void;
   onMouseLeave: (category: ServiceCategory) => void;
-};
+}>;
 
 function CategoryDropdown({
   category, label, services, isOpen,
@@ -34,6 +34,8 @@ function CategoryDropdown({
       className="relative"
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
+      onFocus={handleEnter}
+      onBlur={handleLeave}
     >
       <button
         type="button"
@@ -145,6 +147,8 @@ export default function MegaNav() {
         className="relative"
         onMouseEnter={handleAreasEnter}
         onMouseLeave={handleAreasLeave}
+        onFocus={handleAreasEnter}
+        onBlur={handleAreasLeave}
       >
         <button
           type="button"

@@ -4,7 +4,7 @@ import { useEffect, Suspense } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import posthog from 'posthog-js';
 
-export default function PostHogProvider({ children }: { children: React.ReactNode }) {
+export default function PostHogProvider({ children }: Readonly<{ children: React.ReactNode }>) {
   useEffect(() => {
     const key = process.env.NEXT_PUBLIC_POSTHOG_KEY;
     if (!key) return;

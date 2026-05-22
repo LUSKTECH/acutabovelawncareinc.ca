@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-export default function ServiceHero({ title, image }: { title: string; image: string }) {
+export default function ServiceHero({ title, image }: Readonly<{ title: string; image: string }>) {
   return (
     <section className="relative isolate">
       {/* H1 lives inside the dark gradient container so CSS contrast tools

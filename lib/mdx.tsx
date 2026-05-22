@@ -3,9 +3,9 @@ import type { ComponentProps } from 'react';
 
 // Downshift MDX headings so the page's hero <h1> stays the single H1.
 const components = {
-  h1: (props: ComponentProps<'h2'>) => <h2 {...props} />,
-  h2: (props: ComponentProps<'h3'>) => <h3 {...props} />,
-  h3: (props: ComponentProps<'h4'>) => <h4 {...props} />,
+  h1: ({ children, ...props }: ComponentProps<'h2'>) => <h2 {...props}>{children}</h2>,
+  h2: ({ children, ...props }: ComponentProps<'h3'>) => <h3 {...props}>{children}</h3>,
+  h3: ({ children, ...props }: ComponentProps<'h4'>) => <h4 {...props}>{children}</h4>,
 };
 
 export async function renderMdx(source: string) {

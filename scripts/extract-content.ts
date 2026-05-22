@@ -46,8 +46,8 @@ function expandTokens(s: string): string {
 
 function collapseWhitespace(s: string): string {
   return s
-    .replace(/\r\n/g, '\n')
-    .replace(/[ \t]+\n/g, '\n')
+    .replaceAll('\r\n', '\n')
+    .split('\n').map(line => line.trimEnd()).join('\n')
     .replace(/\n{3,}/g, '\n\n')
     .replace(/[ \t]{2,}/g, ' ')
     .trim();

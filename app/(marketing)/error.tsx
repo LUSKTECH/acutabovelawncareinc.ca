@@ -5,10 +5,10 @@ import Link from 'next/link';
 export default function MarketingError({
   error,
   reset,
-}: {
+}: Readonly<{
   error: Error & { digest?: string };
   reset: () => void;
-}) {
+}>) {
   return (
     <section className="mx-auto max-w-2xl px-4 py-32 text-center lg:px-8">
       <p className="text-sm uppercase tracking-widest text-sage-500">Error</p>
