@@ -21,9 +21,12 @@ export function rateLimit(
   // Prevent unbounded growth on long-lived processes (non-serverless deploys).
   // Prune expired entries rather than store.clear() — a full clear can be
   // triggered by flooding unique IPs to reset other callers' counters.
+  // Map preserves insertion order, so the oldest (most likely expired) entries
+  // come first; break on the first live entry to keep this O(1) in the common case.
   if (store.size > 10_000) {
     for (const [k, v] of store) {
       if (now - v.firstAt > windowMs) store.delete(k);
+      else break;
     }
   }
   const hit = store.get(key);
