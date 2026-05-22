@@ -4,10 +4,10 @@ import { services, type ServiceCategory } from '@/content/services/_meta';
 export default function RelatedServices({
   category,
   slug,
-}: {
+}: Readonly<{
   category: ServiceCategory;
   slug: string;
-}) {
+}>) {
   const siblings = services
     .filter((s) => s.category === category && s.slug !== slug)
     .slice(0, 3);

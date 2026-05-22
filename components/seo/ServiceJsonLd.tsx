@@ -2,7 +2,7 @@ import Script from 'next/script';
 import { site } from '@/content/site';
 import { safeJsonLd } from '@/lib/json-ld';
 
-type Props = { title: string; description: string; slug: string; image: string };
+type Props = Readonly<{ title: string; description: string; slug: string; image: string }>;
 
 export default function ServiceJsonLd({ title, description, slug, image }: Props) {
   const pageUrl = `${site.url}/services/${slug}`;

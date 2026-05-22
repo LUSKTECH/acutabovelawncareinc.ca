@@ -3,11 +3,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 
-type Props = { images: string[]; title: string };
+type Props = Readonly<{ images: string[]; title: string }>;
 
 export default function ServiceGallery({ images, title }: Props) {
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
-  const dialogRef = useRef<HTMLDivElement | null>(null);
+  const dialogRef = useRef<HTMLDialogElement | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const lastFocusedRef = useRef<HTMLElement | null>(null);
 
@@ -16,6 +16,17 @@ export default function ServiceGallery({ images, title }: Props) {
     lastFocusedRef.current = e.currentTarget;
     setLightboxSrc(e.currentTarget.dataset.src ?? null);
   }, []);
+
+  // Open/close the native <dialog> when lightboxSrc changes.
+  useEffect(() => {
+    const el = dialogRef.current;
+    if (!el) return;
+    if (lightboxSrc) {
+      if (!el.open) el.showModal();
+    } else {
+      if (el.open) el.close();
+    }
+  }, [lightboxSrc]);
 
   // Focus the close button when lightbox opens; restore on close.
   useEffect(() => {
@@ -51,8 +62,8 @@ export default function ServiceGallery({ images, title }: Props) {
         else if (!e.shiftKey && active === last) { e.preventDefault(); first.focus(); }
       }
     }
-    window.addEventListener('keydown', onKey, true);
-    return () => window.removeEventListener('keydown', onKey, true);
+    globalThis.addEventListener('keydown', onKey, true);
+    return () => globalThis.removeEventListener('keydown', onKey, true);
   }, [lightboxSrc, close]);
 
   if (images.length === 0) return null;
@@ -93,35 +104,46 @@ export default function ServiceGallery({ images, title }: Props) {
         </div>
       </section>
 
-      {lightboxSrc && (
-        <div
-          ref={dialogRef}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Project photo"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-forest-900/95 p-4"
-        >
-          <button
-            ref={closeButtonRef}
-            type="button"
-            onClick={close}
-            aria-label="Close"
-            className="absolute right-4 top-4 rounded-full bg-cream-50/10 px-4 py-2 text-cream-50 hover:bg-cream-50/20"
-          >
-            Close
-          </button>
-          <div className="relative max-h-[85vh] max-w-5xl w-full h-full">
-            <Image
-              src={lightboxSrc}
-              alt={`${title} project photo`}
-              fill
-              quality={85}
-              sizes="100vw"
-              className="object-contain"
-            />
-          </div>
-        </div>
-      )}
+      <dialog
+        ref={dialogRef}
+        aria-label="Project photo"
+        onClose={close}
+        style={{
+          margin: 0,
+          padding: 0,
+          border: 'none',
+          background: 'transparent',
+          maxWidth: '100vw',
+          maxHeight: '100vh',
+          width: '100vw',
+          height: '100vh',
+        }}
+        className="fixed inset-0 z-50 flex items-center justify-center bg-forest-900/95 p-4"
+      >
+        {lightboxSrc && (
+          <>
+            <button
+              ref={closeButtonRef}
+              type="button"
+              onClick={close}
+              aria-label="Close"
+              className="absolute right-4 top-4 rounded-full bg-cream-50/10 px-4 py-2 text-cream-50 hover:bg-cream-50/20"
+            >
+              Close
+            </button>
+            <div className="relative max-h-[85vh] max-w-5xl w-full h-full">
+              <Image
+                src={lightboxSrc}
+                alt={`${title} project photo`}
+                fill
+                quality={85}
+                sizes="100vw"
+                className="object-contain"
+              />
+            </div>
+          </>
+        )}
+      </dialog>
     </>
   );
 }

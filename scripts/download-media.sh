@@ -7,15 +7,16 @@ set -e
 
 EXPORT_DIR="./wordpress-export/latest"
 MEDIA_DIR="$EXPORT_DIR/media-files"
+SEP="==================================="
 
-echo "==================================="
+echo "$SEP"
 echo "WordPress Media Download"
-echo "==================================="
+echo "$SEP"
 echo ""
 
 # Check if export exists
-if [ ! -d "$EXPORT_DIR" ]; then
-  echo "Error: Export directory not found. Run npm run migrate:export first."
+if [[ ! -d "$EXPORT_DIR" ]]; then
+  echo "Error: Export directory not found. Run npm run migrate:export first." >&2
   exit 1
 fi
 
@@ -34,9 +35,9 @@ rsync -avz --progress \
   "$MEDIA_DIR/"
 
 echo ""
-echo "==================================="
+echo "$SEP"
 echo "Media Download Complete!"
-echo "==================================="
+echo "$SEP"
 echo ""
 echo "Media location: $MEDIA_DIR"
 echo ""

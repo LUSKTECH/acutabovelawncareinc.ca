@@ -10,11 +10,11 @@ export default function ServiceCard({
   service,
   sizes = DEFAULT_SIZES,
   priority = false,
-}: {
+}: Readonly<{
   service: ServiceMeta;
   sizes?: string;
   priority?: boolean;
-}) {
+}>) {
   return (
     <Link
       href={`/services/${service.slug}`}

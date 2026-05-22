@@ -10,10 +10,11 @@ set -e
 EXPORT_DIR="./wordpress-export"
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 EXPORT_SUBDIR="$EXPORT_DIR/$TIMESTAMP"
+SEP="==================================="
 
-echo "==================================="
+echo "$SEP"
 echo "WordPress Content Export"
-echo "==================================="
+echo "$SEP"
 echo ""
 
 # Create export directory
@@ -102,9 +103,9 @@ rm -f "$EXPORT_DIR/latest"
 ln -s "$TIMESTAMP" "$EXPORT_DIR/latest"
 
 echo ""
-echo "==================================="
+echo "$SEP"
 echo "Export Complete!"
-echo "==================================="
+echo "$SEP"
 echo ""
 echo "Export location: $EXPORT_SUBDIR"
 echo "Latest export: $EXPORT_DIR/latest"

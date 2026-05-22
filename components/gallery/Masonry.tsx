@@ -5,7 +5,7 @@ import Image from 'next/image';
 import type { GalleryItem } from '@/lib/images';
 import Lightbox from './Lightbox';
 
-export default function Masonry({ items }: { items: GalleryItem[] }) {
+export default function Masonry({ items }: Readonly<{ items: GalleryItem[] }>) {
   const [open, setOpen] = useState<number | null>(null);
   const handleOpen = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
     setOpen(Number(e.currentTarget.dataset.index));

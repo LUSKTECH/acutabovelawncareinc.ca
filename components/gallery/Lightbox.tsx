@@ -4,18 +4,29 @@ import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import type { GalleryItem } from '@/lib/images';
 
-type Props = {
+type Props = Readonly<{
   items: GalleryItem[];
   openIndex: number | null;
   onClose: () => void;
   onPrev: () => void;
   onNext: () => void;
-};
+}>;
 
 export default function Lightbox({ items, openIndex, onClose, onPrev, onNext }: Props) {
-  const dialogRef = useRef<HTMLDivElement | null>(null);
+  const dialogRef = useRef<HTMLDialogElement | null>(null);
   const lastFocusedRef = useRef<HTMLElement | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
+
+  // Open/close the native <dialog> when openIndex changes.
+  useEffect(() => {
+    const el = dialogRef.current;
+    if (!el) return;
+    if (openIndex !== null) {
+      if (!el.open) el.showModal();
+    } else {
+      if (el.open) el.close();
+    }
+  }, [openIndex]);
 
   // Capture pre-open focus once when transitioning closed → open, so cycling
   // images via Next/Prev doesn't reset lastFocusedRef to the previously-focused
@@ -78,13 +89,12 @@ export default function Lightbox({ items, openIndex, onClose, onPrev, onNext }: 
         }
       }
     }
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
+    globalThis.addEventListener('keydown', onKey);
+    return () => globalThis.removeEventListener('keydown', onKey);
   }, [openIndex, onClose, onPrev, onNext]);
 
-  if (openIndex === null) return null;
-  const item = items[openIndex];
-  if (!item) {
+  const item = openIndex !== null ? items[openIndex] : null;
+  if (openIndex !== null && !item) {
     if (process.env.NODE_ENV !== 'production') {
       console.error(
         `Lightbox: openIndex ${openIndex} is out of bounds (items.length=${items.length})`,
@@ -94,43 +104,56 @@ export default function Lightbox({ items, openIndex, onClose, onPrev, onNext }: 
   }
 
   return (
-    <div
+    <dialog
       ref={dialogRef}
-      role="dialog"
-      aria-modal="true"
       aria-label="Image viewer"
+      onClose={onClose}
+      style={{
+        margin: 0,
+        padding: 0,
+        border: 'none',
+        background: 'transparent',
+        maxWidth: '100vw',
+        maxHeight: '100vh',
+        width: '100vw',
+        height: '100vh',
+      }}
       className="fixed inset-0 z-50 bg-forest-900/95"
     >
-      <button
-        type="button"
-        ref={closeButtonRef}
-        onClick={onClose}
-        aria-label="Close"
-        className="absolute right-4 top-4 z-10 rounded-full bg-cream-50/10 px-4 py-2 text-cream-50 hover:bg-cream-50/20"
-      >
-        Close
-      </button>
-      <button
-        type="button"
-        onClick={onPrev}
-        aria-label="Previous image"
-        className="absolute left-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-cream-50/10 px-4 py-3 text-cream-50 hover:bg-cream-50/20"
-      >
-        ‹
-      </button>
-      <button
-        type="button"
-        onClick={onNext}
-        aria-label="Next image"
-        className="absolute right-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-cream-50/10 px-4 py-3 text-cream-50 hover:bg-cream-50/20"
-      >
-        ›
-      </button>
-      <div className="relative mx-auto flex h-full max-w-6xl items-center justify-center p-8">
-        <div className="relative h-full w-full">
-          <Image src={item.src} alt={item.alt} fill sizes="100vw" className="object-contain" />
-        </div>
-      </div>
-    </div>
+      {item && (
+        <>
+          <button
+            type="button"
+            ref={closeButtonRef}
+            onClick={onClose}
+            aria-label="Close"
+            className="absolute right-4 top-4 z-10 rounded-full bg-cream-50/10 px-4 py-2 text-cream-50 hover:bg-cream-50/20"
+          >
+            Close
+          </button>
+          <button
+            type="button"
+            onClick={onPrev}
+            aria-label="Previous image"
+            className="absolute left-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-cream-50/10 px-4 py-3 text-cream-50 hover:bg-cream-50/20"
+          >
+            ‹
+          </button>
+          <button
+            type="button"
+            onClick={onNext}
+            aria-label="Next image"
+            className="absolute right-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-cream-50/10 px-4 py-3 text-cream-50 hover:bg-cream-50/20"
+          >
+            ›
+          </button>
+          <div className="relative mx-auto flex h-full max-w-6xl items-center justify-center p-8">
+            <div className="relative h-full w-full">
+              <Image src={item.src} alt={item.alt} fill sizes="100vw" className="object-contain" />
+            </div>
+          </div>
+        </>
+      )}
+    </dialog>
   );
 }

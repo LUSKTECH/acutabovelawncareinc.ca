@@ -16,10 +16,21 @@ export default function MobileNav() {
   // and renders nothing for the portal.
   const [open, setOpen] = useState(false);
   const hamburgerRef = useRef<HTMLButtonElement | null>(null);
-  const drawerRef = useRef<HTMLDivElement | null>(null);
+  const drawerRef = useRef<HTMLDialogElement | null>(null);
 
   const close = useCallback(() => setOpen(false), []);
   const toggle = useCallback(() => setOpen((v) => !v), []);
+
+  // Open/close the native <dialog> when `open` state changes.
+  useEffect(() => {
+    const el = drawerRef.current;
+    if (!el) return;
+    if (open) {
+      if (!el.open) el.show();
+    } else {
+      if (el.open) el.close();
+    }
+  }, [open]);
 
   // Move focus into the drawer when it opens; restore to hamburger on close.
   useEffect(() => {
@@ -41,13 +52,15 @@ export default function MobileNav() {
   }, [open]);
 
   // Escape to close (capture phase so <details> can't absorb it).
+  // The native <dialog> fires a 'cancel' event on Escape; we intercept at
+  // the keydown level to stay consistent and prevent default browser close.
   useEffect(() => {
     if (!open) return;
     function onKey(e: KeyboardEvent) {
       if (e.key === 'Escape') { e.preventDefault(); setOpen(false); }
     }
-    window.addEventListener('keydown', onKey, true);
-    return () => window.removeEventListener('keydown', onKey, true);
+    globalThis.addEventListener('keydown', onKey, true);
+    return () => globalThis.removeEventListener('keydown', onKey, true);
   }, [open]);
 
   // Tab trap: keep focus inside the open drawer.
@@ -65,18 +78,32 @@ export default function MobileNav() {
       if (e.shiftKey && active === first) { e.preventDefault(); last.focus(); }
       else if (!e.shiftKey && active === last) { e.preventDefault(); first.focus(); }
     }
-    window.addEventListener('keydown', onTab);
-    return () => window.removeEventListener('keydown', onTab);
+    globalThis.addEventListener('keydown', onTab);
+    return () => globalThis.removeEventListener('keydown', onTab);
   }, [open]);
 
   const drawer = (
-    <div
+    <dialog
       ref={drawerRef}
-      role="dialog"
-      aria-modal="true"
+      id="mobile-nav-drawer"
       aria-label="Site navigation"
-      className="fixed inset-x-0 top-[72px] bottom-0 z-50 overflow-y-auto bg-cream-50"
+      onClose={() => setOpen(false)}
+      style={{
+        margin: 0,
+        padding: 0,
+        border: 'none',
+        background: 'transparent',
+        maxWidth: '100%',
+        maxHeight: '100%',
+        width: '100%',
+        height: '100%',
+        position: 'fixed',
+        inset: 0,
+        overflow: 'hidden',
+      }}
+      className="z-50"
     >
+      <div className="absolute inset-x-0 top-[72px] bottom-0 overflow-y-auto bg-cream-50">
       <nav aria-label="Mobile" className="mx-auto max-w-2xl space-y-4 px-4 py-6">
         <Link onClick={close} href="/" className="block py-2 text-xl">
           Home
@@ -118,7 +145,8 @@ export default function MobileNav() {
           Free estimate
         </Link>
       </nav>
-    </div>
+      </div>
+    </dialog>
   );
 
   return (
@@ -142,7 +170,7 @@ export default function MobileNav() {
           {open ? <path d="M6 6l12 12M6 18L18 6" /> : <path d="M3 6h18M3 12h18M3 18h18" />}
         </svg>
       </button>
-      {open && typeof document !== 'undefined' && createPortal(drawer, document.body)}
+      {typeof document !== 'undefined' && createPortal(drawer, document.body)}
     </>
   );
 }
