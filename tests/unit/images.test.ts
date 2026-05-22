@@ -18,18 +18,25 @@ beforeEach(() => {
 });
 
 describe('getGalleryItems', () => {
-  it('throws when the gallery directory is missing', async () => {
+  it('returns [] when the gallery directory is missing', async () => {
     fsMock.existsSync.mockReturnValue(false);
-    await expect(getGalleryItems()).rejects.toThrow(/not found/i);
+    await expect(getGalleryItems()).resolves.toEqual([]);
   });
 
-  it('throws when an image has unreadable dimensions', async () => {
+  it('skips images with unreadable dimensions and logs a warning', async () => {
     fsMock.existsSync.mockReturnValue(true);
     fsMock.readdirSync.mockReturnValue(['broken.jpg']);
     sharpMock.mockReturnValue({
       metadata: vi.fn().mockResolvedValue({ width: undefined, height: undefined }),
     });
-    await expect(getGalleryItems()).rejects.toThrow(/dimensions/);
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const items = await getGalleryItems();
+    expect(items).toEqual([]);
+    expect(errorSpy).toHaveBeenCalledWith(
+      expect.stringContaining('[images]'),
+      expect.anything(),
+    );
+    errorSpy.mockRestore();
   });
 
   it('filters non-image files, sorts by src, and humanizes alt text', async () => {

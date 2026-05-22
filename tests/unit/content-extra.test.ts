@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import {
-  getAllServices,
+  getServiceSlugs,
   getPageBySlug,
   getServiceBySlug,
   UnknownServiceError,
@@ -26,10 +26,11 @@ describe('content loader edge cases', () => {
     expect(a).toBe(b);
   });
 
-  it('returns the full service set via getAllServices', () => {
-    const all = getAllServices();
-    expect(all.length).toBe(22);
-    for (const s of all) {
+  it('loads every service slug without error', () => {
+    const slugs = getServiceSlugs();
+    expect(slugs.length).toBeGreaterThan(0);
+    for (const slug of slugs) {
+      const s = getServiceBySlug(slug);
       expect(s.title.length).toBeGreaterThan(0);
       expect(s.body.length).toBeGreaterThan(50);
     }

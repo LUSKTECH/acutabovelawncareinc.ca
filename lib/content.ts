@@ -31,16 +31,18 @@ export function getServiceBySlug(slug: string): ServiceContent {
   const meta = services.find((s) => s.slug === slug);
   if (!meta) throw new UnknownServiceError(slug);
 
-  const raw = readFileSync(join(process.cwd(), 'content/services', `${slug}.mdx`), 'utf8');
+  let raw: string;
+  try {
+    raw = readFileSync(join(process.cwd(), 'content/services', `${slug}.mdx`), 'utf8');
+  } catch (err) {
+    if ((err as NodeJS.ErrnoException).code === 'ENOENT') throw new UnknownServiceError(slug);
+    throw err;
+  }
   const { data, content } = matter(raw);
   const excerpt = typeof data.excerpt === 'string' ? data.excerpt : '';
   const result: ServiceContent = { ...meta, excerpt, body: content };
   cache.set(slug, result);
   return result;
-}
-
-export function getAllServices(): ServiceContent[] {
-  return getServiceSlugs().map(getServiceBySlug);
 }
 
 export function getPageBySlug(slug: 'about' | 'service-areas') {

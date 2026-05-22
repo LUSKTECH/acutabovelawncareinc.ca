@@ -3,6 +3,8 @@
 import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import type { GalleryItem } from '@/lib/images';
+import { useScrollLock } from '@/hooks/useScrollLock';
+import { useFocusTrap } from '@/hooks/useFocusTrap';
 
 type Props = {
   items: GalleryItem[];
@@ -16,67 +18,31 @@ export default function Lightbox({ items, openIndex, onClose, onPrev, onNext }: 
   const dialogRef = useRef<HTMLDivElement | null>(null);
   const lastFocusedRef = useRef<HTMLElement | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
+  const isOpenRef = useRef(openIndex !== null);
 
-  // Capture pre-open focus once when transitioning closed → open, so cycling
-  // images via Next/Prev doesn't reset lastFocusedRef to the previously-focused
-  // arrow button (which would mean Escape returns focus to the arrow, not the
-  // originating thumbnail).
+  // Capture pre-open focus once on open transition; restore on close.
   useEffect(() => {
-    if (openIndex === null) return;
-    lastFocusedRef.current = document.activeElement as HTMLElement | null;
-    closeButtonRef.current?.focus();
-    return () => {
+    const wasOpen = isOpenRef.current;
+    const nowOpen = openIndex !== null;
+    isOpenRef.current = nowOpen;
+    if (!wasOpen && nowOpen) {
+      lastFocusedRef.current = document.activeElement as HTMLElement | null;
+      closeButtonRef.current?.focus();
+    } else if (wasOpen && !nowOpen) {
       lastFocusedRef.current?.focus?.();
-    };
-    // Intentionally only run when transitioning open ↔ closed.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [openIndex === null]);
-
-  // Lock background scroll while open.
-  useEffect(() => {
-    if (openIndex === null) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = prev;
-    };
+    }
   }, [openIndex]);
 
-  // Keyboard: Escape to close, arrows to navigate, Tab to stay inside dialog.
+  useScrollLock(openIndex !== null);
+  useFocusTrap(dialogRef, openIndex !== null);
+
+  // Keyboard: Escape to close, arrows to navigate.
   useEffect(() => {
     if (openIndex === null) return;
     function onKey(e: KeyboardEvent) {
-      if (e.key === 'Escape') {
-        e.preventDefault();
-        onClose();
-        return;
-      }
-      if (e.key === 'ArrowLeft') {
-        e.preventDefault();
-        onPrev();
-        return;
-      }
-      if (e.key === 'ArrowRight') {
-        e.preventDefault();
-        onNext();
-        return;
-      }
-      if (e.key === 'Tab' && dialogRef.current) {
-        const focusables = dialogRef.current.querySelectorAll<HTMLElement>(
-          'button, [href], [tabindex]:not([tabindex="-1"])',
-        );
-        if (focusables.length === 0) return;
-        const first = focusables[0]!;
-        const last = focusables[focusables.length - 1]!;
-        const active = document.activeElement;
-        if (e.shiftKey && active === first) {
-          e.preventDefault();
-          last.focus();
-        } else if (!e.shiftKey && active === last) {
-          e.preventDefault();
-          first.focus();
-        }
-      }
+      if (e.key === 'Escape') { e.preventDefault(); onClose(); return; }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); onPrev(); return; }
+      if (e.key === 'ArrowRight') { e.preventDefault(); onNext(); return; }
     }
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);

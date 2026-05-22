@@ -1,18 +1,16 @@
 import type { NextConfig } from 'next';
-import createMDX from '@next/mdx';
 import { redirects as wpRedirects } from './lib/redirects';
-
-const withMDX = createMDX({ extension: /\.mdx?$/ });
 
 // Allowed origins for script-src and connect-src:
 //  - 'self'                         Next.js chunks and API routes
-//  - 'unsafe-inline'                next/script inline JSON-LD block (no nonce available for static export)
+//  - 'unsafe-inline'                inline JSON-LD scripts (no nonce available for static export)
 //  - us.i.posthog.com, app.posthog.com  PostHog analytics (direct)
 //  - p.acutabovelawncareinc.ca      PostHog reverse proxy (config.js + XHR API calls)
+//  - api.web3forms.com              contact form submission target
 const CSP = [
   "default-src 'self'",
   "script-src 'self' 'unsafe-inline' https://us.i.posthog.com https://app.posthog.com https://p.acutabovelawncareinc.ca",
-  "connect-src 'self' https://us.i.posthog.com https://app.posthog.com https://p.acutabovelawncareinc.ca",
+  "connect-src 'self' https://us.i.posthog.com https://app.posthog.com https://p.acutabovelawncareinc.ca https://api.web3forms.com",
   "img-src 'self' data: blob:",
   "font-src 'self' https://fonts.gstatic.com",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
@@ -27,12 +25,11 @@ const securityHeaders = [
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
   { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
   { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
-  { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+  { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()' },
 ];
 
 const config: NextConfig = {
   reactStrictMode: true,
-  pageExtensions: ['ts', 'tsx', 'md', 'mdx'],
   turbopack: { root: __dirname },
   images: {
     formats: ['image/avif', 'image/webp'],
@@ -52,4 +49,4 @@ const config: NextConfig = {
   },
 };
 
-export default withMDX(config);
+export default config;

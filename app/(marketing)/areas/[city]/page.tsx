@@ -2,11 +2,11 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
-import Script from 'next/script';
 import { cities, getCityBySlug, getCityServices, CityNotFoundError } from '@/content/areas';
 import { safeJsonLd } from '@/lib/json-ld';
 import ServiceCard from '@/components/service/ServiceCard';
 import { site } from '@/content/site';
+import { services } from '@/content/services/_meta';
 
 export const dynamicParams = false;
 
@@ -50,17 +50,17 @@ export default async function CityPage({
   let city;
   try { city = getCityBySlug(slug); } catch (err) { if (err instanceof CityNotFoundError) notFound(); throw err; }
 
-  const cityServices = getCityServices(city!);
-  const c = city!;
+  const cityServices = getCityServices(city);
+  const c = city;
 
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
     '@id': `${site.url}/areas/${c.slug}`,
     name: site.name,
-    description: `${c.intro.slice(0, 200)}...`,
+    description: `${c.intro.slice(0, c.intro.lastIndexOf(' ', 200) + 1 || 200).trimEnd()}…`,
     url: `${site.url}/areas/${c.slug}`,
-    telephone: site.phone,
+    telephone: site.phoneE164,
     email: site.email,
     areaServed: {
       '@type': 'City',
@@ -77,9 +77,7 @@ export default async function CityPage({
 
   return (
     <>
-      <Script id={`city-jsonld-${c.slug}`} type="application/ld+json" strategy="afterInteractive">
-        {safeJsonLd(jsonLd)}
-      </Script>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
 
       {/* Hero */}
       <section className="relative isolate">
@@ -146,7 +144,7 @@ export default async function CityPage({
               href="/services"
               className="text-sm font-medium text-forest-700 hover:text-forest-900"
             >
-              See all 22 services →
+              See all {services.length} services →
             </Link>
           </div>
         </div>

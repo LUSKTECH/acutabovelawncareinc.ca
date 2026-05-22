@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import { useScrollLock } from '@/hooks/useScrollLock';
+import { useFocusTrap } from '@/hooks/useFocusTrap';
 
 type Props = { images: string[]; title: string };
 
@@ -26,30 +28,14 @@ export default function ServiceGallery({ images, title }: Props) {
     closeButtonRef.current?.focus();
   }, [lightboxSrc]);
 
-  // Lock background scroll while open.
-  useEffect(() => {
-    if (!lightboxSrc) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => { document.body.style.overflow = prev; };
-  }, [lightboxSrc]);
+  useScrollLock(!!lightboxSrc);
+  useFocusTrap(dialogRef, !!lightboxSrc);
 
-  // Keyboard: Escape + Tab-trap inside dialog.
+  // Keyboard: Escape to close.
   useEffect(() => {
     if (!lightboxSrc) return;
     function onKey(e: KeyboardEvent) {
-      if (e.key === 'Escape') { e.preventDefault(); close(); return; }
-      if (e.key === 'Tab' && dialogRef.current) {
-        const focusables = dialogRef.current.querySelectorAll<HTMLElement>(
-          'button, [href], [tabindex]:not([tabindex="-1"])',
-        );
-        if (!focusables.length) return;
-        const first = focusables[0]!;
-        const last = focusables[focusables.length - 1]!;
-        const active = document.activeElement;
-        if (e.shiftKey && active === first) { e.preventDefault(); last.focus(); }
-        else if (!e.shiftKey && active === last) { e.preventDefault(); first.focus(); }
-      }
+      if (e.key === 'Escape') { e.preventDefault(); close(); }
     }
     window.addEventListener('keydown', onKey, true);
     return () => window.removeEventListener('keydown', onKey, true);

@@ -21,16 +21,12 @@ function humanize(filename: string): string {
 
 export async function getGalleryItems(): Promise<GalleryItem[]> {
   const dir = join(process.cwd(), 'public/images/gallery');
-  if (!existsSync(dir)) {
-    throw new Error(`Gallery directory not found: ${dir}`);
-  }
+  if (!existsSync(dir)) return [];
   const files = readdirSync(dir).filter((f) => /\.(jpe?g|png|webp)$/i.test(f));
-  const items = await Promise.all(
+  const results = await Promise.allSettled(
     files.map(async (f) => {
       const meta = await sharp(join(dir, f)).metadata();
-      if (!meta.width || !meta.height) {
-        throw new Error(`Could not read dimensions for gallery image: ${f}`);
-      }
+      if (!meta.width || !meta.height) throw new Error(`missing dimensions: ${f}`);
       return {
         src: `/images/gallery/${f}`,
         width: meta.width,
@@ -39,5 +35,13 @@ export async function getGalleryItems(): Promise<GalleryItem[]> {
       };
     }),
   );
+  const items: GalleryItem[] = [];
+  for (const r of results) {
+    if (r.status === 'fulfilled') {
+      items.push(r.value);
+    } else {
+      console.error('[images] gallery item skipped:', r.reason);
+    }
+  }
   return items.sort((a, b) => a.src.localeCompare(b.src));
 }
