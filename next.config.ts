@@ -11,8 +11,8 @@ const withMDX = createMDX({ extension: /\.mdx?$/ });
 //  - 'unsafe-inline'          next/script inline JSON-LD block (no hash/nonce available for static export)
 const CSP = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' https://us.i.posthog.com https://app.posthog.com",
-  "connect-src 'self' https://us.i.posthog.com https://app.posthog.com",
+  "script-src 'self' 'unsafe-inline' https://us.i.posthog.com https://app.posthog.com https://p.acutabovelawncareinc.ca",
+  "connect-src 'self' https://us.i.posthog.com https://app.posthog.com https://p.acutabovelawncareinc.ca",
   "img-src 'self' data: blob:",
   "font-src 'self' https://fonts.gstatic.com",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
