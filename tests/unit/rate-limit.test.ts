@@ -59,4 +59,23 @@ describe('rateLimit', () => {
     const result = rateLimit('flood-new', { max: 2, windowMs: 60_000 });
     expect(result).toEqual({ ok: true });
   });
+
+  it('prunes expired entries behind a reset head entry', () => {
+    // Fill store: head-trap-0 is inserted first, so it sits at the Map head.
+    rateLimit('head-trap-0', { max: 2, windowMs: 1000 });
+    for (let i = 1; i < 10_001; i++) {
+      rateLimit(`head-trap-${i}`, { max: 2, windowMs: 1000 });
+    }
+    // Expire all 10 001 entries.
+    vi.advanceTimersByTime(1001);
+    // Reset head-trap-0. Without delete-before-set it stays at the Map head with a
+    // fresh timestamp, causing else-break to exit immediately and leaving all
+    // 10 000 expired entries behind it unpruned.
+    rateLimit('head-trap-0', { max: 2, windowMs: 1000 });
+    // Advance again so head-trap-0 itself expires too, then trigger pruning.
+    vi.advanceTimersByTime(1001);
+    expect(rateLimit('head-trap-new', { max: 1, windowMs: 1000 })).toEqual({ ok: true });
+    // head-trap-new should now be rate-limited on the second call.
+    expect(rateLimit('head-trap-new', { max: 1, windowMs: 1000 }).ok).toBe(false);
+  });
 });
