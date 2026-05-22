@@ -32,6 +32,10 @@ export function rateLimit(
   const hit = store.get(key);
 
   if (!hit || now - hit.firstAt > windowMs) {
+    // delete before set so a reset entry moves to the tail of the Map, keeping
+    // insertion order chronological and making the else-break in the pruning
+    // loop above safe. (Map.set on an existing key preserves its original position.)
+    store.delete(key);
     store.set(key, { count: 1, firstAt: now });
     return { ok: true };
   }
