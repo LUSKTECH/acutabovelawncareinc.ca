@@ -4,10 +4,11 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { getCategorizedServices } from '@/content/services/_meta';
-
-const groups = getCategorizedServices();
+import { useScrollLock } from '@/hooks/useScrollLock';
+import { useFocusTrap } from '@/hooks/useFocusTrap';
 
 export default function MobileNav() {
+  const groups = getCategorizedServices();
   // Drawer is rendered via createPortal outside the sticky `<header>` because
   // the header's `backdrop-blur` establishes a containing block that would
   // collapse the drawer's `position: fixed` against the header instead of the
@@ -34,11 +35,8 @@ export default function MobileNav() {
     }
   }, [open]);
 
-  // Background scroll lock.
-  useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
-  }, [open]);
+  useScrollLock(open);
+  useFocusTrap(drawerRef, open);
 
   // Escape to close (capture phase so <details> can't absorb it).
   useEffect(() => {
@@ -50,27 +48,9 @@ export default function MobileNav() {
     return () => window.removeEventListener('keydown', onKey, true);
   }, [open]);
 
-  // Tab trap: keep focus inside the open drawer.
-  useEffect(() => {
-    if (!open || !drawerRef.current) return;
-    function onTab(e: KeyboardEvent) {
-      if (e.key !== 'Tab' || !drawerRef.current) return;
-      const focusables = drawerRef.current.querySelectorAll<HTMLElement>(
-        'a, button, [tabindex]:not([tabindex="-1"])',
-      );
-      if (!focusables.length) return;
-      const first = focusables[0]!;
-      const last = focusables[focusables.length - 1]!;
-      const active = document.activeElement;
-      if (e.shiftKey && active === first) { e.preventDefault(); last.focus(); }
-      else if (!e.shiftKey && active === last) { e.preventDefault(); first.focus(); }
-    }
-    window.addEventListener('keydown', onTab);
-    return () => window.removeEventListener('keydown', onTab);
-  }, [open]);
-
   const drawer = (
     <div
+      id="mobile-nav-drawer"
       ref={drawerRef}
       role="dialog"
       aria-modal="true"

@@ -8,6 +8,7 @@ export default function PostHogProvider({ children }: { children: React.ReactNod
   useEffect(() => {
     const key = process.env.NEXT_PUBLIC_POSTHOG_KEY;
     if (!key) return;
+    try {
     posthog.init(key, {
       api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST ?? 'https://us.i.posthog.com',
       ui_host: 'https://us.posthog.com',
@@ -19,6 +20,9 @@ export default function PostHogProvider({ children }: { children: React.ReactNod
       session_recording: { maskAllInputs: true },
       persistence: 'localStorage+cookie',
     });
+    } catch (err) {
+      console.error('[posthog] init failed:', err);
+    }
   }, []);
 
   return (

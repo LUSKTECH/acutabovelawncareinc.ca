@@ -2,7 +2,7 @@
  * Full-site end-to-end test suite for acutabovelawncareinc.ca
  *
  * Covers: homepage, nav (desktop + mobile), skip link, services index,
- * all 22 service detail pages, gallery, about, service-areas, contact,
+ * all service detail pages, gallery, about, service-areas, contact,
  * 404, legacy WP redirects, SEO/metadata, security headers, and footer.
  */
 import { test, expect } from '@playwright/test';
@@ -753,26 +753,18 @@ test.describe('Contact (/contact)', () => {
     await expect(page).toHaveURL(/\/contact\/?$/);
   });
 
-  test('submitting valid data shows a response (success or error message)', async ({ page }) => {
+  test('submitting valid data shows success or a phone-fallback error', async ({ page }) => {
     await page.getByRole('textbox', { name: 'Name' }).fill('Test User');
     await page.getByRole('textbox', { name: 'Email' }).fill('test@example.com');
     await page.getByRole('textbox', { name: /how can we help/i }).fill('I would like a quote for lawn care.');
     await page.getByRole('button', { name: /send request/i }).click();
 
-    // Either success state or error message with phone fallback should appear
-    const successMsg = page.getByText(/we received your request/i);
-    const errorMsg = page.getByText(/email service is not configured/i);
-    const phoneInError = page.getByRole('link', { name: /905.*638/i });
-
-    // One of these should be visible after submission
-    await Promise.race([
-      expect(successMsg).toBeVisible({ timeout: 10_000 }),
-      expect(errorMsg).toBeVisible({ timeout: 10_000 }),
-      expect(phoneInError.first()).toBeVisible({ timeout: 10_000 }),
-    ]).catch(() => {
-      // If none matched, the test may still be valid — form validation or other state
-      // Just verify we are still on or redirected from /contact
-    });
+    // After submission the form must show either: the success confirmation, or an error
+    // message that includes the phone number fallback. Both are valid outcomes depending
+    // on whether WEB3FORMS_ACCESS_KEY is configured in the current environment.
+    await expect(
+      page.getByText(/we received your request|please call us at/i),
+    ).toBeVisible({ timeout: 10_000 });
   });
 });
 

@@ -29,7 +29,6 @@ function Field({
         type={type}
         name={name}
         required={required}
-        aria-label={label}
         aria-describedby={errorId}
         aria-invalid={error ? true : undefined}
         className="mt-1 w-full rounded-lg border border-ink-300 bg-white p-3 focus:border-forest-700 focus:outline-none"
@@ -82,7 +81,6 @@ export default function ContactForm() {
           id="message"
           name="message"
           required
-          aria-label="How can we help?"
           aria-describedby={err['message'] ? 'message-error' : undefined}
           aria-invalid={err['message'] ? true : undefined}
           rows={5}
@@ -94,7 +92,7 @@ export default function ContactForm() {
           </span>
         )}
       </div>
-      {state.status === 'error' && !Object.keys(err).length && (
+      {state.status === 'error' && (
         <p role="alert" className="text-sm text-clay-500">
           {state.message}
         </p>

@@ -3,11 +3,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { getCategorizedServices, type ServiceCategory } from '@/content/services/_meta';
-
-type NavOpen = ServiceCategory | 'areas' | null;
 import { cities } from '@/content/areas';
 
-const groups = getCategorizedServices();
+type NavOpen = ServiceCategory | 'areas' | null;
 
 type CategoryDropdownProps = {
   category: ServiceCategory;
@@ -67,6 +65,7 @@ function CategoryDropdown({
 }
 
 export default function MegaNav() {
+  const groups = getCategorizedServices();
   const [open, setOpen] = useState<NavOpen>(null);
   const containerRef = useRef<HTMLElement | null>(null);
 

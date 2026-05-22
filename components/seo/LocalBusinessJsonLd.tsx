@@ -1,12 +1,12 @@
-import Script from 'next/script';
 import { site } from '@/content/site';
 import { safeJsonLd } from '@/lib/json-ld';
+
 export default function LocalBusinessJsonLd() {
   const data = {
     '@context': 'https://schema.org',
     '@type': 'LandscapingService',
     name: site.name,
-    telephone: site.phone,
+    telephone: site.phoneE164,
     email: site.email,
     url: site.url,
     address: {
@@ -16,12 +16,13 @@ export default function LocalBusinessJsonLd() {
       addressCountry: site.address.country,
     },
     areaServed: site.serviceAreas,
-    openingHours: 'Mo-Fr 08:00-18:00',
+    openingHours: site.openingHours,
   };
 
   return (
-    <Script id="local-business-jsonld" type="application/ld+json" strategy="afterInteractive">
-      {safeJsonLd(data)}
-    </Script>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: safeJsonLd(data) }} // nosemgrep: react-dangerouslysetinnerhtml
+    />
   );
 }
