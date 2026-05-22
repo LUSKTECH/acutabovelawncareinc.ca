@@ -41,10 +41,10 @@ Visit http://localhost:3000.
 
 Most content is hand-edited in `content/`:
 
-- `content/services/<slug>.mdx` — long-form copy per service
-- `content/services/_meta.ts` — service title/blurb/image/category/order
+- `content/services/<slug>.mdx`: long-form copy per service
+- `content/services/_meta.ts`: service title/blurb/image/category/order
 - `content/pages/about.mdx`, `content/pages/service-areas.mdx`
-- `content/site.ts` — phone, email, service areas, hours
+- `content/site.ts`: phone, email, service areas, hours
 
 Re-running the migration scripts is rarely needed; they exist for re-importing
 should the source WordPress export change.
