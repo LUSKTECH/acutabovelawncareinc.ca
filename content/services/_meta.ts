@@ -17,7 +17,7 @@ export const services: ServiceMeta[] = [
   { slug: 'landscaping', title: 'Landscaping', category: 'landscaping',
     image: '/images/services/landscaping.jpg',
     gallery: ['/images/projects/landscaping-02.jpg', '/images/projects/landscaping-03.jpg'],
-    blurb: 'Full-service landscape design and installation for residential and commercial properties.',
+    blurb: 'Full-service landscape design and installation for commercial properties.',
     order: 1, featured: true },
   { slug: 'landscape-design', title: 'Landscape Design', category: 'landscaping',
     image: '/images/services/landscape-design.jpg',
