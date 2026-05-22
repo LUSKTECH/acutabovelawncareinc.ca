@@ -26,7 +26,7 @@ export default function MobileNav() {
     const el = drawerRef.current;
     if (!el) return;
     if (open) {
-      if (!el.open) el.showModal();
+      if (!el.open) el.show();
     } else {
       if (el.open) el.close();
     }
@@ -85,6 +85,7 @@ export default function MobileNav() {
   const drawer = (
     <dialog
       ref={drawerRef}
+      id="mobile-nav-drawer"
       aria-label="Site navigation"
       onClose={() => setOpen(false)}
       style={{

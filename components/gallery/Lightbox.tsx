@@ -100,6 +100,7 @@ export default function Lightbox({ items, openIndex, onClose, onPrev, onNext }: 
         `Lightbox: openIndex ${openIndex} is out of bounds (items.length=${items.length})`,
       );
     }
+    return null;
   }
 
   return (

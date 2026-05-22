@@ -35,7 +35,7 @@ function CategoryDropdown({
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
       onFocus={handleEnter}
-      onBlur={handleLeave}
+      onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node)) handleLeave(); }}
     >
       <button
         type="button"
@@ -148,7 +148,7 @@ export default function MegaNav() {
         onMouseEnter={handleAreasEnter}
         onMouseLeave={handleAreasLeave}
         onFocus={handleAreasEnter}
-        onBlur={handleAreasLeave}
+        onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node)) handleAreasLeave(); }}
       >
         <button
           type="button"
