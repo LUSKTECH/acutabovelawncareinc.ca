@@ -4,15 +4,15 @@ import { redirects as wpRedirects } from './lib/redirects';
 
 const withMDX = createMDX({ extension: /\.mdx?$/ });
 
-// Allowed script origins:
-//  - 'self'                   Next.js inline chunks
-//  - us.i.posthog.com         PostHog analytics (conditional — present only when key is set)
-//  - cdn.vercel-insights.com  Vercel Speed Insights (if added later)
-//  - 'unsafe-inline'          next/script inline JSON-LD block (no hash/nonce available for static export)
+// Allowed origins for script-src and connect-src:
+//  - 'self'                         Next.js chunks and API routes
+//  - 'unsafe-inline'                next/script inline JSON-LD block (no nonce available for static export)
+//  - us.i.posthog.com, app.posthog.com  PostHog analytics (direct)
+//  - p.acutabovelawncareinc.ca      PostHog reverse proxy (config.js + XHR API calls)
 const CSP = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' https://us.i.posthog.com https://app.posthog.com",
-  "connect-src 'self' https://us.i.posthog.com https://app.posthog.com",
+  "script-src 'self' 'unsafe-inline' https://us.i.posthog.com https://app.posthog.com https://p.acutabovelawncareinc.ca",
+  "connect-src 'self' https://us.i.posthog.com https://app.posthog.com https://p.acutabovelawncareinc.ca",
   "img-src 'self' data: blob:",
   "font-src 'self' https://fonts.gstatic.com",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",

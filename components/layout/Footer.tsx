@@ -24,11 +24,11 @@ export default function Footer() {
           <p className="mt-6 text-sm">
             {site.address.locality}, {site.address.region}
             <br />
-            <a href={`tel:${site.phoneE164}`} className="hover:text-cream-50">
+            <a href={`tel:${site.phoneE164}`} className="inline-block py-1 hover:text-cream-50">
               {site.phone}
             </a>
             <br />
-            <a href={`mailto:${site.email}`} className="hover:text-cream-50">
+            <a href={`mailto:${site.email}`} className="inline-block py-1 hover:text-cream-50">
               {site.email}
             </a>
           </p>
