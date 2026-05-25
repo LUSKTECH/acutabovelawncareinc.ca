@@ -42,7 +42,7 @@
     "@types/node": "^25.9.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "@vitest/coverage-v8": "^4.1.6",
+    "@vitest/coverage-v8": "^4.1.7",
     "cheerio": "^1.0.0",
     "jsdom": "^29.1.1",
     "oxlint": "^1.65.0",
