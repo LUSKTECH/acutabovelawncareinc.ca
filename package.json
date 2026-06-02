@@ -13,7 +13,7 @@
     "test:coverage": "vitest run --coverage --reporter=default --reporter=junit --outputFile=test-report.junit.xml",
     "test:e2e": "playwright test",
     "a11y": "pa11y-ci",
-    "a11y:ci": "start-server-and-test 'next start -p 3000' http://localhost:3000 a11y",
+    "a11y:ci": "npm run build && start-server-and-test 'next start -p 3000' http://localhost:3000 a11y",
     "content:extract": "tsx scripts/extract-content.ts",
     "content:images": "tsx scripts/dedupe-and-copy-images.ts",
     "content:redirects": "tsx scripts/generate-redirects.ts"

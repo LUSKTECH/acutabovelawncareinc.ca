@@ -1,4 +1,3 @@
-import Script from 'next/script';
 import { site } from '@/content/site';
 import { safeJsonLd } from '@/lib/json-ld';
 
@@ -33,11 +32,13 @@ export default function LocalBusinessJsonLd() {
     ],
   };
 
-  // next/script with a string child avoids dangerouslySetInnerHTML; safeJsonLd
-  // escapes `<` to prevent `</script>` breakout (data is trusted site config).
+  // Server-rendered inline JSON-LD per the Next.js App Router guidance, so the
+  // structured data is in the initial HTML for crawlers. safeJsonLd escapes the
+  // `<` character (prevents `</script>` breakout) and `data` is trusted site
+  // config, so dangerouslySetInnerHTML is safe — the two security rules below
+  // are false positives on this official pattern.
   return (
-    <Script id="local-business-jsonld" type="application/ld+json" strategy="afterInteractive">
-      {safeJsonLd(data)}
-    </Script>
+    // eslint-disable-next-line react/no-danger, xss/no-mixed-html
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(data) }} />
   );
 }

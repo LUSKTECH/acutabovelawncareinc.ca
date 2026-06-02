@@ -29,6 +29,8 @@ export default function MobileNav() {
     setMounted(true);
   }, []);
   const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href));
+  // Mirror MegaNav: the Areas section covers both /service-areas and /areas/[city].
+  const areasActive = pathname.startsWith('/service-areas') || pathname.startsWith('/areas');
 
   const close = useCallback(() => setOpen(false), []);
   const toggle = useCallback(() => setOpen((v) => !v), []);
@@ -175,8 +177,8 @@ export default function MobileNav() {
         <Link
           onClick={close}
           href="/service-areas"
-          aria-current={isActive('/service-areas') ? 'page' : undefined}
-          className={topLinkClass(isActive('/service-areas'))}
+          aria-current={areasActive ? 'page' : undefined}
+          className={topLinkClass(areasActive)}
         >
           Service Areas
         </Link>
