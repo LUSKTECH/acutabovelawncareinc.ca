@@ -8,7 +8,7 @@ export default function Hero() {
       <div className="relative h-[78vh] min-h-[520px] w-full overflow-hidden">
         <Image
           src="/images/hero/hero.jpg"
-          alt=""
+          alt="Professionally landscaped property by A Cut Above Lawn Care Inc in Burlington, Ontario"
           fill
           priority
           quality={75}

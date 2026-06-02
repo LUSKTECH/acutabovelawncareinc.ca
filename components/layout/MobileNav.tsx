@@ -3,20 +3,30 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { getCategorizedServices } from '@/content/services/_meta';
 
 const groups = getCategorizedServices();
+
+const topLinkClass = (active: boolean) =>
+  active ? 'block py-2 text-xl font-semibold text-forest-700' : 'block py-2 text-xl text-forest-900';
 
 export default function MobileNav() {
   // Drawer is rendered via createPortal outside the sticky `<header>` because
   // the header's `backdrop-blur` establishes a containing block that would
   // collapse the drawer's `position: fixed` against the header instead of the
-  // viewport. The drawer only mounts when `open` is true (post-click), so
-  // there's no SSR/hydration mismatch — initial server render has `open=false`
-  // and renders nothing for the portal.
+  // viewport. The portal is gated on `mounted` (see below) so the server HTML
+  // and the first client render agree — avoiding a hydration mismatch.
   const [open, setOpen] = useState(false);
+  // Gate the portal on mount: server and first client render both produce no
+  // portal (matching HTML), then the drawer mounts client-side after hydration.
+  const [mounted, setMounted] = useState(false);
   const hamburgerRef = useRef<HTMLButtonElement | null>(null);
   const drawerRef = useRef<HTMLDialogElement | null>(null);
+  const pathname = usePathname();
+
+  useEffect(() => setMounted(true), []);
+  const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href));
 
   const close = useCallback(() => setOpen(false), []);
   const toggle = useCallback(() => setOpen((v) => !v), []);
@@ -87,6 +97,7 @@ export default function MobileNav() {
       ref={drawerRef}
       id="mobile-nav-drawer"
       aria-label="Site navigation"
+      aria-modal="true"
       onClose={() => setOpen(false)}
       style={{
         margin: 0,
@@ -105,7 +116,12 @@ export default function MobileNav() {
     >
       <div className="absolute inset-x-0 top-[72px] bottom-0 overflow-y-auto bg-cream-50">
       <nav aria-label="Mobile" className="mx-auto max-w-2xl space-y-4 px-4 py-6">
-        <Link onClick={close} href="/" className="block py-2 text-xl">
+        <Link
+          onClick={close}
+          href="/"
+          aria-current={isActive('/') ? 'page' : undefined}
+          className={topLinkClass(isActive('/'))}
+        >
           Home
         </Link>
         {groups.map((g) => (
@@ -114,27 +130,46 @@ export default function MobileNav() {
               {g.label}
             </summary>
             <ul className="mt-2 space-y-1">
-              {g.services.map((s) => (
-                <li key={s.slug}>
-                  <Link
-                    onClick={close}
-                    href={`/services/${s.slug}`}
-                    className="block py-1 text-ink-700"
-                  >
-                    {s.title}
-                  </Link>
-                </li>
-              ))}
+              {g.services.map((s) => {
+                const active = pathname === `/services/${s.slug}`;
+                return (
+                  <li key={s.slug}>
+                    <Link
+                      onClick={close}
+                      href={`/services/${s.slug}`}
+                      aria-current={active ? 'page' : undefined}
+                      className={active ? 'block py-1 font-semibold text-forest-700' : 'block py-1 text-ink-700'}
+                    >
+                      {s.title}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </details>
         ))}
-        <Link onClick={close} href="/gallery" className="block py-2 text-xl">
+        <Link
+          onClick={close}
+          href="/gallery"
+          aria-current={isActive('/gallery') ? 'page' : undefined}
+          className={topLinkClass(isActive('/gallery'))}
+        >
           Gallery
         </Link>
-        <Link onClick={close} href="/about" className="block py-2 text-xl">
+        <Link
+          onClick={close}
+          href="/about"
+          aria-current={isActive('/about') ? 'page' : undefined}
+          className={topLinkClass(isActive('/about'))}
+        >
           About
         </Link>
-        <Link onClick={close} href="/service-areas" className="block py-2 text-xl">
+        <Link
+          onClick={close}
+          href="/service-areas"
+          aria-current={isActive('/service-areas') ? 'page' : undefined}
+          className={topLinkClass(isActive('/service-areas'))}
+        >
           Service Areas
         </Link>
         <Link
@@ -170,7 +205,7 @@ export default function MobileNav() {
           {open ? <path d="M6 6l12 12M6 18L18 6" /> : <path d="M3 6h18M3 12h18M3 18h18" />}
         </svg>
       </button>
-      {typeof document !== 'undefined' && createPortal(drawer, document.body)}
+      {mounted && createPortal(drawer, document.body)}
     </>
   );
 }

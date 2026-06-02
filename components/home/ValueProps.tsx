@@ -19,7 +19,7 @@ export default function ValueProps() {
       <div className="grid gap-10 md:grid-cols-3">
         {props.map((p) => (
           <div key={p.title}>
-            <p className="font-display text-2xl text-forest-900">{p.title}</p>
+            <h2 className="font-display text-2xl text-forest-900">{p.title}</h2>
             <p className="mt-2 text-ink-700">{p.body}</p>
           </div>
         ))}

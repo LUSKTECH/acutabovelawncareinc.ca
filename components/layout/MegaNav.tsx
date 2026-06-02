@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { getCategorizedServices, type ServiceCategory } from '@/content/services/_meta';
 
 type NavOpen = ServiceCategory | 'areas' | null;
@@ -9,11 +10,21 @@ import { cities } from '@/content/areas';
 
 const groups = getCategorizedServices();
 
+/** Map each service slug back to its category so the parent nav item can be highlighted. */
+const categoryBySlug = new Map<string, ServiceCategory>(
+  groups.flatMap((g) => g.services.map((s) => [s.slug, g.category] as const)),
+);
+
+const linkBase = 'rounded px-3 py-2 text-sm font-medium transition';
+const linkClass = (active: boolean) =>
+  active ? `${linkBase} font-semibold text-forest-700` : `${linkBase} text-ink-700 hover:text-forest-700`;
+
 type CategoryDropdownProps = Readonly<{
   category: ServiceCategory;
   label: string;
   services: Array<{ slug: string; title: string }>;
   isOpen: boolean;
+  isActive: boolean;
   onToggle: (category: ServiceCategory) => void;
   onClose: () => void;
   onMouseEnter: (category: ServiceCategory) => void;
@@ -21,7 +32,7 @@ type CategoryDropdownProps = Readonly<{
 }>;
 
 function CategoryDropdown({
-  category, label, services, isOpen,
+  category, label, services, isOpen, isActive,
   onToggle, onClose, onMouseEnter, onMouseLeave,
 }: CategoryDropdownProps) {
   const panelId = `meganav-panel-${category}`;
@@ -43,7 +54,7 @@ function CategoryDropdown({
         aria-haspopup="true"
         aria-controls={panelId}
         onClick={handleToggle}
-        className="rounded px-3 py-2 text-sm font-medium text-ink-700 hover:text-forest-700"
+        className={linkClass(isActive)}
       >
         {label}
       </button>
@@ -71,6 +82,11 @@ function CategoryDropdown({
 export default function MegaNav() {
   const [open, setOpen] = useState<NavOpen>(null);
   const containerRef = useRef<HTMLElement | null>(null);
+  const pathname = usePathname();
+
+  const serviceSlug = pathname.startsWith('/services/') ? pathname.split('/')[2] : undefined;
+  const activeCategory = serviceSlug ? categoryBySlug.get(serviceSlug) : undefined;
+  const areasActive = pathname.startsWith('/areas') || pathname === '/service-areas';
 
   const handleClose = useCallback(() => setOpen(null), []);
   const handleAreasEnter = useCallback(() => setOpen('areas'), []);
@@ -114,7 +130,8 @@ export default function MegaNav() {
     <nav aria-label="Primary" ref={containerRef} className="flex items-center gap-1">
       <Link
         href="/"
-        className="rounded px-3 py-2 text-sm font-medium text-ink-700 hover:text-forest-700"
+        aria-current={pathname === '/' ? 'page' : undefined}
+        className={linkClass(pathname === '/')}
       >
         Home
       </Link>
@@ -125,6 +142,7 @@ export default function MegaNav() {
           label={g.label}
           services={g.services}
           isOpen={open === g.category}
+          isActive={activeCategory === g.category}
           onToggle={handleToggle}
           onClose={handleClose}
           onMouseEnter={handleMouseEnter}
@@ -133,13 +151,15 @@ export default function MegaNav() {
       ))}
       <Link
         href="/gallery"
-        className="rounded px-3 py-2 text-sm font-medium text-ink-700 hover:text-forest-700"
+        aria-current={pathname.startsWith('/gallery') ? 'page' : undefined}
+        className={linkClass(pathname.startsWith('/gallery'))}
       >
         Gallery
       </Link>
       <Link
         href="/about"
-        className="rounded px-3 py-2 text-sm font-medium text-ink-700 hover:text-forest-700"
+        aria-current={pathname.startsWith('/about') ? 'page' : undefined}
+        className={linkClass(pathname.startsWith('/about'))}
       >
         About
       </Link>
@@ -156,7 +176,7 @@ export default function MegaNav() {
           aria-haspopup="true"
           aria-controls="meganav-panel-areas"
           onClick={handleAreasToggle}
-          className="rounded px-3 py-2 text-sm font-medium text-ink-700 hover:text-forest-700"
+          className={linkClass(areasActive)}
         >
           Areas
         </button>

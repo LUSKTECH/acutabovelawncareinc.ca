@@ -6,7 +6,8 @@ import { renderMdx } from '@/lib/mdx';
 export const metadata: Metadata = {
   alternates: { canonical: '/about' },
   title: 'About',
-  description: 'A Cut Above Lawn Care Inc — local landscaping in Burlington and the Halton Region.',
+  description:
+    'Meet A Cut Above Lawn Care Inc — a local, family-run landscaping and lawn care company serving Burlington, Oakville, Milton, and the Halton Region.',
 };
 
 export default async function AboutPage() {

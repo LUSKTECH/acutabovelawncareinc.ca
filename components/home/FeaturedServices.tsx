@@ -21,9 +21,14 @@ export default function FeaturedServices() {
             See all services →
           </Link>
         </div>
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {/* 5 featured services: 5-up on desktop avoids an orphaned 5th card. */}
+        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
           {featured.map((s) => (
-            <ServiceCard key={s.slug} service={s} />
+            <ServiceCard
+              key={s.slug}
+              service={s}
+              sizes="(min-width: 1024px) 20vw, (min-width: 640px) 50vw, 100vw"
+            />
           ))}
         </div>
       </div>

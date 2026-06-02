@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     template: '%s — A Cut Above Lawn Care Inc',
   },
   description:
-    'Full-service landscaping, hardscaping, and lawn care serving Burlington, Oakville, Milton, and the Halton Region.',
+    'Full-service landscaping, hardscaping, lawn care, and snow management serving Burlington, Oakville, Milton, and the Halton Region. Free estimates, local crews.',
   openGraph: {
     type: 'website',
     locale: 'en_CA',

@@ -8,7 +8,8 @@ export default function Footer() {
   const groups = getCategorizedServices();
   return (
     <footer className="mt-24 border-t border-moss-100 bg-forest-900 text-moss-100">
-      <div className="mx-auto grid max-w-7xl gap-12 px-4 py-16 lg:grid-cols-4 lg:px-8">
+      <div className="mx-auto grid max-w-7xl gap-12 px-4 py-16 lg:grid-cols-[1.2fr_3fr] lg:px-8">
+        {/* Brand + contact */}
         <div>
           <div className="flex items-center gap-3">
             <Image
@@ -16,7 +17,7 @@ export default function Footer() {
               alt={site.name}
               width={48}
               height={48}
-              className="h-12 w-12 rounded-full object-cover brightness-0 invert opacity-90"
+              className="h-12 w-12 rounded-full object-cover opacity-90 brightness-0 invert"
             />
             <p className="font-display text-2xl text-cream-50">A Cut Above Lawn Care</p>
           </div>
@@ -32,9 +33,28 @@ export default function Footer() {
               {site.email}
             </a>
           </p>
-          <div className="mt-6">
+        </div>
+
+        {/* Link groups: 4 service categories + Service areas, evenly columned
+            so no single column is left dangling below the others. */}
+        <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-5">
+          {groups.map((g) => (
+            <div key={g.category}>
+              <p className="font-medium text-cream-50">{g.label}</p>
+              <ul className="mt-3 space-y-1.5 text-sm">
+                {g.services.map((s) => (
+                  <li key={s.slug}>
+                    <Link href={`/services/${s.slug}`} className="hover:text-cream-50">
+                      {s.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+          <div>
             <p className="font-medium text-cream-50">Service areas</p>
-            <ul className="mt-2 space-y-1 text-sm">
+            <ul className="mt-3 space-y-1.5 text-sm">
               {cities.map((c) => (
                 <li key={c.slug}>
                   <Link href={`/areas/${c.slug}`} className="hover:text-cream-50">
@@ -50,20 +70,6 @@ export default function Footer() {
             </ul>
           </div>
         </div>
-        {groups.map((g) => (
-          <div key={g.category}>
-            <p className="font-medium text-cream-50">{g.label}</p>
-            <ul className="mt-3 space-y-1.5 text-sm">
-              {g.services.map((s) => (
-                <li key={s.slug}>
-                  <Link href={`/services/${s.slug}`} className="hover:text-cream-50">
-                    {s.title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
       </div>
       <div className="border-t border-forest-700/40">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-6 text-xs text-moss-100/70 lg:px-8">

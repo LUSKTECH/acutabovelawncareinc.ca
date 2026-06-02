@@ -6,7 +6,8 @@ import ContactDetails from '@/components/contact/ContactDetails';
 export const metadata: Metadata = {
   alternates: { canonical: '/contact' },
   title: 'Contact',
-  description: 'Request a free landscaping estimate from A Cut Above Lawn Care Inc.',
+  description:
+    'Request a free landscaping or lawn care estimate from A Cut Above Lawn Care Inc. Serving Burlington, Oakville, Milton, and the Halton Region — same-day replies.',
 };
 
 export default function ContactPage() {

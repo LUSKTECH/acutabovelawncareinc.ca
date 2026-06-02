@@ -107,6 +107,7 @@ export default function Lightbox({ items, openIndex, onClose, onPrev, onNext }: 
     <dialog
       ref={dialogRef}
       aria-label="Image viewer"
+      aria-modal="true"
       onClose={onClose}
       style={{
         margin: 0,

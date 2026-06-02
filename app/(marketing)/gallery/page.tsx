@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   alternates: { canonical: '/gallery' },
   title: 'Gallery',
   description:
-    'Recent landscaping, hardscaping, and lawn care projects across Burlington and the Halton Region.',
+    'Browse a gallery of recent landscaping, hardscaping, and lawn care projects completed across Burlington, Oakville, Milton, and the Halton Region.',
 };
 
 export default async function GalleryPage() {
