@@ -1,6 +1,7 @@
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import FloatingCallCta from '@/components/layout/FloatingCallCta';
+import ScrollReveal from '@/components/motion/ScrollReveal';
 
 export default function MarketingLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
@@ -17,6 +18,7 @@ export default function MarketingLayout({ children }: Readonly<{ children: React
       </main>
       <Footer />
       <FloatingCallCta />
+      <ScrollReveal />
     </>
   );
 }

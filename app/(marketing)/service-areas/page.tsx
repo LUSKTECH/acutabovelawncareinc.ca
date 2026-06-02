@@ -26,7 +26,7 @@ export default async function ServiceAreasPage() {
       <section className="mx-auto max-w-7xl px-4 pt-24 lg:px-8">
         <p className="text-sm uppercase tracking-widest text-sage-500">Where we work</p>
         <h1 className="mt-2 font-display text-5xl text-forest-900">Service Areas</h1>
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" data-reveal>
           {site.serviceAreas.map((area) => {
             const slug = citySlugByName.get(area);
             return (
@@ -44,7 +44,7 @@ export default async function ServiceAreasPage() {
           })}
         </div>
       </section>
-      <article className="container-prose px-4 py-16 lg:px-0">
+      <article className="container-prose px-4 py-16 lg:px-0" data-reveal>
         <h2 className="font-display text-3xl text-forest-900">Services by city</h2>
         <div className="mt-6 prose prose-lg max-w-none prose-headings:font-display prose-headings:text-forest-900 prose-a:text-forest-700">
           {content}

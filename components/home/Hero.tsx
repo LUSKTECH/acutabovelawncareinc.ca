@@ -13,20 +13,20 @@ export default function Hero() {
           priority
           quality={75}
           sizes="100vw"
-          className="object-cover"
+          className="hero-parallax object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-tr from-forest-900/75 via-forest-900/40 to-transparent" />
       </div>
       <div className="pointer-events-none absolute inset-0">
         <div className="pointer-events-auto mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-16 lg:px-8 lg:pb-24">
-          <p className="text-sm uppercase tracking-[0.3em] text-moss-100/80">
+          <p className="hero-rise hero-rise-1 text-sm uppercase tracking-[0.3em] text-moss-100/80">
             Burlington · Oakville · Milton
           </p>
-          <h1 className="mt-3 max-w-3xl text-balance font-display text-5xl text-cream-50 sm:text-6xl md:text-7xl">
+          <h1 className="hero-rise hero-rise-2 mt-3 max-w-3xl text-balance font-display text-5xl text-cream-50 sm:text-6xl md:text-7xl">
             Landscapes built with care, season after season.
           </h1>
-          <p className="mt-4 max-w-xl text-lg text-cream-50/85">{site.tagline}</p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <p className="hero-rise hero-rise-3 mt-4 max-w-xl text-lg text-cream-50/85">{site.tagline}</p>
+          <div className="hero-rise hero-rise-4 mt-8 flex flex-wrap gap-3">
             <Link
               href="/contact"
               className="rounded-full bg-cream-50 px-6 py-3 text-base font-medium text-forest-900 hover:bg-white"

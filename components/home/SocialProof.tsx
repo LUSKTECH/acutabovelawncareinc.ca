@@ -6,11 +6,19 @@
 // "27+ years" is the owner's established experience figure (used across other
 // locations / marketing).
 
+import CountUp from '@/components/motion/CountUp';
+
 const GOOGLE_LISTING_URL = 'https://www.google.com/maps/place/?q=place_id:ChIJLaal10JjK4gRNjaQLr2g6zY';
 
-const stats: ReadonlyArray<{ value: string; label: string; href?: string }> = [
-  { value: '27+', label: 'Years of experience' },
-  { value: '4.4★', label: 'Rated on Google', href: GOOGLE_LISTING_URL },
+const stats: ReadonlyArray<{
+  to: number;
+  decimals?: number;
+  suffix: string;
+  label: string;
+  href?: string;
+}> = [
+  { to: 27, suffix: '+', label: 'Years of experience' },
+  { to: 4.4, decimals: 1, suffix: '★', label: 'Rated on Google', href: GOOGLE_LISTING_URL },
 ];
 
 const testimonials: ReadonlyArray<{ quote: string; name: string; meta: string }> = [
@@ -49,7 +57,7 @@ function Stars() {
 export default function SocialProof() {
   return (
     <section className="mx-auto max-w-7xl px-4 py-20 lg:px-8" aria-labelledby="social-proof-heading">
-      <div className="text-center">
+      <div className="text-center" data-reveal>
         <p className="text-sm uppercase tracking-widest text-sage-500">Trusted locally</p>
         <h2
           id="social-proof-heading"
@@ -60,11 +68,13 @@ export default function SocialProof() {
       </div>
 
       {/* Stat band */}
-      <div className="mx-auto mt-8 grid max-w-md grid-cols-2 gap-4">
+      <div className="mx-auto mt-8 grid max-w-md grid-cols-2 gap-4" data-reveal>
         {stats.map((s) => {
           const inner = (
             <>
-              <span className="block font-display text-3xl text-forest-900">{s.value}</span>
+              <span className="block font-display text-3xl text-forest-900">
+                <CountUp to={s.to} decimals={s.decimals} suffix={s.suffix} />
+              </span>
               <span className="mt-1 block text-sm text-ink-500">{s.label}</span>
             </>
           );
@@ -74,7 +84,7 @@ export default function SocialProof() {
               href={s.href}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={`${s.label}: ${s.value.replace('★', '')} (opens Google listing in a new tab)`}
+              aria-label={`${s.label}: ${s.to} (opens Google listing in a new tab)`}
               className="rounded-2xl border border-moss-100 bg-white p-6 text-center shadow-card transition hover:border-forest-700"
             >
               {inner}
@@ -92,9 +102,11 @@ export default function SocialProof() {
 
       {/* Testimonials */}
       <div className="mt-10 grid gap-6 md:grid-cols-3">
-        {testimonials.map((t) => (
+        {testimonials.map((t, i) => (
           <figure
             key={t.name}
+            data-reveal
+            data-reveal-delay={i + 1}
             className="flex flex-col rounded-2xl border border-moss-100 bg-white p-6 shadow-card"
           >
             <Stars />

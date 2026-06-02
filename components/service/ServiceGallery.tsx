@@ -72,7 +72,7 @@ export default function ServiceGallery({ images, title }: Props) {
 
   return (
     <>
-      <section className="mx-auto max-w-4xl px-4 pb-12 lg:px-0">
+      <section className="mx-auto max-w-4xl px-4 pb-12 lg:px-0" data-reveal>
         <h2 className="font-display text-2xl text-forest-900">
           {title} — project photos
         </h2>

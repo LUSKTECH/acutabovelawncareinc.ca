@@ -41,7 +41,7 @@ export default async function AboutPage() {
       </section>
 
       {/* Supporting photos strip */}
-      <section className="mx-auto max-w-5xl px-4 pt-12 pb-4 lg:px-8">
+      <section className="mx-auto max-w-5xl px-4 pt-12 pb-4 lg:px-8" data-reveal>
         <div className="grid gap-4 sm:grid-cols-3">
           {[
             '/images/projects/landscaping-01.jpg',
@@ -62,7 +62,7 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      <article className="container-prose px-4 pb-24 lg:px-0">
+      <article className="container-prose px-4 pb-24 lg:px-0" data-reveal>
         <div className="prose prose-lg max-w-none prose-headings:font-display prose-headings:text-forest-900 prose-a:text-forest-700">
           {content}
         </div>
