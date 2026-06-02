@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function ClosingCta() {
   return (
-    <section className="mx-auto max-w-4xl px-4 py-24 text-center lg:px-8">
+    <section className="mx-auto max-w-4xl px-4 py-24 text-center lg:px-8" data-reveal>
       <h2 className="font-display text-4xl text-forest-900 sm:text-5xl">
         Let&rsquo;s plan your season.
       </h2>

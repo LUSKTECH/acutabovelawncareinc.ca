@@ -136,14 +136,14 @@ test.describe('Homepage', () => {
   });
 
   test('LocalBusiness JSON-LD script tag is present in the page', async ({ page }) => {
-    // The JSON-LD uses afterInteractive strategy — wait for it to be injected.
+    // Server-rendered <script type="application/ld+json"> with a valid LocalBusiness type.
     await page.waitForFunction(() => {
       const scripts = Array.from(document.querySelectorAll('script[type="application/ld+json"]'));
-      return scripts.some((s) => s.textContent?.includes('LandscapingService'));
+      return scripts.some((s) => s.textContent?.includes('"LocalBusiness"'));
     }, { timeout: 10_000 });
     const jsonLdExists = await page.evaluate(() => {
       const scripts = Array.from(document.querySelectorAll('script[type="application/ld+json"]'));
-      return scripts.some((s) => s.textContent?.includes('LandscapingService'));
+      return scripts.some((s) => s.textContent?.includes('"LocalBusiness"'));
     });
     expect(jsonLdExists).toBe(true);
   });
@@ -662,15 +662,22 @@ test.describe('Service Areas (/service-areas)', () => {
     }
   });
 
-  test('each locality card links to /contact', async ({ page }) => {
-    const areas = ['Burlington', 'Oakville', 'Milton', 'Halton Hills', 'Hamilton'];
-    // The grid of area cards is scoped inside the main section — use the grid container
-    const grid = page.locator('.grid').filter({ has: page.getByRole('link', { name: /Residential/i }) });
-    for (const area of areas) {
-      // Each card link text starts with the area name exactly
-      const card = grid.getByRole('link', { name: new RegExp(`^${area}\\b`, 'i') });
-      const href = await card.getAttribute('href');
-      expect(href).toBe('/contact');
+  test('locality cards link to their city page, or /contact when no page exists', async ({ page }) => {
+    // Cities with a dedicated /areas/[city] page link there; the rest fall back to /contact.
+    const expected: Record<string, string> = {
+      Burlington: '/areas/burlington',
+      Oakville: '/areas/oakville',
+      Milton: '/areas/milton',
+      'Halton Hills': '/contact',
+      Hamilton: '/contact',
+    };
+    // Scope to the page's Service Areas section (the footer also has city links).
+    const section = page
+      .locator('section')
+      .filter({ has: page.getByRole('heading', { level: 1, name: 'Service Areas' }) });
+    for (const [area, href] of Object.entries(expected)) {
+      const card = section.getByRole('link').filter({ hasText: area }).first();
+      expect(await card.getAttribute('href')).toBe(href);
     }
   });
 

@@ -10,11 +10,11 @@ export default function ServiceCard({
   service,
   sizes = DEFAULT_SIZES,
   priority = false,
-}: {
+}: Readonly<{
   service: ServiceMeta;
   sizes?: string;
   priority?: boolean;
-}) {
+}>) {
   return (
     <Link
       href={`/services/${service.slug}`}
@@ -23,12 +23,12 @@ export default function ServiceCard({
       <div className="relative aspect-[4/5]">
         <Image
           src={service.image}
-          alt=""
+          alt={`${service.title} by A Cut Above Lawn Care Inc`}
           fill
           sizes={sizes}
           priority={priority}
           quality={75}
-          className="object-cover transition duration-500 group-hover:scale-[1.03]"
+          className="object-cover transition duration-300 group-hover:scale-[1.03]"
         />
         <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-forest-900/85 via-forest-900/30 to-transparent p-5">
           <p className="font-display text-xl text-cream-50">{service.title}</p>

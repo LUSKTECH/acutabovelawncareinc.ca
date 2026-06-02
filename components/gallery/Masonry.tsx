@@ -5,7 +5,7 @@ import Image from 'next/image';
 import type { GalleryItem } from '@/lib/images';
 import Lightbox from './Lightbox';
 
-export default function Masonry({ items }: { items: GalleryItem[] }) {
+export default function Masonry({ items }: Readonly<{ items: GalleryItem[] }>) {
   const [open, setOpen] = useState<number | null>(null);
   const handleOpen = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
     setOpen(Number(e.currentTarget.dataset.index));
@@ -38,7 +38,7 @@ export default function Masonry({ items }: { items: GalleryItem[] }) {
               width={item.width}
               height={item.height}
               sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-              className="h-auto w-full transition duration-500 hover:scale-[1.02]"
+              className="h-auto w-full transition duration-300 hover:scale-[1.02]"
             />
           </button>
         ))}

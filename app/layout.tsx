@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     template: '%s — A Cut Above Lawn Care Inc',
   },
   description:
-    'Full-service landscaping, hardscaping, and lawn care serving Burlington, Oakville, Milton, and the Halton Region.',
+    'Full-service landscaping, hardscaping, lawn care, and snow management serving Burlington, Oakville, Milton, and the Halton Region. Free estimates, local crews.',
   openGraph: {
     type: 'website',
     locale: 'en_CA',
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${fraunces.variable} ${inter.variable}`}>
       <body>

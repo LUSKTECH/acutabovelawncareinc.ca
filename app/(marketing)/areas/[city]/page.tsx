@@ -21,7 +21,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { city: slug } = await params;
   let city;
-  try { city = getCityBySlug(slug); } catch (err) { if (err instanceof CityNotFoundError) return {}; throw err; }
+  try {
+    city = getCityBySlug(slug);
+  } catch (err) {
+    if (err instanceof CityNotFoundError) return {};
+    throw err;
+  }
 
   const title = `Landscaping & Lawn Care in ${city.name}, Ontario`;
   const description = `Professional landscaping, hardscaping, and lawn care in ${city.name}. Local crews, free estimates. Serving ${city.name} and the ${city.region}.`;
@@ -48,10 +53,15 @@ export default async function CityPage({
 }) {
   const { city: slug } = await params;
   let city;
-  try { city = getCityBySlug(slug); } catch (err) { if (err instanceof CityNotFoundError) notFound(); throw err; }
+  try {
+    city = getCityBySlug(slug);
+  } catch (err) {
+    if (err instanceof CityNotFoundError) notFound();
+    throw err;
+  }
 
-  const cityServices = getCityServices(city!);
-  const c = city!;
+  const cityServices = getCityServices(city);
+  const c = city;
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -91,14 +101,14 @@ export default async function CityPage({
             priority
             quality={75}
             sizes="100vw"
-            className="object-cover"
+            className="hero-parallax object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-forest-900/80 via-forest-900/40 to-transparent" />
           <div className="absolute inset-x-0 bottom-0 mx-auto max-w-4xl px-4 pb-8 lg:px-8">
-            <p className="text-sm uppercase tracking-[0.3em] text-cream-50/80">
+            <p className="hero-rise hero-rise-1 text-sm uppercase tracking-[0.3em] text-cream-50/80">
               Serving {c.region}
             </p>
-            <h1 className="font-display text-4xl text-cream-50 sm:text-5xl md:text-6xl">
+            <h1 className="hero-rise hero-rise-2 font-display text-4xl text-cream-50 sm:text-5xl md:text-6xl">
               Landscaping in {c.name}
             </h1>
           </div>

@@ -15,9 +15,9 @@ export function generateStaticParams() {
 
 export async function generateMetadata({
   params,
-}: {
+}: Readonly<{
   params: Promise<{ slug: string }>;
-}): Promise<Metadata> {
+}>): Promise<Metadata> {
   const { slug } = await params;
   try {
     const s = getServiceBySlug(slug);
@@ -42,9 +42,9 @@ export async function generateMetadata({
 
 export default async function ServicePage({
   params,
-}: {
+}: Readonly<{
   params: Promise<{ slug: string }>;
-}) {
+}>) {
   const { slug } = await params;
   let service;
   try {
@@ -65,7 +65,7 @@ export default async function ServicePage({
         image={service.image}
       />
       <ServiceHero title={service.title} image={service.image} />
-      <article className="container-prose px-4 py-16 lg:px-0">
+      <article className="container-prose px-4 py-16 lg:px-0" data-reveal>
         <div className="prose prose-lg max-w-none prose-headings:font-display prose-headings:text-forest-900 prose-a:text-forest-700">
           {content}
         </div>

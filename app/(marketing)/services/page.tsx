@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   alternates: { canonical: '/services' },
   title: 'Services',
   description:
-    'Landscaping, lawn care, hardscaping, and seasonal services across Burlington, Oakville, and Milton.',
+    'Explore our full range of landscaping, lawn care, hardscaping, and seasonal services across Burlington, Oakville, Milton, and the wider Halton Region.',
 };
 
 export default function ServicesIndex() {
