@@ -3,7 +3,9 @@ import Link from 'next/link';
 import { site } from '@/content/site';
 import { cities } from '@/content/areas';
 
-const citySlugByName = new Map(cities.map((c): [string, string] => [c.name, c.slug]));
+const citySlugByName = new Map<string, string>(
+  cities.map((c): [string, string] => [c.name, c.slug]),
+);
 
 export default function ServiceAreasStrip() {
   return (
