@@ -7,15 +7,12 @@ import type { PostHog } from 'posthog-js';
 // Shared, memoized init. The dynamic import keeps posthog-js out of the initial
 // bundle; the cached promise guarantees init runs once and lets pageview capture
 // await it — capturing before init() isn't supported with the npm import.
-let initPromise: Promise<PostHog | null> | null = null;
+let initPromise: Promise<PostHog> | null = null;
 
-function ensurePostHog(): Promise<PostHog | null> {
+function ensurePostHog(): Promise<PostHog> | null {
   if (initPromise) return initPromise;
   const key = process.env.NEXT_PUBLIC_POSTHOG_KEY;
-  if (!key) {
-    initPromise = Promise.resolve(null);
-    return initPromise;
-  }
+  if (!key) return null;
   initPromise = import('posthog-js').then(({ default: posthog }) => {
     posthog.init(key, {
       api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST ?? 'https://us.i.posthog.com',
