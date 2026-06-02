@@ -6,7 +6,7 @@ import { site } from '@/content/site';
 import { cities } from '@/content/areas';
 
 /** Map a service-area name to its dedicated city page slug, if one exists. */
-const citySlugByName = new Map(cities.map((c) => [c.name, c.slug]));
+const citySlugByName = new Map(cities.map((c): [string, string] => [c.name, c.slug]));
 
 export const metadata: Metadata = {
   alternates: { canonical: '/service-areas' },

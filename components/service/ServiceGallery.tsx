@@ -63,7 +63,9 @@ export default function ServiceGallery({ images, title }: Props) {
       }
     }
     globalThis.addEventListener('keydown', onKey, true);
-    return () => globalThis.removeEventListener('keydown', onKey, true);
+    return () => {
+      globalThis.removeEventListener('keydown', onKey, true);
+    };
   }, [lightboxSrc, close]);
 
   if (images.length === 0) return null;

@@ -25,7 +25,9 @@ export default function MobileNav() {
   const drawerRef = useRef<HTMLDialogElement | null>(null);
   const pathname = usePathname();
 
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href));
 
   const close = useCallback(() => setOpen(false), []);
@@ -70,7 +72,9 @@ export default function MobileNav() {
       if (e.key === 'Escape') { e.preventDefault(); setOpen(false); }
     }
     globalThis.addEventListener('keydown', onKey, true);
-    return () => globalThis.removeEventListener('keydown', onKey, true);
+    return () => {
+      globalThis.removeEventListener('keydown', onKey, true);
+    };
   }, [open]);
 
   // Tab trap: keep focus inside the open drawer.
@@ -89,7 +93,9 @@ export default function MobileNav() {
       else if (!e.shiftKey && active === last) { e.preventDefault(); first.focus(); }
     }
     globalThis.addEventListener('keydown', onTab);
-    return () => globalThis.removeEventListener('keydown', onTab);
+    return () => {
+      globalThis.removeEventListener('keydown', onTab);
+    };
   }, [open]);
 
   const drawer = (
@@ -98,7 +104,9 @@ export default function MobileNav() {
       id="mobile-nav-drawer"
       aria-label="Site navigation"
       aria-modal="true"
-      onClose={() => setOpen(false)}
+      onClose={() => {
+        setOpen(false);
+      }}
       style={{
         margin: 0,
         padding: 0,

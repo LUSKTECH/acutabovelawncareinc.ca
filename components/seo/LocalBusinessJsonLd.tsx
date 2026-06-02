@@ -1,3 +1,4 @@
+import Script from 'next/script';
 import { site } from '@/content/site';
 import { safeJsonLd } from '@/lib/json-ld';
 
@@ -32,13 +33,11 @@ export default function LocalBusinessJsonLd() {
     ],
   };
 
-  // Rendered as a server-side <script> so the markup is present in the initial
-  // HTML for crawlers, rather than injected client-side after hydration.
+  // next/script with a string child avoids dangerouslySetInnerHTML; safeJsonLd
+  // escapes `<` to prevent `</script>` breakout (data is trusted site config).
   return (
-    <script
-      type="application/ld+json"
-      // safeJsonLd escapes `<` to prevent `</script>` breakout; data is trusted.
-      dangerouslySetInnerHTML={{ __html: safeJsonLd(data) }}
-    />
+    <Script id="local-business-jsonld" type="application/ld+json" strategy="afterInteractive">
+      {safeJsonLd(data)}
+    </Script>
   );
 }

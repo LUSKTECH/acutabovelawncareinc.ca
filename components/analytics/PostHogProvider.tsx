@@ -15,6 +15,10 @@ export default function PostHogProvider({ children }: Readonly<{ children: React
     // after hydration when the main thread is free.
     void (async () => {
       const { default: posthog } = await import('posthog-js');
+      // Both flags can change during the await (unmount, or a second instance
+      // initialising first) — type-flow analysis can't see that, so it wrongly
+      // reports this as always-falsy.
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (cancelled || initialized) return;
       initialized = true;
       posthog.init(key, {

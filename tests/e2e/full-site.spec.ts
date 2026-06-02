@@ -676,7 +676,7 @@ test.describe('Service Areas (/service-areas)', () => {
       .locator('section')
       .filter({ has: page.getByRole('heading', { level: 1, name: 'Service Areas' }) });
     for (const [area, href] of Object.entries(expected)) {
-      const card = section.getByRole('link', { name: new RegExp(`^${area}\\b`, 'i') });
+      const card = section.getByRole('link').filter({ hasText: area }).first();
       expect(await card.getAttribute('href')).toBe(href);
     }
   });

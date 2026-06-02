@@ -90,10 +90,12 @@ export default function Lightbox({ items, openIndex, onClose, onPrev, onNext }: 
       }
     }
     globalThis.addEventListener('keydown', onKey);
-    return () => globalThis.removeEventListener('keydown', onKey);
+    return () => {
+      globalThis.removeEventListener('keydown', onKey);
+    };
   }, [openIndex, onClose, onPrev, onNext]);
 
-  const item = openIndex !== null ? items[openIndex] : null;
+  const item = openIndex !== null ? (items.at(openIndex) ?? null) : null;
   if (openIndex !== null && !item) {
     if (process.env.NODE_ENV !== 'production') {
       console.error(

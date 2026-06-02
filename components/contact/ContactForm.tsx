@@ -35,7 +35,7 @@ function Field({
         name={name}
         required={required}
         aria-label={label}
-        aria-required={required || undefined}
+        aria-required={required ? true : undefined}
         aria-describedby={errorId}
         aria-invalid={error ? true : undefined}
         className="mt-1 w-full rounded-lg border border-ink-300 bg-white p-3 focus:border-forest-700 focus:outline-none"
