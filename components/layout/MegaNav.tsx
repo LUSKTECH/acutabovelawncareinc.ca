@@ -52,7 +52,7 @@ function CategoryDropdown({
         type="button"
         aria-expanded={isOpen}
         aria-haspopup="true"
-        aria-controls={panelId}
+        aria-controls={isOpen ? panelId : undefined}
         onClick={handleToggle}
         className={linkClass(isActive)}
       >
@@ -174,7 +174,7 @@ export default function MegaNav() {
           type="button"
           aria-expanded={open === 'areas'}
           aria-haspopup="true"
-          aria-controls="meganav-panel-areas"
+          aria-controls={open === 'areas' ? 'meganav-panel-areas' : undefined}
           onClick={handleAreasToggle}
           className={linkClass(areasActive)}
         >

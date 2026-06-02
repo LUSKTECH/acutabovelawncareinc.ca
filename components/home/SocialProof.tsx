@@ -60,15 +60,12 @@ export default function SocialProof() {
       </div>
 
       {/* Stat band */}
-      <dl className="mx-auto mt-8 grid max-w-md grid-cols-2 gap-4">
+      <div className="mx-auto mt-8 grid max-w-md grid-cols-2 gap-4">
         {stats.map((s) => {
           const inner = (
             <>
-              <dt className="sr-only">{s.label}</dt>
-              <dd>
-                <span className="block font-display text-3xl text-forest-900">{s.value}</span>
-                <span className="mt-1 block text-sm text-ink-500">{s.label}</span>
-              </dd>
+              <span className="block font-display text-3xl text-forest-900">{s.value}</span>
+              <span className="mt-1 block text-sm text-ink-500">{s.label}</span>
             </>
           );
           return s.href ? (
@@ -77,6 +74,7 @@ export default function SocialProof() {
               href={s.href}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label={`${s.label}: ${s.value.replace('★', '')} (opens Google listing in a new tab)`}
               className="rounded-2xl border border-moss-100 bg-white p-6 text-center shadow-card transition hover:border-forest-700"
             >
               {inner}
@@ -90,7 +88,7 @@ export default function SocialProof() {
             </div>
           );
         })}
-      </dl>
+      </div>
 
       {/* Testimonials */}
       <div className="mt-10 grid gap-6 md:grid-cols-3">
