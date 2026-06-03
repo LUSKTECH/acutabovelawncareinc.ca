@@ -18,6 +18,7 @@ export default function MobileNav() {
   // viewport. The portal is gated on `mounted` (see below) so the server HTML
   // and the first client render agree — avoiding a hydration mismatch.
   const [open, setOpen] = useState(false);
+  const [openCategory, setOpenCategory] = useState<string | null>(null);
   // Gate the portal on mount: server and first client render both produce no
   // portal (matching HTML), then the drawer mounts client-side after hydration.
   const [mounted, setMounted] = useState(false);
@@ -134,30 +135,54 @@ export default function MobileNav() {
         >
           Home
         </Link>
-        {groups.map((g) => (
-          <details key={g.category} className="rounded-xl border border-moss-100 bg-white p-3">
-            <summary className="cursor-pointer text-lg font-medium text-forest-900">
-              {g.label}
-            </summary>
-            <ul className="mt-2 space-y-1">
-              {g.services.map((s) => {
-                const active = pathname === `/services/${s.slug}`;
-                return (
-                  <li key={s.slug}>
-                    <Link
-                      onClick={close}
-                      href={`/services/${s.slug}`}
-                      aria-current={active ? 'page' : undefined}
-                      className={active ? 'block py-1 font-semibold text-forest-700' : 'block py-1 text-ink-700'}
-                    >
-                      {s.title}
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </details>
-        ))}
+        {groups.map((g) => {
+          const expanded = openCategory === g.category;
+          const panelId = `mobile-category-${g.category}`;
+          return (
+            <div key={g.category} className="rounded-xl border border-moss-100 bg-white">
+              <div className="flex items-center justify-between p-3">
+                <Link
+                  onClick={close}
+                  href={`/services#${g.category}`}
+                  className="text-lg font-medium text-forest-900"
+                >
+                  {g.label}
+                </Link>
+                <button
+                  type="button"
+                  aria-expanded={expanded}
+                  aria-controls={panelId}
+                  aria-label={`Toggle ${g.label} services`}
+                  onClick={() => setOpenCategory((v) => (v === g.category ? null : g.category))}
+                  className="ml-2 rounded p-1 text-forest-700 transition hover:bg-moss-100"
+                >
+                  <svg viewBox="0 0 20 20" fill="currentColor" className={`h-5 w-5 transition-transform${expanded ? ' rotate-180' : ''}`} aria-hidden>
+                    <path fillRule="evenodd" clipRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                  </svg>
+                </button>
+              </div>
+              {expanded && (
+                <ul id={panelId} className="space-y-1 px-3 pb-3">
+                  {g.services.map((s) => {
+                    const active = pathname === `/services/${s.slug}`;
+                    return (
+                      <li key={s.slug}>
+                        <Link
+                          onClick={close}
+                          href={`/services/${s.slug}`}
+                          aria-current={active ? 'page' : undefined}
+                          className={active ? 'block py-1 font-semibold text-forest-700' : 'block py-1 text-ink-700'}
+                        >
+                          {s.title}
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+            </div>
+          );
+        })}
         <Link
           onClick={close}
           href="/gallery"

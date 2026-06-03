@@ -24,7 +24,6 @@ export default function ScrollReveal() {
     if (!('IntersectionObserver' in globalThis)) return;
 
     const root = document.documentElement;
-    root.classList.add('js-reveal');
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -41,10 +40,29 @@ export default function ScrollReveal() {
       { rootMargin: '0px 0px -10% 0px', threshold: 0 },
     );
 
-    const targets = document.querySelectorAll('[data-reveal]');
-    for (const el of targets) observer.observe(el);
+    function revealAndObserve() {
+      // Skip elements already revealed (idempotent — safe to call multiple times).
+      const targets = document.querySelectorAll('[data-reveal]:not(.reveal-in)');
+      for (const el of targets) {
+        const rect = (el as HTMLElement).getBoundingClientRect();
+        if (rect.bottom > 0 && rect.top < window.innerHeight) {
+          // Already in the viewport: mark revealed immediately so js-reveal
+          // never hides it (avoids the opacity flash on load / navigation).
+          el.classList.add('reveal-in');
+        } else {
+          observer.observe(el);
+        }
+      }
+    }
+
+    root.classList.add('js-reveal');
+    revealAndObserve();
+    // Re-scan on the next frame: on client-side navigation React may commit
+    // some page sections after this synchronous effect body runs.
+    const raf = requestAnimationFrame(revealAndObserve);
 
     return () => {
+      cancelAnimationFrame(raf);
       observer.disconnect();
     };
   }, [pathname]);
