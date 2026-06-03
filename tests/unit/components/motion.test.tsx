@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi, beforeAll, afterEach } from 'vitest';
-import { render, screen, act, cleanup } from '@testing-library/react';
+import { render, act, cleanup } from '@testing-library/react';
 
 afterEach(cleanup);
 import CountUp from '@/components/motion/CountUp';
