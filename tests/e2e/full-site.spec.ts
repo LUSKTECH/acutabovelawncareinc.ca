@@ -529,6 +529,20 @@ test.describe('Service detail pages', () => {
       .poll(() => article.evaluate((el) => getComputedStyle(el).opacity), { timeout: 5000 })
       .toBe('1');
   });
+
+  // Regression: ScrollReveal must re-observe [data-reveal] elements after
+  // client-side navigation, otherwise new pages stay blank (opacity:0 forever).
+  test('services — page content visible after client-side navigation from home', async ({ page }) => {
+    await page.goto('/');
+    // Navigate client-side via a Link (not a full reload)
+    await page.click('a[href="/services"]');
+    await page.waitForURL('**/services');
+    // The services grid should not be stuck at opacity:0
+    const grid = page.locator('[data-reveal]').first();
+    await expect
+      .poll(() => grid.evaluate((el) => getComputedStyle(el).opacity), { timeout: 5000 })
+      .toBe('1');
+  });
 });
 
 // ---------------------------------------------------------------------------

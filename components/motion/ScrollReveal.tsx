@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 
 /**
  * Enables scroll-reveal animations site-wide via a single IntersectionObserver.
@@ -10,8 +11,14 @@ import { useEffect } from 'react';
  * globals.css is scoped to `html.js-reveal`, so without JS, with reduced motion,
  * or without observer support, nothing is ever hidden. Renders nothing; mount
  * once in the layout.
+ *
+ * Re-runs on every client-side navigation (`pathname` dep) so that new pages'
+ * `[data-reveal]` elements are observed — without this, elements added after the
+ * initial mount would stay at opacity:0 permanently.
  */
 export default function ScrollReveal() {
+  const pathname = usePathname();
+
   useEffect(() => {
     if (globalThis.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     if (!('IntersectionObserver' in globalThis)) return;
@@ -40,7 +47,7 @@ export default function ScrollReveal() {
     return () => {
       observer.disconnect();
     };
-  }, []);
+  }, [pathname]);
 
   return null;
 }
