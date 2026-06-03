@@ -516,6 +516,19 @@ test.describe('Service detail pages', () => {
       await expect(relatedSection).toBeVisible();
     });
   }
+
+  // Regression guard: scroll reveals must not leave the main content stuck at
+  // opacity:0. Playwright's toBeVisible()/click() ignore opacity, so this checks
+  // the computed value directly. (The article is at the fold below a short hero,
+  // so it reveals on load.)
+  test('landscape-design — article content is actually visible (not opacity:0)', async ({ page }) => {
+    await page.goto('/services/landscape-design');
+    const article = page.locator('article');
+    await expect(article).toBeVisible();
+    await expect
+      .poll(() => article.evaluate((el) => getComputedStyle(el).opacity), { timeout: 5000 })
+      .toBe('1');
+  });
 });
 
 // ---------------------------------------------------------------------------
