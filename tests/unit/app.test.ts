@@ -64,7 +64,9 @@ describe('sitemap()', () => {
     process.env.NEXT_PUBLIC_SITE_URL = 'https://example.com';
     try {
       const entries = sitemap();
-      expect(entries.every((e) => e.url.startsWith('https://example.com'))).toBe(true);
+      // Use URL parsing rather than startsWith — the latter can match
+      // 'https://example.com.evil.com/…' (CodeQL CWE-20).
+      expect(entries.every((e) => new URL(e.url).origin === 'https://example.com')).toBe(true);
     } finally {
       delete process.env.NEXT_PUBLIC_SITE_URL;
     }
