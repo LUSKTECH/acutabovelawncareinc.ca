@@ -4,13 +4,15 @@ import path from 'node:path';
 export default defineConfig({
   test: {
     environment: 'node',
-    include: ['tests/unit/**/*.test.ts'],
+    // Component tests run in jsdom; lib/content tests stay in node.
+    environmentMatchGlobs: [['tests/unit/components/**', 'jsdom']],
+    include: ['tests/unit/**/*.test.{ts,tsx}'],
     setupFiles: ['tests/unit/setup.ts'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'json-summary', 'lcov', 'html'],
       reportsDirectory: 'coverage',
-      include: ['lib/**', 'content/**'],
+      include: ['lib/**', 'content/**', 'components/**', 'app/robots.ts', 'app/sitemap.ts'],
       exclude: [
         'lib/redirects.ts', // generated file
         'node_modules/**',
@@ -20,10 +22,11 @@ export default defineConfig({
         // scripts/ are one-shot CLI tools — invoked manually, not at runtime
       ],
       thresholds: {
-        lines: 100,
-        functions: 100,
-        statements: 100,
-        branches: 90,
+        // Pure utility code: keep 100 % strict.
+        'lib/**': { lines: 100, functions: 100, statements: 100, branches: 90 },
+        'content/**': { lines: 100, functions: 100, statements: 100, branches: 90 },
+        // components/** and app/robots|sitemap have no local minimum;
+        // SonarCloud's new-code gate (≥ 80 %) is the enforcer.
       },
       // `all` was removed in vitest 4; coverage of uncovered files is now the default
     },
