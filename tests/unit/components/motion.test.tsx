@@ -3,6 +3,8 @@ import { describe, it, expect, vi, beforeAll, afterEach } from 'vitest';
 import { render, act, cleanup } from '@testing-library/react';
 
 afterEach(cleanup);
+// ScrollReveal now calls usePathname — mock it so tests don't hit Next.js internals.
+vi.mock('next/navigation', () => ({ usePathname: vi.fn(() => '/') }));
 import CountUp from '@/components/motion/CountUp';
 import ScrollReveal from '@/components/motion/ScrollReveal';
 
