@@ -104,7 +104,7 @@ describe('ScrollReveal', () => {
       addEventListener: vi.fn(),
       removeEventListener: vi.fn(),
       dispatchEvent: vi.fn(),
-    } as MediaQueryList);
+    } as unknown as MediaQueryList);
     render(<ScrollReveal />);
     expect(document.documentElement.classList.contains('js-reveal')).toBe(false);
   });
@@ -130,8 +130,8 @@ describe('ScrollReveal', () => {
       render(<ScrollReveal />);
       act(() => {
         latestCb?.(
-          [{ target: el, isIntersecting: true } as IntersectionObserverEntry],
-          {} as IntersectionObserver,
+          [{ target: el, isIntersecting: true } as unknown as IntersectionObserverEntry],
+          {} as unknown as IntersectionObserver,
         );
       });
       expect(el.classList.contains('reveal-in')).toBe(true);
@@ -148,8 +148,8 @@ describe('ScrollReveal', () => {
       render(<ScrollReveal />);
       act(() => {
         latestCb?.(
-          [{ target: el, isIntersecting: false } as IntersectionObserverEntry],
-          {} as IntersectionObserver,
+          [{ target: el, isIntersecting: false } as unknown as IntersectionObserverEntry],
+          {} as unknown as IntersectionObserver,
         );
       });
       expect(el.classList.contains('reveal-in')).toBe(false);
