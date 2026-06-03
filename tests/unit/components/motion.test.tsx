@@ -1,10 +1,8 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi, beforeAll, afterEach } from 'vitest';
-import { render, act, cleanup } from '@testing-library/react';
+import { render, screen, act, cleanup } from '@testing-library/react';
 
 afterEach(cleanup);
-// ScrollReveal now calls usePathname — mock it so tests don't hit Next.js internals.
-vi.mock('next/navigation', () => ({ usePathname: vi.fn(() => '/') }));
 import CountUp from '@/components/motion/CountUp';
 import ScrollReveal from '@/components/motion/ScrollReveal';
 
@@ -106,7 +104,7 @@ describe('ScrollReveal', () => {
       addEventListener: vi.fn(),
       removeEventListener: vi.fn(),
       dispatchEvent: vi.fn(),
-    } as unknown as MediaQueryList);
+    } as MediaQueryList);
     render(<ScrollReveal />);
     expect(document.documentElement.classList.contains('js-reveal')).toBe(false);
   });
@@ -132,8 +130,8 @@ describe('ScrollReveal', () => {
       render(<ScrollReveal />);
       act(() => {
         latestCb?.(
-          [{ target: el, isIntersecting: true } as unknown as IntersectionObserverEntry],
-          {} as unknown as IntersectionObserver,
+          [{ target: el, isIntersecting: true } as IntersectionObserverEntry],
+          {} as IntersectionObserver,
         );
       });
       expect(el.classList.contains('reveal-in')).toBe(true);
@@ -150,8 +148,8 @@ describe('ScrollReveal', () => {
       render(<ScrollReveal />);
       act(() => {
         latestCb?.(
-          [{ target: el, isIntersecting: false } as unknown as IntersectionObserverEntry],
-          {} as unknown as IntersectionObserver,
+          [{ target: el, isIntersecting: false } as IntersectionObserverEntry],
+          {} as IntersectionObserver,
         );
       });
       expect(el.classList.contains('reveal-in')).toBe(false);

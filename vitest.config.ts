@@ -4,8 +4,8 @@ import path from 'node:path';
 export default defineConfig({
   test: {
     environment: 'node',
-    // Component tests declare `// @vitest-environment jsdom` per-file; no
-    // environmentMatchGlobs needed here (and it breaks the TS-strict tsconfig).
+    // Component tests run in jsdom; lib/content tests stay in node.
+    environmentMatchGlobs: [['tests/unit/components/**', 'jsdom']],
     include: ['tests/unit/**/*.test.{ts,tsx}'],
     setupFiles: ['tests/unit/setup.ts'],
     coverage: {

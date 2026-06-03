@@ -39,9 +39,9 @@ beforeAll(() => {
 });
 
 const ITEMS: GalleryItem[] = [
-  { src: '/images/a.jpg', alt: 'Alpha', width: 800, height: 600 },
-  { src: '/images/b.jpg', alt: 'Beta', width: 800, height: 600 },
-  { src: '/images/c.jpg', alt: 'Gamma', width: 800, height: 600 },
+  { src: '/images/a.jpg', alt: 'Alpha', category: 'landscaping', width: 800, height: 600 },
+  { src: '/images/b.jpg', alt: 'Beta', category: 'hardscaping', width: 800, height: 600 },
+  { src: '/images/c.jpg', alt: 'Gamma', category: 'lawn', width: 800, height: 600 },
 ];
 
 const noop = vi.fn();
