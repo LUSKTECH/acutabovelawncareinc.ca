@@ -85,14 +85,14 @@ export default function SocialProof() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${s.label}: ${s.to} (opens Google listing in a new tab)`}
-              className="rounded-2xl border border-moss-100 bg-white p-6 text-center shadow-card transition hover:border-forest-700"
+              className="rounded-xl border border-ink-300/20 bg-white p-6 text-center shadow-sm transition hover:border-forest-700"
             >
               {inner}
             </a>
           ) : (
             <div
               key={s.label}
-              className="rounded-2xl border border-moss-100 bg-white p-6 text-center shadow-card"
+              className="rounded-xl border border-ink-300/20 bg-white p-6 text-center shadow-sm"
             >
               {inner}
             </div>
@@ -107,10 +107,10 @@ export default function SocialProof() {
             key={t.name}
             data-reveal
             data-reveal-delay={i + 1}
-            className="flex flex-col rounded-2xl border border-moss-100 bg-white p-6 shadow-card"
+            className="flex flex-col rounded-xl border border-ink-300/20 bg-white p-6 shadow-sm"
           >
             <Stars />
-            <blockquote className="mt-4 flex-1 text-ink-700">
+            <blockquote className="mt-4 flex-1 font-serif text-ink-700">
               <p>“{t.quote}”</p>
             </blockquote>
             <figcaption className="mt-4 text-sm">
