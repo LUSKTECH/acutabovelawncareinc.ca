@@ -38,7 +38,7 @@ export default function ServicesIndex() {
         </div>
       </section>
       {groups.map((g) => (
-        <ServiceCategorySection key={g.category} label={g.label} services={g.services} />
+        <ServiceCategorySection key={g.category} id={g.category} label={g.label} services={g.services} />
       ))}
     </>
   );

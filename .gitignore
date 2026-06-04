@@ -20,3 +20,8 @@ wordpress-export/
 
 # Accidentally introduced test library
 public/axe.min.js
+
+# Local ruflo / ruvector MCP tooling artifacts (agent memory / vector DB)
+agentdb.rvf
+agentdb.rvf.lock
+ruvector.db
