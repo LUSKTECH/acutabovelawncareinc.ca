@@ -19,6 +19,7 @@ export default function MobileNav() {
   // and the first client render agree — avoiding a hydration mismatch.
   const [open, setOpen] = useState(false);
   const [openCategory, setOpenCategory] = useState<string | null>(null);
+  useEffect(() => { if (!open) setOpenCategory(null); }, [open]);
   // Gate the portal on mount: server and first client render both produce no
   // portal (matching HTML), then the drawer mounts client-side after hydration.
   const [mounted, setMounted] = useState(false);
@@ -151,7 +152,7 @@ export default function MobileNav() {
                 <button
                   type="button"
                   aria-expanded={expanded}
-                  aria-controls={panelId}
+                  aria-controls={expanded ? panelId : undefined}
                   aria-label={`Toggle ${g.label} services`}
                   onClick={() => setOpenCategory((v) => (v === g.category ? null : g.category))}
                   className="ml-2 rounded p-1 text-forest-700 transition hover:bg-moss-100"
