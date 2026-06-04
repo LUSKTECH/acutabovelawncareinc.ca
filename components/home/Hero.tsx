@@ -5,7 +5,7 @@ import { site } from '@/content/site';
 export default function Hero() {
   return (
     <section className="relative isolate">
-      <div className="relative h-[78vh] min-h-[520px] w-full overflow-hidden">
+      <div className="relative h-[78vh] min-h-[520px] w-full overflow-clip">
         <Image
           src="/images/hero/hero.jpg"
           alt="Professionally landscaped property by A Cut Above Lawn Care Inc in Burlington, Ontario"
@@ -19,13 +19,13 @@ export default function Hero() {
       </div>
       <div className="pointer-events-none absolute inset-0">
         <div className="pointer-events-auto mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-16 lg:px-8 lg:pb-24">
-          <p className="hero-rise hero-rise-1 text-sm uppercase tracking-[0.3em] text-moss-100/80">
+          <p className="hero-rise hero-rise-1 text-sm tracking-wide text-moss-100/80">
             Burlington · Oakville · Milton
           </p>
-          <h1 className="hero-rise hero-rise-2 mt-3 max-w-3xl text-balance font-display text-5xl text-cream-50 sm:text-6xl md:text-7xl">
+          <h1 className="hero-rise hero-rise-2 mt-3 max-w-3xl text-balance font-display text-4xl text-white sm:text-5xl md:text-[3.5rem]">
             Landscapes built with care, season after season.
           </h1>
-          <p className="hero-rise hero-rise-3 mt-4 max-w-xl text-lg text-cream-50/85">{site.tagline}</p>
+          <p className="hero-rise hero-rise-3 mt-4 max-w-xl font-display text-lg text-white/90">{site.tagline}</p>
           <div className="hero-rise hero-rise-4 mt-8 flex flex-wrap gap-3">
             <Link
               href="/contact"
