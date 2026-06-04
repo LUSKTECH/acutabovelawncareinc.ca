@@ -186,18 +186,24 @@ test.describe('Navigation — desktop', () => {
     expect(href).toBe('/contact');
   });
 
-  test('all 4 category dropdown buttons are present', async ({ page }) => {
+  test('all 4 category links and toggle buttons are present', async ({ page }) => {
     const nav = page.getByRole('navigation', { name: 'Primary' });
-    await expect(nav.getByRole('button', { name: 'Landscaping' })).toBeVisible();
-    await expect(nav.getByRole('button', { name: 'Lawn' })).toBeVisible();
-    await expect(nav.getByRole('button', { name: 'Hardscaping' })).toBeVisible();
-    await expect(nav.getByRole('button', { name: 'Other Services' })).toBeVisible();
+    // Category labels are now links (navigate to /services#category)
+    await expect(nav.getByRole('link', { name: 'Landscaping' })).toBeVisible();
+    await expect(nav.getByRole('link', { name: 'Lawn' })).toBeVisible();
+    await expect(nav.getByRole('link', { name: 'Hardscaping' })).toBeVisible();
+    await expect(nav.getByRole('link', { name: 'Other Services' })).toBeVisible();
+    // Separate chevron toggle buttons for each category
+    await expect(nav.getByRole('button', { name: /toggle landscaping/i })).toBeVisible();
+    await expect(nav.getByRole('button', { name: /toggle lawn/i })).toBeVisible();
+    await expect(nav.getByRole('button', { name: /toggle hardscaping/i })).toBeVisible();
+    await expect(nav.getByRole('button', { name: /toggle other services/i })).toBeVisible();
   });
 
   test('hovering "Landscaping" opens a panel containing "Landscape Design" link', async ({ page }) => {
     const nav = page.getByRole('navigation', { name: 'Primary' });
-    const btn = nav.getByRole('button', { name: 'Landscaping' });
-    await btn.hover();
+    // Hover the category link (the containing div also has onMouseEnter)
+    await nav.getByRole('link', { name: 'Landscaping' }).hover();
     const panel = page.locator('#meganav-panel-landscaping');
     await expect(panel).toBeVisible();
     await expect(panel.getByRole('link', { name: 'Landscape Design' })).toBeVisible();
@@ -205,9 +211,7 @@ test.describe('Navigation — desktop', () => {
 
   test('clicking outside the panel closes it', async ({ page }) => {
     const nav = page.getByRole('navigation', { name: 'Primary' });
-    const btn = nav.getByRole('button', { name: 'Landscaping' });
-    // Hover to open (hover triggers onMouseEnter which sets open state)
-    await btn.hover();
+    await nav.getByRole('link', { name: 'Landscaping' }).hover();
     const panel = page.locator('#meganav-panel-landscaping');
     await expect(panel).toBeVisible();
     // Click somewhere outside the nav
@@ -217,7 +221,7 @@ test.describe('Navigation — desktop', () => {
 
   test('Escape key closes the open panel', async ({ page }) => {
     const nav = page.getByRole('navigation', { name: 'Primary' });
-    await nav.getByRole('button', { name: 'Landscaping' }).hover();
+    await nav.getByRole('link', { name: 'Landscaping' }).hover();
     const panel = page.locator('#meganav-panel-landscaping');
     await expect(panel).toBeVisible();
     await page.keyboard.press('Escape');
@@ -226,7 +230,7 @@ test.describe('Navigation — desktop', () => {
 
   test('Landscaping panel links resolve to /services/[slug]', async ({ page }) => {
     const nav = page.getByRole('navigation', { name: 'Primary' });
-    await nav.getByRole('button', { name: 'Landscaping' }).hover();
+    await nav.getByRole('link', { name: 'Landscaping' }).hover();
     const panel = page.locator('#meganav-panel-landscaping');
     await expect(panel).toBeVisible();
     const links = panel.getByRole('link');
@@ -240,7 +244,7 @@ test.describe('Navigation — desktop', () => {
 
   test('Lawn panel links resolve to /services/[slug]', async ({ page }) => {
     const nav = page.getByRole('navigation', { name: 'Primary' });
-    await nav.getByRole('button', { name: 'Lawn' }).hover();
+    await nav.getByRole('link', { name: 'Lawn' }).hover();
     const panel = page.locator('#meganav-panel-lawn');
     await expect(panel).toBeVisible();
     const links = panel.getByRole('link');
@@ -254,7 +258,7 @@ test.describe('Navigation — desktop', () => {
 
   test('Hardscaping panel links resolve to /services/[slug]', async ({ page }) => {
     const nav = page.getByRole('navigation', { name: 'Primary' });
-    await nav.getByRole('button', { name: 'Hardscaping' }).hover();
+    await nav.getByRole('link', { name: 'Hardscaping' }).hover();
     const panel = page.locator('#meganav-panel-hardscaping');
     await expect(panel).toBeVisible();
     const links = panel.getByRole('link');
@@ -268,7 +272,7 @@ test.describe('Navigation — desktop', () => {
 
   test('Other Services panel links resolve to /services/[slug]', async ({ page }) => {
     const nav = page.getByRole('navigation', { name: 'Primary' });
-    await nav.getByRole('button', { name: 'Other Services' }).hover();
+    await nav.getByRole('link', { name: 'Other Services' }).hover();
     const panel = page.locator('#meganav-panel-other');
     await expect(panel).toBeVisible();
     const links = panel.getByRole('link');
@@ -308,7 +312,7 @@ test.describe('Navigation — mobile', () => {
     expect(box?.height).toBeGreaterThan(400);
   });
 
-  test('drawer contains Home, 4 category details elements, Gallery, About, Service Areas, Free estimate', async ({ page }) => {
+  test('drawer contains Home, 4 category links, Gallery, About, Service Areas, Free estimate', async ({ page }) => {
     await page.getByRole('button', { name: /open menu/i }).click();
     const nav = page.getByRole('navigation', { name: 'Mobile' });
     await expect(nav).toBeVisible();
@@ -319,18 +323,18 @@ test.describe('Navigation — mobile', () => {
     await expect(nav.getByRole('link', { name: 'Service Areas' })).toBeVisible();
     await expect(nav.getByRole('link', { name: 'Free estimate' })).toBeVisible();
 
-    // 4 <details> elements for the service categories
-    const detailsElements = nav.locator('details');
-    await expect(detailsElements).toHaveCount(4);
+    // 4 category links (Landscaping, Lawn, Hardscaping, Other Services)
+    for (const label of ['Landscaping', 'Lawn', 'Hardscaping', 'Other Services']) {
+      await expect(nav.getByRole('link', { name: label })).toBeVisible();
+    }
   });
 
-  test('expanding Landscaping details shows 5 service links', async ({ page }) => {
+  test('expanding Landscaping accordion shows 5 service links', async ({ page }) => {
     await page.getByRole('button', { name: /open menu/i }).click();
     const nav = page.getByRole('navigation', { name: 'Mobile' });
-    // The first <details> element in the mobile nav corresponds to Landscaping
-    const landscapingDetails = nav.locator('details').first();
-    await landscapingDetails.locator('summary').click();
-    const links = landscapingDetails.locator('ul a');
+    // Click the toggle button next to the Landscaping category link
+    await nav.getByRole('button', { name: /toggle landscaping/i }).click();
+    const links = nav.locator('ul a');
     await expect(links).toHaveCount(5);
   });
 
