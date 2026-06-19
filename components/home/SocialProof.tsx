@@ -109,7 +109,7 @@ export default function SocialProof() {
           href="https://www.instagram.com/reel/DZXiV2cxHsF/"
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-1 inline-block text-xs text-ink-300 hover:text-forest-700"
+          className="mt-1 inline-block text-xs text-ink-500 hover:text-forest-700"
         >
           via @greenworks_commercial_crew_ca
         </a>

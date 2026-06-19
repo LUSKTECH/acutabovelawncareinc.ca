@@ -8,10 +8,11 @@ export default function VideoReel() {
   useEffect(() => {
     const video = ref.current;
     if (!video) return;
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry?.isIntersecting) {
-          video.play();
+        if (entry?.isIntersecting && !mq.matches) {
+          video.play().catch(() => {});
         } else {
           video.pause();
         }
@@ -27,6 +28,7 @@ export default function VideoReel() {
       <div className="overflow-hidden rounded-[2rem] border-[6px] border-ink-900/90 bg-black shadow-lg">
         <video
           ref={ref}
+          aria-label="A Cut Above Lawn Care featured by Greenworks Commercial for switching to electric equipment"
           muted
           loop
           playsInline
