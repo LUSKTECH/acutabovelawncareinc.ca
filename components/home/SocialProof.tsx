@@ -7,6 +7,7 @@
 // locations / marketing).
 
 import CountUp from '@/components/motion/CountUp';
+import VideoReel from '@/components/home/VideoReel';
 
 const GOOGLE_LISTING_URL = 'https://www.google.com/maps/place/?q=place_id:ChIJLaal10JjK4gRNjaQLr2g6zY';
 
@@ -98,6 +99,20 @@ export default function SocialProof() {
             </div>
           );
         })}
+      </div>
+
+      {/* Video reel */}
+      <div className="mt-10 text-center" data-reveal>
+        <VideoReel />
+        <p className="mt-3 text-sm text-ink-500">Leading the switch to electric</p>
+        <a
+          href="https://www.instagram.com/reel/DZXiV2cxHsF/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-1 inline-block text-xs text-ink-300 hover:text-forest-700"
+        >
+          via @greenworks_commercial_crew_ca
+        </a>
       </div>
 
       {/* Testimonials */}
