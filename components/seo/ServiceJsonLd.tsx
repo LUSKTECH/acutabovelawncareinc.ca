@@ -23,7 +23,7 @@ export default function ServiceJsonLd({ title, description, slug, image }: Props
       url: pageUrl,
       image: `${site.url}${image}`,
       provider: {
-        '@type': 'LandscapingBusiness',
+        '@type': 'LandscapingService',
         name: site.name,
         telephone: site.phone,
         url: site.url,

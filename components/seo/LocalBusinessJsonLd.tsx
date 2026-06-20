@@ -4,7 +4,7 @@ import { safeJsonLd } from '@/lib/json-ld';
 export default function LocalBusinessJsonLd() {
   const data = {
     '@context': 'https://schema.org',
-    '@type': 'LandscapingBusiness',
+    '@type': 'LandscapingService',
     '@id': `${site.url}/#business`,
     name: site.name,
     description:

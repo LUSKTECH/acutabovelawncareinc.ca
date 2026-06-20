@@ -38,12 +38,12 @@ describe('LocalBusinessJsonLd', () => {
     expect(() => JSON.parse(script.innerHTML)).not.toThrow();
   });
 
-  it('has @type LandscapingBusiness', () => {
+  it('has @type LandscapingService', () => {
     const { container } = render(<LocalBusinessJsonLd />);
     const data = JSON.parse(
       container.querySelector('script[type="application/ld+json"]')!.innerHTML,
     );
-    expect(data['@type']).toBe('LandscapingBusiness');
+    expect(data['@type']).toBe('LandscapingService');
   });
 
   it('includes name, telephone, and address locality', () => {

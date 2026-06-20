@@ -136,14 +136,14 @@ test.describe('Homepage', () => {
   });
 
   test('LocalBusiness JSON-LD script tag is present in the page', async ({ page }) => {
-    // Server-rendered <script type="application/ld+json"> with a valid LandscapingBusiness type.
+    // Server-rendered <script type="application/ld+json"> with a valid LandscapingService type.
     await page.waitForFunction(() => {
       const scripts = Array.from(document.querySelectorAll('script[type="application/ld+json"]'));
-      return scripts.some((s) => s.textContent?.includes('"LandscapingBusiness"'));
+      return scripts.some((s) => s.textContent?.includes('"LandscapingService"'));
     }, { timeout: 10_000 });
     const jsonLdExists = await page.evaluate(() => {
       const scripts = Array.from(document.querySelectorAll('script[type="application/ld+json"]'));
-      return scripts.some((s) => s.textContent?.includes('"LandscapingBusiness"'));
+      return scripts.some((s) => s.textContent?.includes('"LandscapingService"'));
     });
     expect(jsonLdExists).toBe(true);
   });
@@ -699,8 +699,8 @@ test.describe('Service Areas (/service-areas)', () => {
       Burlington: '/areas/burlington',
       Oakville: '/areas/oakville',
       Milton: '/areas/milton',
-      'Halton Hills': '/contact',
-      Hamilton: '/contact',
+      'Halton Hills': '/areas/halton-hills',
+      Hamilton: '/areas/hamilton',
     };
     // Scope to the page's Service Areas section (the footer also has city links).
     const section = page

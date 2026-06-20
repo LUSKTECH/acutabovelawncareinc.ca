@@ -97,7 +97,9 @@ export default async function CityPage({
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(faqJsonLd) }} />
+      {c.faq.length > 0 && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(faqJsonLd) }} />
+      )}
 
       {/* Hero */}
       <section className="relative isolate">

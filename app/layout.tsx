@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_CA',
     siteName: 'A Cut Above Lawn Care Inc',
-    url: 'https://acutabovelawncareinc.ca',
+    url: '/',
     images: [
       {
         url: '/images/hero/hero.jpg',
