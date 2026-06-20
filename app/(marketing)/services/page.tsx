@@ -31,7 +31,7 @@ export default function ServicesIndex() {
             <p className="text-sm uppercase tracking-widest text-cream-50/80">What we do</p>
             <h1 className="font-display text-4xl text-cream-50 sm:text-5xl">Services</h1>
             <p className="mt-3 max-w-2xl text-base text-cream-50/85">
-              Full-service landscaping, lawn care, and hardscaping for residential and commercial
+              Full-service landscaping, lawn care, and hardscaping for commercial
               properties across Halton.
             </p>
           </div>

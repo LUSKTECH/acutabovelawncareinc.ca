@@ -101,7 +101,7 @@ test.describe('Homepage', () => {
   test('Value props section renders exactly 3 items', async ({ page }) => {
     // ValueProps renders a section with 3 div children each having a font-display heading
     await expect(page.getByText('Local crews, local know-how')).toBeVisible();
-    await expect(page.getByText('Residential & commercial')).toBeVisible();
+    await expect(page.getByText('Commercial & multi-site')).toBeVisible();
     await expect(page.getByText('Year-round programs')).toBeVisible();
   });
 
@@ -136,14 +136,14 @@ test.describe('Homepage', () => {
   });
 
   test('LocalBusiness JSON-LD script tag is present in the page', async ({ page }) => {
-    // Server-rendered <script type="application/ld+json"> with a valid LocalBusiness type.
+    // Server-rendered <script type="application/ld+json"> with a valid LandscapingService type.
     await page.waitForFunction(() => {
       const scripts = Array.from(document.querySelectorAll('script[type="application/ld+json"]'));
-      return scripts.some((s) => s.textContent?.includes('"LocalBusiness"'));
+      return scripts.some((s) => s.textContent?.includes('"LandscapingService"'));
     }, { timeout: 10_000 });
     const jsonLdExists = await page.evaluate(() => {
       const scripts = Array.from(document.querySelectorAll('script[type="application/ld+json"]'));
-      return scripts.some((s) => s.textContent?.includes('"LocalBusiness"'));
+      return scripts.some((s) => s.textContent?.includes('"LandscapingService"'));
     });
     expect(jsonLdExists).toBe(true);
   });
@@ -699,8 +699,8 @@ test.describe('Service Areas (/service-areas)', () => {
       Burlington: '/areas/burlington',
       Oakville: '/areas/oakville',
       Milton: '/areas/milton',
-      'Halton Hills': '/contact',
-      Hamilton: '/contact',
+      'Halton Hills': '/areas/halton-hills',
+      Hamilton: '/areas/hamilton',
     };
     // Scope to the page's Service Areas section (the footer also has city links).
     const section = page
@@ -1107,9 +1107,9 @@ test.describe('City hub pages', () => {
     const nav = page.getByRole('navigation', { name: 'Primary' });
     const areasBtn = nav.getByRole('button', { name: /areas/i });
     await areasBtn.hover();
-    await expect(nav.getByRole('link', { name: 'Burlington' })).toBeVisible();
-    await expect(nav.getByRole('link', { name: 'Oakville' })).toBeVisible();
-    await expect(nav.getByRole('link', { name: 'Milton' })).toBeVisible();
+    await expect(nav.getByRole('link', { name: 'Burlington', exact: true })).toBeVisible();
+    await expect(nav.getByRole('link', { name: 'Oakville', exact: true })).toBeVisible();
+    await expect(nav.getByRole('link', { name: 'Milton', exact: true })).toBeVisible();
   });
 
   test('clicking Burlington in Areas nav navigates to /areas/burlington', async ({ page }) => {
