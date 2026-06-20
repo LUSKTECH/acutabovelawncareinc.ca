@@ -136,14 +136,14 @@ test.describe('Homepage', () => {
   });
 
   test('LocalBusiness JSON-LD script tag is present in the page', async ({ page }) => {
-    // Server-rendered <script type="application/ld+json"> with a valid LocalBusiness type.
+    // Server-rendered <script type="application/ld+json"> with a valid LandscapingBusiness type.
     await page.waitForFunction(() => {
       const scripts = Array.from(document.querySelectorAll('script[type="application/ld+json"]'));
-      return scripts.some((s) => s.textContent?.includes('"LocalBusiness"'));
+      return scripts.some((s) => s.textContent?.includes('"LandscapingBusiness"'));
     }, { timeout: 10_000 });
     const jsonLdExists = await page.evaluate(() => {
       const scripts = Array.from(document.querySelectorAll('script[type="application/ld+json"]'));
-      return scripts.some((s) => s.textContent?.includes('"LocalBusiness"'));
+      return scripts.some((s) => s.textContent?.includes('"LandscapingBusiness"'));
     });
     expect(jsonLdExists).toBe(true);
   });
