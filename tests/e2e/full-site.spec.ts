@@ -101,7 +101,7 @@ test.describe('Homepage', () => {
   test('Value props section renders exactly 3 items', async ({ page }) => {
     // ValueProps renders a section with 3 div children each having a font-display heading
     await expect(page.getByText('Local crews, local know-how')).toBeVisible();
-    await expect(page.getByText('Residential & commercial')).toBeVisible();
+    await expect(page.getByText('Commercial & multi-site')).toBeVisible();
     await expect(page.getByText('Year-round programs')).toBeVisible();
   });
 

@@ -30,7 +30,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://acutabovelawncareinc.ca'),
   title: {
-    default: 'A Cut Above Lawn Care Inc — Landscaping in Burlington, Oakville, Milton',
+    default: 'A Cut Above Lawn Care — Landscaping in Burlington, Oakville & Milton',
     template: '%s — A Cut Above Lawn Care Inc',
   },
   description:
@@ -39,6 +39,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_CA',
     siteName: 'A Cut Above Lawn Care Inc',
+    url: 'https://acutabovelawncareinc.ca',
     images: [
       {
         url: '/images/hero/hero.jpg',
