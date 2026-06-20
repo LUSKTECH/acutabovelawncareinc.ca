@@ -1107,9 +1107,9 @@ test.describe('City hub pages', () => {
     const nav = page.getByRole('navigation', { name: 'Primary' });
     const areasBtn = nav.getByRole('button', { name: /areas/i });
     await areasBtn.hover();
-    await expect(nav.getByRole('link', { name: 'Burlington' })).toBeVisible();
-    await expect(nav.getByRole('link', { name: 'Oakville' })).toBeVisible();
-    await expect(nav.getByRole('link', { name: 'Milton' })).toBeVisible();
+    await expect(nav.getByRole('link', { name: 'Burlington', exact: true })).toBeVisible();
+    await expect(nav.getByRole('link', { name: 'Oakville', exact: true })).toBeVisible();
+    await expect(nav.getByRole('link', { name: 'Milton', exact: true })).toBeVisible();
   });
 
   test('clicking Burlington in Areas nav navigates to /areas/burlington', async ({ page }) => {
