@@ -26,7 +26,7 @@
     "gray-matter": "^4.0.3",
     "next": "^16.2.10",
     "next-mdx-remote": "^6.0.0",
-    "posthog-js": "^1.396.1",
+    "posthog-js": "^1.396.7",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "zod": "^4.4.3"
