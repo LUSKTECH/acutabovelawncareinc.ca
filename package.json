@@ -35,10 +35,10 @@
     "postcss": "^8.5.10"
   },
   "devDependencies": {
-    "@playwright/test": "^1.61.1",
+    "@playwright/test": "^1.62.0",
     "@tailwindcss/postcss": "^4.3.3",
     "@tailwindcss/typography": "^0.5.20",
-    "@testing-library/jest-dom": "^6.5.0",
+    "@testing-library/jest-dom": "^7.0.0",
     "@testing-library/react": "^16.0.0",
     "@types/mdx": "^2.0.14",
     "@types/node": "^26.1.1",
@@ -46,7 +46,7 @@
     "@types/react-dom": "^19.0.0",
     "@vitest/coverage-v8": "^4.1.10",
     "cheerio": "^1.0.0",
-    "jsdom": "^29.1.1",
+    "jsdom": "^30.0.0",
     "oxlint": "^1.75.0",
     "pa11y-ci": "4.1.1",
     "prettier": "^3.9.6",
