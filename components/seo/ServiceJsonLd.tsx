@@ -1,4 +1,3 @@
-import Script from 'next/script';
 import { site } from '@/content/site';
 import { safeJsonLd } from '@/lib/json-ld';
 
@@ -34,8 +33,6 @@ export default function ServiceJsonLd({ title, description, slug, image }: Props
   ];
 
   return (
-    <Script id={`service-jsonld-${slug}`} type="application/ld+json" strategy="afterInteractive">
-      {safeJsonLd(data)}
-    </Script>
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(data) }} />
   );
 }

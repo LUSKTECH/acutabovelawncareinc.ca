@@ -8,7 +8,7 @@ export default function MarketingLayout({ children }: Readonly<{ children: React
     <>
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-forest-900 focus:px-4 focus:py-2 focus:text-cream-50"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:block focus:w-auto focus:rounded-md focus:bg-forest-900 focus:px-4 focus:py-2 focus:text-cream-50"
       >
         Skip to main content
       </a>

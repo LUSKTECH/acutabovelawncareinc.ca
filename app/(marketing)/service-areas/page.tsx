@@ -37,7 +37,7 @@ export default async function ServiceAreasPage() {
               >
                 <p className="font-display text-2xl text-forest-900">{area}</p>
                 <p className="mt-2 text-sm text-ink-500">
-                  {slug ? `Landscaping & lawn care in ${area}` : 'Residential & commercial service'}
+                  {slug ? `Landscaping & lawn care in ${area}` : 'Commercial property service'}
                 </p>
               </Link>
             );

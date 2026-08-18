@@ -48,16 +48,28 @@ function CategoryDropdown({
       onFocus={handleEnter}
       onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node)) handleLeave(); }}
     >
-      <button
-        type="button"
-        aria-expanded={isOpen}
-        aria-haspopup="true"
-        aria-controls={isOpen ? panelId : undefined}
-        onClick={handleToggle}
-        className={linkClass(isActive)}
-      >
-        {label}
-      </button>
+      <div className="flex items-center">
+        <Link
+          href={`/services#${category}`}
+          onClick={onClose}
+          className={linkClass(isActive)}
+        >
+          {label}
+        </Link>
+        <button
+          type="button"
+          aria-expanded={isOpen}
+          aria-haspopup="true"
+          aria-controls={isOpen ? panelId : undefined}
+          aria-label={`Toggle ${label} menu`}
+          onClick={handleToggle}
+          className="ml-0.5 rounded p-1 text-ink-700 transition hover:text-forest-700"
+        >
+          <svg viewBox="0 0 20 20" fill="currentColor" className={`h-4 w-4 transition-transform${isOpen ? ' rotate-180' : ''}`} aria-hidden>
+            <path fillRule="evenodd" clipRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+          </svg>
+        </button>
+      </div>
       {isOpen && (
         <div
           id={panelId}

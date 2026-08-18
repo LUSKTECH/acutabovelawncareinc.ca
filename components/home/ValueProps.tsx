@@ -4,8 +4,8 @@ const props = [
     body: 'Halton-region soils, climate, and bylaws are second nature to our teams.',
   },
   {
-    title: 'Residential & commercial',
-    body: 'From condominium grounds to single-family yards — one team, one standard.',
+    title: 'Commercial & multi-site',
+    body: 'From condominium grounds to corporate campuses — one team, one standard.',
   },
   {
     title: 'Year-round programs',

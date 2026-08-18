@@ -48,7 +48,13 @@ const config: NextConfig = {
     ];
   },
   async headers() {
-    return [{ source: '/:path*', headers: securityHeaders }];
+    return [
+      // Prevent preview/development deploys from being indexed
+      ...(process.env.VERCEL_ENV && process.env.VERCEL_ENV !== 'production'
+        ? [{ source: '/(.*)', headers: [{ key: 'X-Robots-Tag', value: 'noindex' }] }]
+        : []),
+      { source: '/:path*', headers: securityHeaders },
+    ];
   },
 };
 

@@ -73,7 +73,7 @@ export const cities: CityArea[] = [
     region: 'Halton Region, ON',
     heroImage: '/images/projects/landscape-design-01.jpg',
     intro:
-      'Oakville properties demand a higher standard — and we deliver it. Whether you\'re maintaining a century-old estate on Lakeshore Road, landscaping a new build in Joshua Creek, or managing commercial grounds for a Glen Abbey business plaza, A Cut Above brings the precision and reliability Oakville homeowners expect.',
+      'Oakville properties demand a higher standard — and we deliver it. Whether you\'re maintaining a century-old estate on Lakeshore Road, landscaping a new build in Joshua Creek, or managing commercial grounds for a Glen Abbey business plaza, A Cut Above brings the precision and reliability Oakville property managers expect.',
     localContext:
       'Oakville\'s wide range of property ages and styles means no two projects are alike. Heritage lots along the old lake shore have decades of mature canopy that shapes every planting decision. In contrast, the newer communities north of Dundas Street offer blank-canvas opportunities for full landscape design and installation. We work across both contexts.',
     highlights: [
@@ -115,7 +115,7 @@ export const cities: CityArea[] = [
     region: 'Halton Region, ON',
     heroImage: '/images/projects/landscaping-03.jpg',
     intro:
-      'Milton is one of Canada\'s fastest-growing communities, and we\'ve grown with it. From the established yards in Old Milton to the constant wave of new builds in Boyne Survey, Hawthorne Village, and Dempsey, we help Milton homeowners establish beautiful, resilient outdoor spaces from the ground up.',
+      'Milton is one of Canada\'s fastest-growing communities, and we\'ve grown with it. From established properties in Old Milton to the constant wave of new builds in Boyne Survey, Hawthorne Village, and Dempsey, we help Milton property managers establish beautiful, resilient outdoor spaces from the ground up.',
     localContext:
       'New construction in Milton presents specific challenges: stripped, compacted topsoil, builder-grade sod laid over clay fill, and irrigations systems that often need upgrading. We specialize in getting these properties back to healthy soil profiles and dense turf within a season or two using aggressive aeration and overseeding programs.',
     highlights: [
@@ -131,7 +131,7 @@ export const cities: CityArea[] = [
           'Almost certainly builder topsoil: builders typically strip and sell the natural topsoil, replace it with 2-4 inches of inconsistent fill, then lay sod on top. Within two years the sod roots hit compacted clay or gravel and fail. The fix is core aeration, top-dressing with quality compost, and overseeding with a turf blend suited to Milton\'s clay-loam base.',
       },
       {
-        question: 'When should a new Milton homeowner start landscaping?',
+        question: 'When should a new Milton property start landscaping?',
         answer:
           'Spring of the first year is ideal for lawn rehab and grading. Landscape planting beds are best started in mid-spring once frost risk passes. Hardscaping — patios, walkways, retaining walls — can start as soon as the ground has drained and settled after the builder\'s work is complete, usually 12-18 months after possession.',
       },
@@ -148,6 +148,90 @@ export const cities: CityArea[] = [
     ],
     featuredServiceSlugs: [
       'sodding', 'lawn-care', 'aeration', 'landscaping', 'landscape-design', 'irrigation',
+    ],
+  },
+
+  {
+    slug: 'halton-hills',
+    name: 'Halton Hills',
+    region: 'Halton Region, ON',
+    heroImage: '/images/projects/landscape-design-01.jpg',
+    intro:
+      'Halton Hills — encompassing Georgetown, Acton, and the surrounding rural properties — is where suburban meets countryside. A Cut Above serves commercial properties throughout the area, from the retail plazas on Guelph Street to the industrial parks along Armstrong Avenue and the institutional campuses dotting the Niagara Escarpment corridor.',
+    localContext:
+      'The unique mix of urban centres and agricultural land means property management here ranges from standard commercial lot maintenance to large-acreage estate grounds. Georgetown\'s rapid growth brings new commercial developments that need professional landscape installation, while established businesses in Acton require reliable year-round maintenance programs.',
+    highlights: [
+      'Commercial property maintenance for Georgetown and Acton businesses',
+      'Large-acreage grounds management for rural estates and institutions',
+      'Snow management contracts for retail plazas and industrial parks',
+      'Landscape installation for new commercial developments',
+    ],
+    faq: [
+      {
+        question: 'Do you service properties in both Georgetown and Acton?',
+        answer:
+          'Yes — our crews service all of Halton Hills including Georgetown, Acton, Glen Williams, Limehouse, and the surrounding rural areas. Route efficiency means we can offer competitive pricing across the entire municipality.',
+      },
+      {
+        question: 'Can you handle large rural commercial properties?',
+        answer:
+          'Absolutely. We maintain multi-acre properties including institutional campuses, golf course perimeters, and agricultural business frontages. Our commercial equipment fleet is sized for properties that residential-focused companies can\'t handle efficiently.',
+      },
+      {
+        question: 'What snow removal coverage do you offer in Halton Hills?',
+        answer:
+          'We offer 24/7 snow and ice management for commercial properties with guaranteed response times. Contracts include plowing, salting, sidewalk clearing, and roof snow removal for properties along the Highway 7 corridor, Mountainview Road, and the Georgetown industrial areas.',
+      },
+      {
+        question: 'How far in advance should we book landscape installation for a new Georgetown development?',
+        answer:
+          'For new commercial builds, we recommend engaging 8-12 weeks before your target completion date. This allows time for site assessment, design approval, material sourcing, and scheduling around weather. Spring and early fall are our busiest installation seasons.',
+      },
+    ],
+    featuredServiceSlugs: [
+      'commercial-property-maintenance', 'commercial-snow-removal', 'landscape-design', 'commercial-lawn-mowing', 'hardscapes', 'irrigation',
+    ],
+  },
+
+  {
+    slug: 'hamilton',
+    name: 'Hamilton',
+    region: 'Hamilton, ON',
+    heroImage: '/images/projects/landscaping-03.jpg',
+    intro:
+      'Hamilton\'s industrial heritage meets modern commercial growth, and A Cut Above is there for both. From the revitalized James Street corridor to the sprawling business parks in Ancaster and Stoney Creek, we maintain commercial properties that need to project professionalism year-round.',
+    localContext:
+      'Hamilton\'s diverse geography — from the lower city core to the Escarpment face and the upper mountain — means soil conditions, drainage patterns, and microclimates vary dramatically within a short distance. Our crews understand these local conditions and adapt maintenance programs accordingly, whether dealing with the clay-heavy soils near the harbour or the well-drained loam on the mountain.',
+    highlights: [
+      'Commercial grounds maintenance across Hamilton, Ancaster, Dundas, and Stoney Creek',
+      'Property management for condo corporations and multi-unit complexes',
+      'Hardscape installation for retail and hospitality properties',
+      'Year-round snow and ice management with guaranteed response times',
+    ],
+    faq: [
+      {
+        question: 'Which Hamilton areas do you cover?',
+        answer:
+          'We service commercial properties across greater Hamilton including the lower city, Hamilton Mountain, Ancaster, Dundas, Stoney Creek, Waterdown, and Flamborough. Our depot location in Burlington means fast response times to the Hamilton market.',
+      },
+      {
+        question: 'Do you work with property management companies?',
+        answer:
+          'Property management firms are a core part of our client base. We provide consolidated reporting, flexible billing, multi-site coordination, and dedicated account management for portfolio clients managing multiple Hamilton properties.',
+      },
+      {
+        question: 'Can you handle steep terrain on the Hamilton Escarpment?',
+        answer:
+          'Yes — the Escarpment face and mountain-access properties present unique challenges including slope stabilization, erosion control, and specialized mowing equipment for grades over 30°. We have equipment and trained crews specifically for these conditions.',
+      },
+      {
+        question: 'What makes your commercial snow removal different?',
+        answer:
+          'We deploy GPS-tracked equipment with per-event documentation, salt usage tracking for environmental compliance, and guaranteed response times from first flake. Hamilton\'s lake-effect snow patterns mean we pre-stage equipment before storms hit.',
+      },
+    ],
+    featuredServiceSlugs: [
+      'commercial-property-maintenance', 'commercial-snow-removal', 'hardscapes', 'commercial-lawn-mowing', 'landscape-construction', 'commercial-garden-design',
     ],
   },
 ];

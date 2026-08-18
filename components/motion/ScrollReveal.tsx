@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 
 /**
  * Enables scroll-reveal animations site-wide via a single IntersectionObserver.
@@ -10,14 +11,19 @@ import { useEffect } from 'react';
  * globals.css is scoped to `html.js-reveal`, so without JS, with reduced motion,
  * or without observer support, nothing is ever hidden. Renders nothing; mount
  * once in the layout.
+ *
+ * Re-runs on every client-side navigation (`pathname` dep) so that new pages'
+ * `[data-reveal]` elements are observed — without this, elements added after the
+ * initial mount would stay at opacity:0 permanently.
  */
 export default function ScrollReveal() {
+  const pathname = usePathname();
+
   useEffect(() => {
     if (globalThis.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     if (!('IntersectionObserver' in globalThis)) return;
 
     const root = document.documentElement;
-    root.classList.add('js-reveal');
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -34,13 +40,32 @@ export default function ScrollReveal() {
       { rootMargin: '0px 0px -10% 0px', threshold: 0 },
     );
 
-    const targets = document.querySelectorAll('[data-reveal]');
-    for (const el of targets) observer.observe(el);
+    function revealAndObserve() {
+      // Skip elements already revealed (idempotent — safe to call multiple times).
+      const targets = document.querySelectorAll('[data-reveal]:not(.reveal-in)');
+      for (const el of targets) {
+        const rect = (el as HTMLElement).getBoundingClientRect();
+        if (rect.bottom > 0 && rect.top < window.innerHeight) {
+          // Already in the viewport: mark revealed immediately so js-reveal
+          // never hides it (avoids the opacity flash on load / navigation).
+          el.classList.add('reveal-in');
+        } else {
+          observer.observe(el);
+        }
+      }
+    }
+
+    root.classList.add('js-reveal');
+    revealAndObserve();
+    // Re-scan on the next frame: on client-side navigation React may commit
+    // some page sections after this synchronous effect body runs.
+    const raf = requestAnimationFrame(revealAndObserve);
 
     return () => {
+      cancelAnimationFrame(raf);
       observer.disconnect();
     };
-  }, []);
+  }, [pathname]);
 
   return null;
 }

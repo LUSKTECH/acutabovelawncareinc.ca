@@ -2,7 +2,6 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
-import Script from 'next/script';
 import { cities, getCityBySlug, getCityServices, CityNotFoundError } from '@/content/areas';
 import { safeJsonLd } from '@/lib/json-ld';
 import ServiceCard from '@/components/service/ServiceCard';
@@ -28,7 +27,7 @@ export async function generateMetadata({
     throw err;
   }
 
-  const title = `Landscaping & Lawn Care in ${city.name}, Ontario`;
+  const title = `Landscaping in ${city.name}, ON`;
   const description = `Professional landscaping, hardscaping, and lawn care in ${city.name}. Local crews, free estimates. Serving ${city.name} and the ${city.region}.`;
 
   return {
@@ -85,11 +84,22 @@ export default async function CityPage({
     },
   };
 
+  const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: c.faq.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: { '@type': 'Answer', text: item.answer },
+    })),
+  };
+
   return (
     <>
-      <Script id={`city-jsonld-${c.slug}`} type="application/ld+json" strategy="afterInteractive">
-        {safeJsonLd(jsonLd)}
-      </Script>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
+      {c.faq.length > 0 && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(faqJsonLd) }} />
+      )}
 
       {/* Hero */}
       <section className="relative isolate">

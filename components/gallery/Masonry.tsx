@@ -38,7 +38,7 @@ export default function Masonry({ items }: Readonly<{ items: GalleryItem[] }>) {
               width={item.width}
               height={item.height}
               sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-              className="h-auto w-full transition duration-300 hover:scale-[1.02]"
+              className="h-auto w-full"
             />
           </button>
         ))}

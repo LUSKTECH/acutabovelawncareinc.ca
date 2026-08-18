@@ -7,6 +7,7 @@
 // locations / marketing).
 
 import CountUp from '@/components/motion/CountUp';
+import VideoReel from '@/components/home/VideoReel';
 
 const GOOGLE_LISTING_URL = 'https://www.google.com/maps/place/?q=place_id:ChIJLaal10JjK4gRNjaQLr2g6zY';
 
@@ -85,19 +86,33 @@ export default function SocialProof() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${s.label}: ${s.to} (opens Google listing in a new tab)`}
-              className="rounded-2xl border border-moss-100 bg-white p-6 text-center shadow-card transition hover:border-forest-700"
+              className="rounded-xl border border-ink-300/20 bg-white p-6 text-center shadow-sm transition hover:border-forest-700"
             >
               {inner}
             </a>
           ) : (
             <div
               key={s.label}
-              className="rounded-2xl border border-moss-100 bg-white p-6 text-center shadow-card"
+              className="rounded-xl border border-ink-300/20 bg-white p-6 text-center shadow-sm"
             >
               {inner}
             </div>
           );
         })}
+      </div>
+
+      {/* Video reel */}
+      <div className="mt-10 text-center" data-reveal>
+        <VideoReel />
+        <p className="mt-3 text-sm text-ink-500">Leading the switch to electric</p>
+        <a
+          href="https://www.instagram.com/reel/DZXiV2cxHsF/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-1 inline-block text-xs text-ink-500 hover:text-forest-700"
+        >
+          via @greenworks_commercial_crew_ca
+        </a>
       </div>
 
       {/* Testimonials */}
@@ -107,10 +122,10 @@ export default function SocialProof() {
             key={t.name}
             data-reveal
             data-reveal-delay={i + 1}
-            className="flex flex-col rounded-2xl border border-moss-100 bg-white p-6 shadow-card"
+            className="flex flex-col rounded-xl border border-ink-300/20 bg-white p-6 shadow-sm"
           >
             <Stars />
-            <blockquote className="mt-4 flex-1 text-ink-700">
+            <blockquote className="mt-4 flex-1 font-serif text-ink-700">
               <p>“{t.quote}”</p>
             </blockquote>
             <figcaption className="mt-4 text-sm">
