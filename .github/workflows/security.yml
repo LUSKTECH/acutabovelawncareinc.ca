@@ -40,34 +40,8 @@ jobs:
         with:
           node-version: '22'
           cache: 'npm'
-      - name: Audit (fail on high+ severity, excluding accepted risks)
-        run: |
-          set -o pipefail
-          # js-yaml GHSA-h67p-54hq-rp68, GHSA-52cp-r559-cp3m, GHSA-5p4m-2wfm-xmqj:
-          # gray-matter@4.0.3 (unmaintained since ~2021) calls the removed
-          # yaml.safeLoad/safeDump API, which only exists in js-yaml <4.0, so
-          # the >=5.x fix can't be taken without breaking frontmatter parsing
-          # site-wide. These are quadratic-complexity DoS via crafted YAML
-          # aliases/merge keys; frontmatter here is developer-authored, not
-          # attacker-controlled input, so the residual risk is accepted.
-          # See PR #135 for the investigation.
-          ACCEPTED_GHSAS="GHSA-h67p-54hq-rp68 GHSA-52cp-r559-cp3m GHSA-5p4m-2wfm-xmqj"
-          npm audit --audit-level=high --omit=dev --json > audit.json || true
-          UNACCEPTED=$(jq --arg accepted "$ACCEPTED_GHSAS" '
-            [.vulnerabilities[]
-              | select(.severity == "high" or .severity == "critical")
-              | .via[] | select(type == "object") | .url // ""
-              | capture("(?<id>GHSA-[a-z0-9-]+)").id]
-            | unique
-            | map(select(. as $id | ($accepted | split(" ") | index($id)) == null))
-          ' audit.json)
-          if [ "$(echo "$UNACCEPTED" | jq 'length')" != "0" ]; then
-            echo "Unaccepted high/critical severity findings:"
-            echo "$UNACCEPTED"
-            npm audit --audit-level=high --omit=dev
-            exit 1
-          fi
-          echo "Only accepted, documented findings present (or none) -- see comments above for rationale."
+      - name: Audit (fail on high+ severity)
+        run: npm audit --audit-level=high --omit=dev
 
   snyk:
     name: Snyk
