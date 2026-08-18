@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import matter from 'gray-matter';
+import { parseFrontmatter } from '@/lib/frontmatter';
 import { services, type ServiceMeta } from '@/content/services/_meta';
 
 /** Thrown only when the requested slug is not in the typed service allowlist. */
@@ -32,7 +32,7 @@ export function getServiceBySlug(slug: string): ServiceContent {
   if (!meta) throw new UnknownServiceError(slug);
 
   const raw = readFileSync(join(process.cwd(), 'content/services', `${slug}.mdx`), 'utf8');
-  const { data, content } = matter(raw);
+  const { data, content } = parseFrontmatter(raw);
   const excerpt = typeof data.excerpt === 'string' ? data.excerpt : '';
   const result: ServiceContent = { ...meta, excerpt, body: content };
   cache.set(slug, result);
@@ -46,7 +46,7 @@ export function getAllServices(): ServiceContent[] {
 export function getPageBySlug(slug: 'about' | 'service-areas') {
   try {
     const raw = readFileSync(join(process.cwd(), 'content/pages', `${slug}.mdx`), 'utf8');
-    return matter(raw);
+    return parseFrontmatter(raw);
   } catch (err) {
     console.error('[content] getPageBySlug failed for slug=%s:', slug, err);
     throw new Error('Page content not found: ' + slug + '.mdx', { cause: err });
