@@ -19,7 +19,6 @@ export default function MobileNav() {
   // and the first client render agree — avoiding a hydration mismatch.
   const [open, setOpen] = useState(false);
   const [openCategory, setOpenCategory] = useState<string | null>(null);
-  useEffect(() => { if (!open) setOpenCategory(null); }, [open]);
   // Gate the portal on mount: server and first client render both produce no
   // portal (matching HTML), then the drawer mounts client-side after hydration.
   const [mounted, setMounted] = useState(false);
@@ -28,14 +27,28 @@ export default function MobileNav() {
   const pathname = usePathname();
 
   useEffect(() => {
+    // The canonical SSR hydration-mismatch-safe mount gate: there is no way
+    // to know "we've hydrated" except from inside an effect (see the doc
+    // comment above `open`'s declaration).
+    // eslint-disable-next-line react/set-state-in-effect
     setMounted(true);
   }, []);
   const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href));
   // Mirror MegaNav: the Areas section covers both /service-areas and /areas/[city].
   const areasActive = pathname.startsWith('/service-areas') || pathname.startsWith('/areas');
 
-  const close = useCallback(() => setOpen(false), []);
-  const toggle = useCallback(() => setOpen((v) => !v), []);
+  // The only place `open` and `openCategory` need to go together: closing
+  // always collapses whichever category was expanded, so this is the single
+  // path every "close" trigger (button, Escape, dialog close, toggle-while-
+  // open) routes through, rather than syncing openCategory via an effect.
+  const close = useCallback(() => {
+    setOpen(false);
+    setOpenCategory(null);
+  }, []);
+  const toggle = useCallback(() => {
+    if (open) close();
+    else setOpen(true);
+  }, [open, close]);
 
   // Open/close the native <dialog> when `open` state changes.
   useEffect(() => {
@@ -73,13 +86,13 @@ export default function MobileNav() {
   useEffect(() => {
     if (!open) return;
     function onKey(e: KeyboardEvent) {
-      if (e.key === 'Escape') { e.preventDefault(); setOpen(false); }
+      if (e.key === 'Escape') { e.preventDefault(); close(); }
     }
     globalThis.addEventListener('keydown', onKey, true);
     return () => {
       globalThis.removeEventListener('keydown', onKey, true);
     };
-  }, [open]);
+  }, [open, close]);
 
   // Tab trap: keep focus inside the open drawer.
   useEffect(() => {
@@ -108,9 +121,7 @@ export default function MobileNav() {
       id="mobile-nav-drawer"
       aria-label="Site navigation"
       aria-modal="true"
-      onClose={() => {
-        setOpen(false);
-      }}
+      onClose={close}
       style={{
         margin: 0,
         padding: 0,

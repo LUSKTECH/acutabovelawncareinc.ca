@@ -26,6 +26,9 @@ export default function CountUp({ to, decimals = 0, suffix = '', durationMs = 12
     if (globalThis.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     // Start from 0 now (off-screen, so no visible flash) and tween in on view.
+    // Deliberate: resets the initial `to` value before the observer below
+    // decides whether/when to tween back up, all while off-screen.
+    // eslint-disable-next-line react/set-state-in-effect
     setValue(0);
     let raf = 0;
 

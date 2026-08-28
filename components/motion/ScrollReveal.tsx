@@ -65,6 +65,10 @@ export default function ScrollReveal() {
       cancelAnimationFrame(raf);
       observer.disconnect();
     };
+    // `pathname` is intentionally unread in the body: it exists only to
+    // re-run this effect on client-side navigation (see the doc comment
+    // above), which is exactly what "extra effect dependencies" flags.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
   return null;
