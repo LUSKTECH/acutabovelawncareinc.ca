@@ -158,6 +158,19 @@ describe('MobileNav', () => {
     expect(btn.getAttribute('aria-expanded')).toBe('false');
   });
 
+  it('resets the open category when the drawer closes via Escape', () => {
+    render(<MobileNav />);
+    act(() => { fireEvent.click(screen.getByRole('button', { name: /open menu/i })); });
+    const categoryBtn = screen.getAllByRole('button', { name: /toggle .+ services/i })[0]!;
+    act(() => { fireEvent.click(categoryBtn); });
+    expect(categoryBtn.getAttribute('aria-expanded')).toBe('true');
+    act(() => { fireEvent.keyDown(window, { key: 'Escape' }); });
+    act(() => { fireEvent.click(screen.getByRole('button', { name: /open menu/i })); });
+    expect(screen.getAllByRole('button', { name: /toggle .+ services/i })[0]!.getAttribute('aria-expanded')).toBe(
+      'false',
+    );
+  });
+
   it('locks body scroll when open', () => {
     render(<MobileNav />);
     const btn = screen.getByRole('button', { name: /open menu/i });
