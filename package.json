@@ -29,7 +29,7 @@
     "posthog-js": "^1.422.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "zod": "^4.4.3"
+    "zod": "^4.5.4"
   },
   "overrides": {
     "dompurify": "^3.4.13",
