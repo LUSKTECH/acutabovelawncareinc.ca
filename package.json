@@ -55,7 +55,7 @@
     "prettier": "^3.9.9",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "sharp": "^0.35.5",
-    "start-server-and-test": "3.0.12",
+    "start-server-and-test": "3.0.13",
     "tailwind-merge": "^3.7.0",
     "tailwindcss": "^4.0.0",
     "tsx": "^4.23.15",
