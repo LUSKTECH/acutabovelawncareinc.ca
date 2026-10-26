@@ -24,18 +24,18 @@ Visit http://localhost:3000.
 
 ## Scripts
 
-| Command | What it does |
-| --- | --- |
-| `npm run dev` | Start the dev server |
-| `npm run build` | Production build (SSG) |
-| `npm run start` | Serve the production build |
-| `npm run typecheck` | `tsc --noEmit` |
-| `npm run lint` | oxlint |
-| `npm test` | Vitest unit tests |
-| `npm run test:e2e` | Playwright smoke tests (starts server on port 3100) |
-| `npm run content:images` | Dedupe WP media into `public/images/source/` |
-| `npm run content:extract` | Re-extract MDX from `wordpress-export/latest/` |
-| `npm run content:redirects` | Regenerate legacy URL redirects |
+| Command                     | What it does                                        |
+| --------------------------- | --------------------------------------------------- |
+| `npm run dev`               | Start the dev server                                |
+| `npm run build`             | Production build (SSG)                              |
+| `npm run start`             | Serve the production build                          |
+| `npm run typecheck`         | `tsc --noEmit`                                      |
+| `npm run lint`              | oxlint                                              |
+| `npm test`                  | Vitest unit tests                                   |
+| `npm run test:e2e`          | Playwright smoke tests (starts server on port 3100) |
+| `npm run content:images`    | Dedupe WP media into `public/images/source/`        |
+| `npm run content:extract`   | Re-extract MDX from `wordpress-export/latest/`      |
+| `npm run content:redirects` | Regenerate legacy URL redirects                     |
 
 ## Content workflow
 
@@ -51,11 +51,11 @@ should the source WordPress export change.
 
 ## Environment
 
-| Var | Required for | Notes |
-| --- | --- | --- |
-| `RESEND_API_KEY` | Contact form email delivery | Without it, the form returns a "please call us" error. |
-| `CONTACT_TO_EMAIL` | Contact form delivery target | Defaults to `info@acutabovelawncareinc.ca`. |
-| `NEXT_PUBLIC_SITE_URL` | Sitemap, robots, OG canonical | Defaults to the production URL. |
+| Var                    | Required for                  | Notes                                                  |
+| ---------------------- | ----------------------------- | ------------------------------------------------------ |
+| `RESEND_API_KEY`       | Contact form email delivery   | Without it, the form returns a "please call us" error. |
+| `CONTACT_TO_EMAIL`     | Contact form delivery target  | Defaults to `info@acutabovelawncareinc.ca`.            |
+| `NEXT_PUBLIC_SITE_URL` | Sitemap, robots, OG canonical | Defaults to the production URL.                        |
 
 See `.env.example` for the template.
 

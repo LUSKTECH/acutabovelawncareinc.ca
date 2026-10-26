@@ -37,7 +37,7 @@ const SERVICE_SLUGS = [
 ] as const;
 
 const SERVICE_TITLES: Record<string, string> = {
-  'landscaping': 'Landscaping',
+  landscaping: 'Landscaping',
   'landscape-design': 'Landscape Design',
   'landscape-construction': 'Landscape Construction',
   'commercial-landscaping': 'Commercial Landscaping',
@@ -45,18 +45,18 @@ const SERVICE_TITLES: Record<string, string> = {
   'lawn-care': 'Lawn Care',
   'lawn-mowing': 'Lawn Mowing',
   'commercial-lawn-mowing': 'Commercial Lawn Mowing',
-  'aeration': 'Aeration',
-  'fertilization': 'Fertilization',
-  'sodding': 'Sodding',
+  aeration: 'Aeration',
+  fertilization: 'Fertilization',
+  sodding: 'Sodding',
   'lawn-pest-control': 'Lawn Pest Control',
-  'hardscapes': 'Hardscapes',
+  hardscapes: 'Hardscapes',
   'retaining-walls': 'Retaining Walls',
-  'irrigation': 'Irrigation',
-  'sprinklers': 'Sprinklers',
-  'mulching': 'Mulching',
+  irrigation: 'Irrigation',
+  sprinklers: 'Sprinklers',
+  mulching: 'Mulching',
   'shrubs-and-hedges': 'Shrubs and Hedges',
   'tree-removal': 'Tree Removal',
-  'xeriscaping': 'Xeriscaping',
+  xeriscaping: 'Xeriscaping',
   'commercial-property-maintenance': 'Commercial Property Maintenance',
   'commercial-snow-removal': 'Commercial Snow Removal',
 };
@@ -71,7 +71,9 @@ test.describe('Homepage', () => {
   });
 
   test('H1 contains "Landscapes built with care"', async ({ page }) => {
-    await expect(page.getByRole('heading', { level: 1 })).toContainText(/landscapes built with care/i);
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(
+      /landscapes built with care/i,
+    );
   });
 
   test('hero image loads without error', async ({ page }) => {
@@ -108,7 +110,10 @@ test.describe('Homepage', () => {
   test('"Featured services" section has at least 4 service cards', async ({ page }) => {
     await expect(page.getByRole('heading', { name: 'Featured services', level: 2 })).toBeVisible();
     // Service cards are <a> links inside the featured section. Count links pointing to /services/...
-    const cards = page.locator('section').filter({ has: page.getByRole('heading', { name: 'Featured services' }) }).getByRole('link');
+    const cards = page
+      .locator('section')
+      .filter({ has: page.getByRole('heading', { name: 'Featured services' }) })
+      .getByRole('link');
     await expect(cards).toHaveCount(await cards.count());
     const count = await cards.count();
     // Subtract the "See all services" link
@@ -137,10 +142,13 @@ test.describe('Homepage', () => {
 
   test('LocalBusiness JSON-LD script tag is present in the page', async ({ page }) => {
     // Server-rendered <script type="application/ld+json"> with a valid LandscapingService type.
-    await page.waitForFunction(() => {
-      const scripts = Array.from(document.querySelectorAll('script[type="application/ld+json"]'));
-      return scripts.some((s) => s.textContent?.includes('"LandscapingService"'));
-    }, { timeout: 10_000 });
+    await page.waitForFunction(
+      () => {
+        const scripts = Array.from(document.querySelectorAll('script[type="application/ld+json"]'));
+        return scripts.some((s) => s.textContent?.includes('"LandscapingService"'));
+      },
+      { timeout: 10_000 },
+    );
     const jsonLdExists = await page.evaluate(() => {
       const scripts = Array.from(document.querySelectorAll('script[type="application/ld+json"]'));
       return scripts.some((s) => s.textContent?.includes('"LandscapingService"'));
@@ -200,7 +208,9 @@ test.describe('Navigation — desktop', () => {
     await expect(nav.getByRole('button', { name: /toggle other services/i })).toBeVisible();
   });
 
-  test('hovering "Landscaping" opens a panel containing "Landscape Design" link', async ({ page }) => {
+  test('hovering "Landscaping" opens a panel containing "Landscape Design" link', async ({
+    page,
+  }) => {
     const nav = page.getByRole('navigation', { name: 'Primary' });
     // Hover the category link (the containing div also has onMouseEnter)
     await nav.getByRole('link', { name: 'Landscaping' }).hover();
@@ -312,7 +322,9 @@ test.describe('Navigation — mobile', () => {
     expect(box?.height).toBeGreaterThan(400);
   });
 
-  test('drawer contains Home, 4 category links, Gallery, About, Service Areas, Free estimate', async ({ page }) => {
+  test('drawer contains Home, 4 category links, Gallery, About, Service Areas, Free estimate', async ({
+    page,
+  }) => {
     await page.getByRole('button', { name: /open menu/i }).click();
     const nav = page.getByRole('navigation', { name: 'Mobile' });
     await expect(nav).toBeVisible();
@@ -426,42 +438,56 @@ test.describe('Services index (/services)', () => {
   });
 
   test('Landscaping category has 5 cards', async ({ page }) => {
-    const section = page.locator('section').filter({ has: page.getByRole('heading', { name: 'Landscaping', level: 2 }) });
+    const section = page
+      .locator('section')
+      .filter({ has: page.getByRole('heading', { name: 'Landscaping', level: 2 }) });
     const cards = section.getByRole('link');
     await expect(cards).toHaveCount(5);
   });
 
   test('Lawn category has 7 cards', async ({ page }) => {
-    const section = page.locator('section').filter({ has: page.getByRole('heading', { name: 'Lawn', level: 2 }) });
+    const section = page
+      .locator('section')
+      .filter({ has: page.getByRole('heading', { name: 'Lawn', level: 2 }) });
     const cards = section.getByRole('link');
     await expect(cards).toHaveCount(7);
   });
 
   test('Hardscaping category has 2 cards', async ({ page }) => {
-    const section = page.locator('section').filter({ has: page.getByRole('heading', { name: 'Hardscaping', level: 2 }) });
+    const section = page
+      .locator('section')
+      .filter({ has: page.getByRole('heading', { name: 'Hardscaping', level: 2 }) });
     const cards = section.getByRole('link');
     await expect(cards).toHaveCount(2);
   });
 
   test('Other Services category has 8 cards', async ({ page }) => {
-    const section = page.locator('section').filter({ has: page.getByRole('heading', { name: 'Other Services', level: 2 }) });
+    const section = page
+      .locator('section')
+      .filter({ has: page.getByRole('heading', { name: 'Other Services', level: 2 }) });
     const cards = section.getByRole('link');
     await expect(cards).toHaveCount(8);
   });
 
   test('clicking "Landscaping" card navigates to correct slug', async ({ page }) => {
-    const section = page.locator('section').filter({ has: page.getByRole('heading', { name: 'Landscaping', level: 2 }) });
+    const section = page
+      .locator('section')
+      .filter({ has: page.getByRole('heading', { name: 'Landscaping', level: 2 }) });
     await section.getByRole('link').first().click();
     await expect(page).toHaveURL(/\/services\/landscaping\/?$/);
   });
 
   test('each Landscaping card has an image that loads', async ({ page }) => {
-    const section = page.locator('section').filter({ has: page.getByRole('heading', { name: 'Landscaping', level: 2 }) });
+    const section = page
+      .locator('section')
+      .filter({ has: page.getByRole('heading', { name: 'Landscaping', level: 2 }) });
     const images = section.locator('img');
     const count = await images.count();
     expect(count).toBe(5);
     for (let i = 0; i < count; i++) {
-      const loaded = await images.nth(i).evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth > 0);
+      const loaded = await images
+        .nth(i)
+        .evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth > 0);
       expect(loaded, `Image ${i} should have loaded`).toBe(true);
     }
   });
@@ -477,7 +503,9 @@ test.describe('Service detail pages', () => {
 
     test(`${slug} — H1 matches title and hero image loads`, async ({ page }) => {
       await page.goto(`/services/${slug}`);
-      await expect(page.getByRole('heading', { level: 1 })).toContainText(title, { ignoreCase: true });
+      await expect(page.getByRole('heading', { level: 1 })).toContainText(title, {
+        ignoreCase: true,
+      });
     });
 
     test(`${slug} — article body has prose text`, async ({ page }) => {
@@ -525,7 +553,9 @@ test.describe('Service detail pages', () => {
   // opacity:0. Playwright's toBeVisible()/click() ignore opacity, so this checks
   // the computed value directly. (The article is at the fold below a short hero,
   // so it reveals on load.)
-  test('landscape-design — article content is actually visible (not opacity:0)', async ({ page }) => {
+  test('landscape-design — article content is actually visible (not opacity:0)', async ({
+    page,
+  }) => {
     await page.goto('/services/landscape-design');
     const article = page.locator('article');
     await expect(article).toBeVisible();
@@ -536,7 +566,9 @@ test.describe('Service detail pages', () => {
 
   // Regression: ScrollReveal must re-observe [data-reveal] elements after
   // client-side navigation, otherwise new pages stay blank (opacity:0 forever).
-  test('services — page content visible after client-side navigation from home', async ({ page }) => {
+  test('services — page content visible after client-side navigation from home', async ({
+    page,
+  }) => {
     await page.goto('/');
     // Navigate client-side via a Link (not a full reload)
     await page.click('a[href="/services"]');
@@ -570,12 +602,18 @@ test.describe('Gallery (/gallery)', () => {
   });
 
   test('clicking first image opens lightbox', async ({ page }) => {
-    await page.getByRole('button', { name: /open image/i }).first().click();
+    await page
+      .getByRole('button', { name: /open image/i })
+      .first()
+      .click();
     await expect(page.getByRole('dialog')).toBeVisible();
   });
 
   test('Next button advances to a different image', async ({ page }) => {
-    await page.getByRole('button', { name: /open image/i }).first().click();
+    await page
+      .getByRole('button', { name: /open image/i })
+      .first()
+      .click();
     const dialog = page.getByRole('dialog');
     await expect(dialog).toBeVisible();
     const initialSrc = await dialog.locator('img').getAttribute('src');
@@ -598,7 +636,10 @@ test.describe('Gallery (/gallery)', () => {
   });
 
   test('Escape closes lightbox and page URL is unchanged', async ({ page }) => {
-    await page.getByRole('button', { name: /open image/i }).first().click();
+    await page
+      .getByRole('button', { name: /open image/i })
+      .first()
+      .click();
     await expect(page.getByRole('dialog')).toBeVisible();
     await page.keyboard.press('Escape');
     await expect(page.getByRole('dialog')).toBeHidden();
@@ -660,7 +701,9 @@ test.describe('About (/about)', () => {
     const photoStrip = page.locator('section').nth(1);
     const images = photoStrip.locator('img');
     for (let i = 0; i < 3; i++) {
-      const loaded = await images.nth(i).evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth > 0);
+      const loaded = await images
+        .nth(i)
+        .evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth > 0);
       expect(loaded, `Strip photo ${i} should have loaded`).toBe(true);
     }
   });
@@ -693,7 +736,9 @@ test.describe('Service Areas (/service-areas)', () => {
     }
   });
 
-  test('locality cards link to their city page, or /contact when no page exists', async ({ page }) => {
+  test('locality cards link to their city page, or /contact when no page exists', async ({
+    page,
+  }) => {
     // Cities with a dedicated /areas/[city] page link there; the rest fall back to /contact.
     const expected: Record<string, string> = {
       Burlington: '/areas/burlington',
@@ -775,7 +820,9 @@ test.describe('Contact (/contact)', () => {
     const contactSection = page.getByText('Contact', { exact: true }).locator('..');
     await expect(contactSection).toBeVisible();
     await expect(contactSection.getByRole('link', { name: '(905) 638-0884' })).toBeVisible();
-    await expect(contactSection.getByRole('link', { name: /info@acutabovelawncareinc/ })).toBeVisible();
+    await expect(
+      contactSection.getByRole('link', { name: /info@acutabovelawncareinc/ }),
+    ).toBeVisible();
   });
 
   test('project photo image in right column loads', async ({ page }) => {
@@ -794,7 +841,9 @@ test.describe('Contact (/contact)', () => {
   test('submitting valid data shows a response (success or error message)', async ({ page }) => {
     await page.getByRole('textbox', { name: 'Name' }).fill('Test User');
     await page.getByRole('textbox', { name: 'Email' }).fill('test@example.com');
-    await page.getByRole('textbox', { name: /how can we help/i }).fill('I would like a quote for lawn care.');
+    await page
+      .getByRole('textbox', { name: /how can we help/i })
+      .fill('I would like a quote for lawn care.');
     await page.getByRole('button', { name: /send request/i }).click();
 
     // Either success state or error message with phone fallback should appear
@@ -821,7 +870,9 @@ test.describe('Contact (/contact)', () => {
 test.describe('404 / Not Found', () => {
   test('navigating to /nonexistent-page shows custom 404 page', async ({ page }) => {
     await page.goto('/nonexistent-page');
-    await expect(page.getByRole('heading', { level: 1 })).toContainText(/we couldn.t find that page/i);
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(
+      /we couldn.t find that page/i,
+    );
   });
 
   test('"See services" button on 404 links to /services', async ({ page }) => {
@@ -834,7 +885,9 @@ test.describe('404 / Not Found', () => {
 
   test('navigating to /services/completely-fake-slug shows 404', async ({ page }) => {
     await page.goto('/services/completely-fake-slug');
-    await expect(page.getByRole('heading', { level: 1 })).toContainText(/we couldn.t find that page/i);
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(
+      /we couldn.t find that page/i,
+    );
   });
 });
 
@@ -863,7 +916,8 @@ test.describe('Legacy WP redirects', () => {
       const finalUrl = new URL(page.url());
       const finalPath = finalUrl.pathname;
       // Normalize trailing slashes
-      const normalised = finalPath.endsWith('/') && finalPath !== '/' ? finalPath.slice(0, -1) : finalPath;
+      const normalised =
+        finalPath.endsWith('/') && finalPath !== '/' ? finalPath.slice(0, -1) : finalPath;
       expect(normalised).toBe(destination);
     });
   }
@@ -1045,13 +1099,17 @@ test.describe('City hub pages', () => {
       test('hero image loads', async ({ page }) => {
         const img = page.locator('section.relative img').first();
         await expect(img).toBeVisible();
-        const loaded = await img.evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth > 0);
+        const loaded = await img.evaluate(
+          (el: HTMLImageElement) => el.complete && el.naturalWidth > 0,
+        );
         expect(loaded).toBe(true);
       });
 
       test('intro text and local context section are present', async ({ page }) => {
         // Local context is in a rounded callout box
-        const callout = page.locator('.rounded-2xl.bg-moss-100, .bg-moss-100.rounded-2xl, .rounded-2xl').first();
+        const callout = page
+          .locator('.rounded-2xl.bg-moss-100, .bg-moss-100.rounded-2xl, .rounded-2xl')
+          .first();
         await expect(callout).toBeVisible();
       });
 
@@ -1091,7 +1149,9 @@ test.describe('City hub pages', () => {
       });
 
       test('canonical link points to /areas/' + slug, async ({ page }) => {
-        const canonical = await page.$eval('link[rel="canonical"]', (el) => el.getAttribute('href'));
+        const canonical = await page.$eval('link[rel="canonical"]', (el) =>
+          el.getAttribute('href'),
+        );
         expect(canonical).toContain(`/areas/${slug}`);
       });
     });

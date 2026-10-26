@@ -18,7 +18,7 @@ export default function ServiceCard({
   return (
     <Link
       href={`/services/${service.slug}`}
-      className="group relative block overflow-clip rounded-2xl bg-white shadow-card transition hover:-translate-y-0.5"
+      className="group shadow-card relative block overflow-clip rounded-2xl bg-white transition hover:-translate-y-0.5"
     >
       <div className="relative aspect-[4/5]">
         <Image
@@ -30,9 +30,9 @@ export default function ServiceCard({
           quality={75}
           className="object-cover"
         />
-        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-forest-900/85 via-forest-900/30 to-transparent p-5">
-          <p className="font-display text-xl text-cream-50">{service.title}</p>
-          <p className="mt-1 line-clamp-2 text-sm text-cream-50/80">{service.blurb}</p>
+        <div className="from-forest-900/85 via-forest-900/30 absolute inset-x-0 bottom-0 bg-gradient-to-t to-transparent p-5">
+          <p className="font-display text-cream-50 text-xl">{service.title}</p>
+          <p className="text-cream-50/80 mt-1 line-clamp-2 text-sm">{service.blurb}</p>
         </div>
       </div>
     </Link>

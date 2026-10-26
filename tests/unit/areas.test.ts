@@ -1,10 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import {
-  cities,
-  getCityBySlug,
-  getCityServices,
-  CityNotFoundError,
-} from '@/content/areas';
+import { cities, getCityBySlug, getCityServices, CityNotFoundError } from '@/content/areas';
 import { services } from '@/content/services/_meta';
 
 describe('getCityBySlug', () => {
@@ -65,9 +60,7 @@ describe('getCityServices dev warning', () => {
     const fakeCity = { ...cities[0]!, featuredServiceSlugs: ['nonexistent-slug'] };
     const result = getCityServices(fakeCity);
     expect(result).toHaveLength(0);
-    expect(warnSpy).toHaveBeenCalledWith(
-      expect.stringContaining('nonexistent-slug'),
-    );
+    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('nonexistent-slug'));
   });
 
   it('suppresses the warning when NODE_ENV is production', () => {

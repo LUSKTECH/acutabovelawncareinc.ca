@@ -8,18 +8,27 @@ vi.mock('next/navigation', () => ({ usePathname: vi.fn(() => '/') }));
 import CountUp from '@/components/motion/CountUp';
 import ScrollReveal from '@/components/motion/ScrollReveal';
 
-type ObserverCb = (entries: Partial<IntersectionObserverEntry>[], obs: IntersectionObserver) => void;
+type ObserverCb = (
+  entries: Partial<IntersectionObserverEntry>[],
+  obs: IntersectionObserver,
+) => void;
 
 let latestCb: ObserverCb | null = null;
 const observedEls: Element[] = [];
 
 // Use a regular function (not arrow) so `new MockObserver(...)` works.
 const MockObserver = vi.fn(function (
-  this: { observe: ReturnType<typeof vi.fn>; unobserve: ReturnType<typeof vi.fn>; disconnect: ReturnType<typeof vi.fn> },
+  this: {
+    observe: ReturnType<typeof vi.fn>;
+    unobserve: ReturnType<typeof vi.fn>;
+    disconnect: ReturnType<typeof vi.fn>;
+  },
   cb: ObserverCb,
 ) {
   latestCb = cb;
-  this.observe = vi.fn((el: Element) => { observedEls.push(el); });
+  this.observe = vi.fn((el: Element) => {
+    observedEls.push(el);
+  });
   this.unobserve = vi.fn();
   this.disconnect = vi.fn();
 });
@@ -36,7 +45,10 @@ beforeAll(() => {
     })),
   );
   vi.stubGlobal('IntersectionObserver', MockObserver);
-  vi.stubGlobal('requestAnimationFrame', vi.fn(() => 0));
+  vi.stubGlobal(
+    'requestAnimationFrame',
+    vi.fn(() => 0),
+  );
   vi.stubGlobal('cancelAnimationFrame', vi.fn());
 });
 

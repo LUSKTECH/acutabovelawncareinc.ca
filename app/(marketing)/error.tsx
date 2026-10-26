@@ -11,26 +11,24 @@ export default function MarketingError({
 }>) {
   return (
     <section className="mx-auto max-w-2xl px-4 py-32 text-center lg:px-8">
-      <p className="text-sm uppercase tracking-widest text-sage-500">Error</p>
-      <h1 className="mt-2 font-display text-5xl text-forest-900">
-        Something went wrong.
-      </h1>
-      <p className="mt-4 text-ink-700">
+      <p className="text-sage-500 text-sm tracking-widest uppercase">Error</p>
+      <h1 className="font-display text-forest-900 mt-2 text-5xl">Something went wrong.</h1>
+      <p className="text-ink-700 mt-4">
         We couldn&rsquo;t load this page. Please try again or contact us directly.
       </p>
       {process.env.NODE_ENV !== 'production' && error.message && (
-        <p className="mt-2 font-mono text-xs text-ink-500">{error.message}</p>
+        <p className="text-ink-500 mt-2 font-mono text-xs">{error.message}</p>
       )}
       <div className="mt-8 flex flex-wrap justify-center gap-3">
         <button
           onClick={reset}
-          className="rounded-full bg-forest-700 px-6 py-3 font-medium text-cream-50 hover:bg-forest-900"
+          className="bg-forest-700 text-cream-50 hover:bg-forest-900 rounded-full px-6 py-3 font-medium"
         >
           Try again
         </button>
         <Link
           href="/"
-          className="rounded-full border border-forest-700 px-6 py-3 font-medium text-forest-700 hover:bg-moss-100"
+          className="border-forest-700 text-forest-700 hover:bg-moss-100 rounded-full border px-6 py-3 font-medium"
         >
           Go home
         </Link>

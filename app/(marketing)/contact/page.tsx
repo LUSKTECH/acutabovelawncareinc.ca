@@ -13,9 +13,9 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <section className="mx-auto max-w-5xl px-4 pt-20 pb-24 lg:px-8">
-      <p className="text-sm uppercase tracking-widest text-sage-500">Get in touch</p>
-      <h1 className="mt-2 font-display text-5xl text-forest-900">Free estimate</h1>
-      <p className="mt-4 max-w-2xl text-lg text-ink-700">
+      <p className="text-sage-500 text-sm tracking-widest uppercase">Get in touch</p>
+      <h1 className="font-display text-forest-900 mt-2 text-5xl">Free estimate</h1>
+      <p className="text-ink-700 mt-4 max-w-2xl text-lg">
         Tell us about your property — yard size, what you need, and the best way to reach you.
       </p>
       <div className="mt-12 grid gap-12 lg:grid-cols-[1fr_minmax(260px,1fr)]">
@@ -34,7 +34,7 @@ export default function ContactPage() {
                 className="object-cover"
               />
             </div>
-            <p className="bg-moss-100 px-4 py-3 text-sm text-ink-700 italic">
+            <p className="bg-moss-100 text-ink-700 px-4 py-3 text-sm italic">
               &ldquo;We love transforming outdoor spaces — let&rsquo;s talk about yours.&rdquo;
             </p>
           </div>

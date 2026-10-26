@@ -81,6 +81,7 @@ curl -X POST "http://localhost:3000/api/revalidate?secret=your_secret" \
 ## Webhook Response
 
 Successful response:
+
 ```json
 {
   "revalidated": true,
@@ -89,6 +90,7 @@ Successful response:
 ```
 
 Error response:
+
 ```json
 {
   "message": "Invalid secret"

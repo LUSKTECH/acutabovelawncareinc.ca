@@ -37,6 +37,7 @@ npm run migrate:all
 ```
 
 This will:
+
 1. Export WordPress content using wp-cli
 2. Download all media files
 3. Import content to Sanity CMS
@@ -53,12 +54,14 @@ npm run migrate:export
 ```
 
 This script:
+
 - Connects to the server via SSH
 - Uses wp-cli to export all content
 - Saves data to `wordpress-export/[timestamp]/`
 - Creates a symlink at `wordpress-export/latest/`
 
 **Output files:**
+
 - `posts-detailed.json` - All posts with full content
 - `media-detailed.json` - Media library information
 - `categories.json` - Category taxonomy
@@ -76,6 +79,7 @@ npm run migrate:download
 ```
 
 This script:
+
 - Uses rsync to download media files
 - Preserves directory structure
 - Saves to `wordpress-export/latest/media-files/`
@@ -91,6 +95,7 @@ npm run migrate:import
 ```
 
 This script:
+
 - Transforms WordPress posts to Sanity services
 - Uploads media files to Sanity
 - Creates documents in Sanity CMS
@@ -98,6 +103,7 @@ This script:
 - Validates migration completeness
 
 **Output:**
+
 - Content imported to Sanity CMS
 - `redirects.json` - URL redirect mappings
 
@@ -110,6 +116,7 @@ npm run migrate:configure-redirects
 ```
 
 This script:
+
 - Reads `redirects.json`
 - Updates `next.config.ts` with redirect rules
 - Creates a backup of the original config
@@ -137,6 +144,7 @@ npm run dev
 ```
 
 Visit http://localhost:3000 and verify:
+
 - All pages load correctly
 - Images display properly
 - Services are listed
@@ -164,6 +172,7 @@ curl -I http://localhost:3000/wp-admin
 **Problem:** SSH connection fails or wp-cli not found
 
 **Solution:**
+
 - Verify SSH access: `ssh rouge`
 - Check wp-cli is installed: `ssh rouge "wp --version --allow-root"`
 - Verify site directory: `ssh rouge "ls /var/www/acutabovelawncareinc.ca/htdocs/"`
@@ -173,6 +182,7 @@ curl -I http://localhost:3000/wp-admin
 **Problem:** rsync fails or times out
 
 **Solution:**
+
 - Check SSH connection
 - Try downloading in smaller batches
 - Manually download from server if needed
@@ -182,6 +192,7 @@ curl -I http://localhost:3000/wp-admin
 **Problem:** Sanity API errors or authentication fails
 
 **Solution:**
+
 - Verify `SANITY_API_TOKEN` in `.env.local`
 - Check token has write permissions
 - Verify project ID and dataset are correct
@@ -192,6 +203,7 @@ curl -I http://localhost:3000/wp-admin
 **Problem:** Some posts or media not imported
 
 **Solution:**
+
 - Check the migration summary output
 - Review error messages in console
 - Verify WordPress content was exported correctly
@@ -217,6 +229,7 @@ After migration, verify:
 If you need to rollback:
 
 1. **Restore next.config.ts:**
+
    ```bash
    cp next.config.ts.backup next.config.ts
    ```
@@ -241,6 +254,7 @@ After successful migration:
 ## Support
 
 For issues or questions:
+
 - Check the migration logs in `wordpress-export/latest/`
 - Review error messages in console output
 - Verify all environment variables are set correctly

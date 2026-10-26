@@ -30,12 +30,10 @@ export default async function AboutPage() {
             sizes="100vw"
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-forest-900/70 via-forest-900/30 to-transparent" />
+          <div className="from-forest-900/70 via-forest-900/30 absolute inset-0 bg-gradient-to-t to-transparent" />
           <div className="absolute inset-x-0 bottom-0 mx-auto max-w-3xl px-4 pb-8 lg:px-8">
-            <p className="text-sm uppercase tracking-widest text-cream-50/80">
-              Who we are
-            </p>
-            <h1 className="font-display text-5xl text-cream-50 sm:text-6xl">{title}</h1>
+            <p className="text-cream-50/80 text-sm tracking-widest uppercase">Who we are</p>
+            <h1 className="font-display text-cream-50 text-5xl sm:text-6xl">{title}</h1>
           </div>
         </div>
       </section>
@@ -63,7 +61,7 @@ export default async function AboutPage() {
       </section>
 
       <article className="container-prose px-4 pb-24 lg:px-0" data-reveal>
-        <div className="prose prose-lg max-w-none prose-headings:font-display prose-headings:text-forest-900 prose-a:text-forest-700">
+        <div className="prose prose-lg prose-headings:font-display prose-headings:text-forest-900 prose-a:text-forest-700 max-w-none">
           {content}
         </div>
       </article>

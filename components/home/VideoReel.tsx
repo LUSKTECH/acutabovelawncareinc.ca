@@ -17,7 +17,7 @@ export default function VideoReel() {
           video.pause();
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.3 },
     );
     observer.observe(video);
     return () => observer.disconnect();
@@ -25,7 +25,7 @@ export default function VideoReel() {
 
   return (
     <div className="mx-auto w-[240px] sm:w-[280px]">
-      <div className="overflow-hidden rounded-[2rem] border-[6px] border-ink-900/90 bg-black shadow-lg">
+      <div className="border-ink-900/90 overflow-hidden rounded-[2rem] border-[6px] bg-black shadow-lg">
         <video
           ref={ref}
           aria-label="A Cut Above Lawn Care featured by Greenworks Commercial for switching to electric equipment"

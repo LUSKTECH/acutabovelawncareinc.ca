@@ -26,7 +26,10 @@ test('services index lists all four categories', async ({ page }) => {
 
 test('gallery opens lightbox on image click and closes on Escape', async ({ page }) => {
   await page.goto('/gallery');
-  await page.getByRole('button', { name: /open image/i }).first().click();
+  await page
+    .getByRole('button', { name: /open image/i })
+    .first()
+    .click();
   await expect(page.getByRole('dialog')).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(page.getByRole('dialog')).toBeHidden();
@@ -34,7 +37,10 @@ test('gallery opens lightbox on image click and closes on Escape', async ({ page
 
 test('gallery lightbox Next/Prev advance images without page navigation', async ({ page }) => {
   await page.goto('/gallery');
-  await page.getByRole('button', { name: /open image/i }).first().click();
+  await page
+    .getByRole('button', { name: /open image/i })
+    .first()
+    .click();
   const dialog = page.getByRole('dialog');
   await expect(dialog).toBeVisible();
   const initialSrc = await dialog.locator('img').getAttribute('src');

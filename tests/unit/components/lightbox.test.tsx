@@ -53,79 +53,73 @@ const IMAGES_4 = ['/a.jpg'];
 
 describe('Lightbox', () => {
   it('renders the dialog element', () => {
-    render(
-      <Lightbox items={ITEMS} openIndex={null} onClose={noop} onPrev={noop} onNext={noop} />,
-    );
+    render(<Lightbox items={ITEMS} openIndex={null} onClose={noop} onPrev={noop} onNext={noop} />);
     expect(screen.getByRole('dialog', { hidden: true })).toBeTruthy();
   });
 
   it('shows Close/Prev/Next buttons when openIndex is provided', () => {
-    render(
-      <Lightbox items={ITEMS} openIndex={0} onClose={noop} onPrev={noop} onNext={noop} />,
-    );
+    render(<Lightbox items={ITEMS} openIndex={0} onClose={noop} onPrev={noop} onNext={noop} />);
     expect(screen.getByRole('button', { name: /close/i })).toBeTruthy();
     expect(screen.getByRole('button', { name: /previous/i })).toBeTruthy();
     expect(screen.getByRole('button', { name: /next/i })).toBeTruthy();
   });
 
   it('hides controls when openIndex is null', () => {
-    render(
-      <Lightbox items={ITEMS} openIndex={null} onClose={noop} onPrev={noop} onNext={noop} />,
-    );
+    render(<Lightbox items={ITEMS} openIndex={null} onClose={noop} onPrev={noop} onNext={noop} />);
     expect(screen.queryByRole('button', { name: /close/i })).toBeNull();
   });
 
   it('calls onClose when Close button is clicked', () => {
     const onClose = vi.fn();
-    render(
-      <Lightbox items={ITEMS} openIndex={1} onClose={onClose} onPrev={noop} onNext={noop} />,
-    );
-    act(() => { fireEvent.click(screen.getByRole('button', { name: /close/i })); });
+    render(<Lightbox items={ITEMS} openIndex={1} onClose={onClose} onPrev={noop} onNext={noop} />);
+    act(() => {
+      fireEvent.click(screen.getByRole('button', { name: /close/i }));
+    });
     expect(onClose).toHaveBeenCalledOnce();
   });
 
   it('calls onPrev when Previous button is clicked', () => {
     const onPrev = vi.fn();
-    render(
-      <Lightbox items={ITEMS} openIndex={1} onClose={noop} onPrev={onPrev} onNext={noop} />,
-    );
-    act(() => { fireEvent.click(screen.getByRole('button', { name: /previous/i })); });
+    render(<Lightbox items={ITEMS} openIndex={1} onClose={noop} onPrev={onPrev} onNext={noop} />);
+    act(() => {
+      fireEvent.click(screen.getByRole('button', { name: /previous/i }));
+    });
     expect(onPrev).toHaveBeenCalledOnce();
   });
 
   it('calls onNext when Next button is clicked', () => {
     const onNext = vi.fn();
-    render(
-      <Lightbox items={ITEMS} openIndex={0} onClose={noop} onPrev={noop} onNext={onNext} />,
-    );
-    act(() => { fireEvent.click(screen.getByRole('button', { name: /next/i })); });
+    render(<Lightbox items={ITEMS} openIndex={0} onClose={noop} onPrev={noop} onNext={onNext} />);
+    act(() => {
+      fireEvent.click(screen.getByRole('button', { name: /next/i }));
+    });
     expect(onNext).toHaveBeenCalledOnce();
   });
 
   it('calls onClose when Escape is pressed', () => {
     const onClose = vi.fn();
-    render(
-      <Lightbox items={ITEMS} openIndex={0} onClose={onClose} onPrev={noop} onNext={noop} />,
-    );
-    act(() => { fireEvent.keyDown(window, { key: 'Escape' }); });
+    render(<Lightbox items={ITEMS} openIndex={0} onClose={onClose} onPrev={noop} onNext={noop} />);
+    act(() => {
+      fireEvent.keyDown(window, { key: 'Escape' });
+    });
     expect(onClose).toHaveBeenCalledOnce();
   });
 
   it('calls onPrev on ArrowLeft', () => {
     const onPrev = vi.fn();
-    render(
-      <Lightbox items={ITEMS} openIndex={1} onClose={noop} onPrev={onPrev} onNext={noop} />,
-    );
-    act(() => { fireEvent.keyDown(window, { key: 'ArrowLeft' }); });
+    render(<Lightbox items={ITEMS} openIndex={1} onClose={noop} onPrev={onPrev} onNext={noop} />);
+    act(() => {
+      fireEvent.keyDown(window, { key: 'ArrowLeft' });
+    });
     expect(onPrev).toHaveBeenCalledOnce();
   });
 
   it('calls onNext on ArrowRight', () => {
     const onNext = vi.fn();
-    render(
-      <Lightbox items={ITEMS} openIndex={1} onClose={noop} onPrev={noop} onNext={onNext} />,
-    );
-    act(() => { fireEvent.keyDown(window, { key: 'ArrowRight' }); });
+    render(<Lightbox items={ITEMS} openIndex={1} onClose={noop} onPrev={noop} onNext={onNext} />);
+    act(() => {
+      fireEvent.keyDown(window, { key: 'ArrowRight' });
+    });
     expect(onNext).toHaveBeenCalledOnce();
   });
 
@@ -140,9 +134,7 @@ describe('Lightbox', () => {
   });
 
   it('locks body scroll when open', () => {
-    render(
-      <Lightbox items={ITEMS} openIndex={0} onClose={noop} onPrev={noop} onNext={noop} />,
-    );
+    render(<Lightbox items={ITEMS} openIndex={0} onClose={noop} onPrev={noop} onNext={noop} />);
     expect(document.body.style.overflow).toBe('hidden');
   });
 });
@@ -169,7 +161,9 @@ describe('ServiceGallery', () => {
   it('opens the lightbox dialog when a thumbnail is clicked', () => {
     render(<ServiceGallery images={IMAGES_4} title="Hardscaping" />);
     const btn = screen.getByRole('button', { name: /view hardscaping photo 1/i });
-    act(() => { fireEvent.click(btn); });
+    act(() => {
+      fireEvent.click(btn);
+    });
     // showModal should have been called on the dialog
     expect(HTMLDialogElement.prototype.showModal).toHaveBeenCalled();
   });
@@ -187,7 +181,9 @@ describe('ServiceGallery', () => {
     act(() => {
       fireEvent.click(screen.getByRole('button', { name: /view fencing photo 1/i }));
     });
-    act(() => { fireEvent.keyDown(window, { key: 'Escape' }); });
+    act(() => {
+      fireEvent.keyDown(window, { key: 'Escape' });
+    });
     expect(screen.queryByRole('button', { name: /close/i })).toBeNull();
   });
 });

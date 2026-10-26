@@ -16,7 +16,12 @@ describe('safeJsonLd', () => {
   });
 
   it('handles nested objects and arrays', () => {
-    const data = { items: [{ name: 'A', val: 1 }, { name: 'B', val: 2 }] };
+    const data = {
+      items: [
+        { name: 'A', val: 1 },
+        { name: 'B', val: 2 },
+      ],
+    };
     const result = safeJsonLd(data);
     expect(JSON.parse(result)).toEqual(data);
   });

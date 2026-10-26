@@ -26,37 +26,46 @@ function copyTo(srcFile: string, dstDir: string, dstName: string) {
 }
 
 const serviceImageMap: Record<string, string[]> = {
-  'aeration': ['lawncare-thumb.jpg', 'lawncare-02.jpg'],
+  aeration: ['lawncare-thumb.jpg', 'lawncare-02.jpg'],
   'commercial-garden-design': ['landscape-design-01.jpg', 'landscape-design-01-1.jpg'],
   'commercial-landscaping': ['landscaping-01.jpg', 'landscaping-01-1.jpg'],
   'commercial-lawn-mowing': ['lawncare-02.jpg', 'lawncare-02-1.jpg'],
   'commercial-property-maintenance': ['landscaping-02.jpg', 'landscaping-02-1.jpg'],
   'commercial-snow-removal': ['landscaping-03.jpg', 'landscaping-03-1.jpg'],
-  'fertilization': ['fertilization-01.jpg', 'fertilization-01-1.jpg'],
-  'hardscapes': ['hardscapes-01.jpg', 'hardscapes-01-1.jpg'],
-  'irrigation': ['fertilization-02.jpg', 'fertilization-02-1.jpg'],
+  fertilization: ['fertilization-01.jpg', 'fertilization-01-1.jpg'],
+  hardscapes: ['hardscapes-01.jpg', 'hardscapes-01-1.jpg'],
+  irrigation: ['fertilization-02.jpg', 'fertilization-02-1.jpg'],
   'landscape-construction': ['landscape-design-02.jpg', 'landscape-design-02-1.jpg'],
   'landscape-design': ['landscape-design-03.jpg', 'landscape-design-03-1.jpg'],
-  'landscaping': ['landscaping-01.jpg', 'landscaping-01-1.jpg'],
+  landscaping: ['landscaping-01.jpg', 'landscaping-01-1.jpg'],
   'lawn-care': ['lawncare-01.jpg', 'lawncare-01-1.jpg'],
   'lawn-mowing': ['lawncare-02.jpg', 'lawncare-02-1.jpg'],
   'lawn-pest-control': ['fertilization-thumb.jpg', 'fertilization-01.jpg'],
-  'mulching': ['landscaping-02.jpg', 'landscaping-02-1.jpg'],
+  mulching: ['landscaping-02.jpg', 'landscaping-02-1.jpg'],
   'retaining-walls': ['hardscapes-02.jpg', 'hardscapes-02-1.jpg'],
   'shrubs-and-hedges': ['landscaping-03.jpg', 'landscaping-03-1.jpg'],
-  'sodding': ['lawncare-01.jpg', 'lawncare-01-1.jpg'],
-  'sprinklers': ['fertilization-01.jpg', 'fertilization-01-1.jpg'],
+  sodding: ['lawncare-01.jpg', 'lawncare-01-1.jpg'],
+  sprinklers: ['fertilization-01.jpg', 'fertilization-01-1.jpg'],
   'tree-removal': ['tree-service-01.jpg', 'tree-service-01-1.jpg'],
-  'xeriscaping': ['landscape-design-02.jpg', 'landscape-design-02-1.jpg'],
+  xeriscaping: ['landscape-design-02.jpg', 'landscape-design-02-1.jpg'],
 };
 
 const galleryFiles = [
-  'landscaping-01.jpg', 'landscaping-02.jpg', 'landscaping-03.jpg',
-  'landscape-design-01.jpg', 'landscape-design-02.jpg', 'landscape-design-03.jpg',
-  'hardscapes-01.jpg', 'hardscapes-02.jpg', 'hardscapes-03.jpg',
-  'lawncare-01.jpg', 'lawncare-02.jpg',
-  'fertilization-01.jpg', 'fertilization-02.jpg',
-  'tree-service-01.jpg', 'tree-service-02.jpg',
+  'landscaping-01.jpg',
+  'landscaping-02.jpg',
+  'landscaping-03.jpg',
+  'landscape-design-01.jpg',
+  'landscape-design-02.jpg',
+  'landscape-design-03.jpg',
+  'hardscapes-01.jpg',
+  'hardscapes-02.jpg',
+  'hardscapes-03.jpg',
+  'lawncare-01.jpg',
+  'lawncare-02.jpg',
+  'fertilization-01.jpg',
+  'fertilization-02.jpg',
+  'tree-service-01.jpg',
+  'tree-service-02.jpg',
 ];
 
 function main() {
@@ -70,7 +79,11 @@ function main() {
   ensure(GAL);
 
   // Hero: largest landscape photo
-  const heroCandidate = pickFirst('landscape-design-01.jpg', 'landscaping-01.jpg', 'hardscapes-02.jpg');
+  const heroCandidate = pickFirst(
+    'landscape-design-01.jpg',
+    'landscaping-01.jpg',
+    'hardscapes-02.jpg',
+  );
   if (heroCandidate) {
     copyTo(heroCandidate, HERO, 'hero.jpg');
     console.log(`hero → ${heroCandidate}`);

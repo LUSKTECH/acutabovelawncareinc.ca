@@ -66,7 +66,7 @@ export default async function ServicePage({
       />
       <ServiceHero title={service.title} image={service.image} />
       <article className="container-prose px-4 py-16 lg:px-0" data-reveal>
-        <div className="prose prose-lg max-w-none prose-headings:font-display prose-headings:text-forest-900 prose-a:text-forest-700">
+        <div className="prose prose-lg prose-headings:font-display prose-headings:text-forest-900 prose-a:text-forest-700 max-w-none">
           {content}
         </div>
       </article>

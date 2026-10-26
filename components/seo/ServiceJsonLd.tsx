@@ -32,7 +32,5 @@ export default function ServiceJsonLd({ title, description, slug, image }: Props
     },
   ];
 
-  return (
-    <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdHtml(data)} />
-  );
+  return <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdHtml(data)} />;
 }

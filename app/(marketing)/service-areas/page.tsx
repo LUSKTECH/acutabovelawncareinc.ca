@@ -24,8 +24,8 @@ export default async function ServiceAreasPage() {
   return (
     <>
       <section className="mx-auto max-w-7xl px-4 pt-24 lg:px-8">
-        <p className="text-sm uppercase tracking-widest text-sage-500">Where we work</p>
-        <h1 className="mt-2 font-display text-5xl text-forest-900">Service Areas</h1>
+        <p className="text-sage-500 text-sm tracking-widest uppercase">Where we work</p>
+        <h1 className="font-display text-forest-900 mt-2 text-5xl">Service Areas</h1>
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" data-reveal>
           {site.serviceAreas.map((area) => {
             const slug = citySlugByName.get(area);
@@ -33,10 +33,10 @@ export default async function ServiceAreasPage() {
               <Link
                 key={area}
                 href={slug ? `/areas/${slug}` : '/contact'}
-                className="rounded-xl border border-moss-100 bg-white p-6 shadow-card hover:border-forest-700"
+                className="border-moss-100 shadow-card hover:border-forest-700 rounded-xl border bg-white p-6"
               >
-                <p className="font-display text-2xl text-forest-900">{area}</p>
-                <p className="mt-2 text-sm text-ink-500">
+                <p className="font-display text-forest-900 text-2xl">{area}</p>
+                <p className="text-ink-500 mt-2 text-sm">
                   {slug ? `Landscaping & lawn care in ${area}` : 'Commercial property service'}
                 </p>
               </Link>
@@ -45,8 +45,8 @@ export default async function ServiceAreasPage() {
         </div>
       </section>
       <article className="container-prose px-4 py-16 lg:px-0" data-reveal>
-        <h2 className="font-display text-3xl text-forest-900">Services by city</h2>
-        <div className="mt-6 prose prose-lg max-w-none prose-headings:font-display prose-headings:text-forest-900 prose-a:text-forest-700">
+        <h2 className="font-display text-forest-900 text-3xl">Services by city</h2>
+        <div className="prose prose-lg prose-headings:font-display prose-headings:text-forest-900 prose-a:text-forest-700 mt-6 max-w-none">
           {content}
         </div>
       </article>

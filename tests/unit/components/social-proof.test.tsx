@@ -65,7 +65,10 @@ beforeAll(() => {
       dispatchEvent: vi.fn(),
     })),
   );
-  vi.stubGlobal('requestAnimationFrame', vi.fn(() => 0));
+  vi.stubGlobal(
+    'requestAnimationFrame',
+    vi.fn(() => 0),
+  );
   vi.stubGlobal('cancelAnimationFrame', vi.fn());
 });
 
