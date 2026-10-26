@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { cities, getCityBySlug, getCityServices, CityNotFoundError } from '@/content/areas';
-import { safeJsonLd } from '@/lib/json-ld';
+import { jsonLdHtml } from '@/lib/json-ld';
 import ServiceCard from '@/components/service/ServiceCard';
 import { site } from '@/content/site';
 
@@ -96,9 +96,9 @@ export default async function CityPage({
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdHtml(jsonLd)} />
       {c.faq.length > 0 && (
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(faqJsonLd) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdHtml(faqJsonLd)} />
       )}
 
       {/* Hero */}

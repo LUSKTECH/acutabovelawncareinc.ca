@@ -1,7 +1,19 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import type { CSSProperties } from 'react';
 import Image from 'next/image';
+
+const dialogStyle: CSSProperties = {
+  margin: 0,
+  padding: 0,
+  border: 'none',
+  background: 'transparent',
+  maxWidth: '100vw',
+  maxHeight: '100vh',
+  width: '100vw',
+  height: '100vh',
+};
 
 type Props = Readonly<{ images: string[]; title: string }>;
 
@@ -124,16 +136,7 @@ export default function ServiceGallery({ images, title }: Props) {
         aria-label="Project photo"
         aria-modal="true"
         onClose={close}
-        style={{
-          margin: 0,
-          padding: 0,
-          border: 'none',
-          background: 'transparent',
-          maxWidth: '100vw',
-          maxHeight: '100vh',
-          width: '100vw',
-          height: '100vh',
-        }}
+        style={dialogStyle}
         // No `flex`/`display` on the <dialog> itself: that would override the UA
         // `dialog:not([open]) { display: none }` rule, leaving the closed overlay
         // covering the page. Centering happens on the inner wrapper instead.

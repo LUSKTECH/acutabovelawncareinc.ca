@@ -7,6 +7,11 @@
  *
  * This is the same approach React uses internally for SSR inline data.
  */
+/** `dangerouslySetInnerHTML` value for a JSON-LD `<script>`. */
+export function jsonLdHtml(data: unknown): { __html: string } {
+  return { __html: safeJsonLd(data) };
+}
+
 export function safeJsonLd(data: unknown): string {
   return JSON.stringify(data).replaceAll('<', '\\u003c');
 }

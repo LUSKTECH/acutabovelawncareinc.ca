@@ -1,5 +1,5 @@
 import { site } from '@/content/site';
-import { safeJsonLd } from '@/lib/json-ld';
+import { jsonLdHtml } from '@/lib/json-ld';
 
 type Props = Readonly<{ title: string; description: string; slug: string; image: string }>;
 
@@ -33,6 +33,6 @@ export default function ServiceJsonLd({ title, description, slug, image }: Props
   ];
 
   return (
-    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(data) }} />
+    <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdHtml(data)} />
   );
 }

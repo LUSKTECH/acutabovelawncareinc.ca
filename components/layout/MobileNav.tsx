@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import type { CSSProperties } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -11,6 +12,20 @@ const groups = getCategorizedServices();
 const topLinkClass = (active: boolean) =>
   active ? 'block py-2 text-xl font-semibold text-forest-700' : 'block py-2 text-xl text-forest-900';
 
+const drawerStyle: CSSProperties = {
+  margin: 0,
+  padding: 0,
+  border: 'none',
+  background: 'transparent',
+  maxWidth: '100%',
+  maxHeight: '100%',
+  width: '100%',
+  height: '100%',
+  position: 'fixed',
+  inset: 0,
+  overflow: 'clip',
+};
+
 export default function MobileNav() {
   // Drawer is rendered via createPortal outside the sticky `<header>` because
   // the header's `backdrop-blur` establishes a containing block that would
@@ -19,6 +34,10 @@ export default function MobileNav() {
   // and the first client render agree — avoiding a hydration mismatch.
   const [open, setOpen] = useState(false);
   const [openCategory, setOpenCategory] = useState<string | null>(null);
+  const toggleCategory = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+    const category = e.currentTarget.dataset.category ?? null;
+    setOpenCategory((v) => (v === category ? null : category));
+  }, []);
   // Gate the portal on mount: server and first client render both produce no
   // portal (matching HTML), then the drawer mounts client-side after hydration.
   const [mounted, setMounted] = useState(false);
@@ -122,19 +141,7 @@ export default function MobileNav() {
       aria-label="Site navigation"
       aria-modal="true"
       onClose={close}
-      style={{
-        margin: 0,
-        padding: 0,
-        border: 'none',
-        background: 'transparent',
-        maxWidth: '100%',
-        maxHeight: '100%',
-        width: '100%',
-        height: '100%',
-        position: 'fixed',
-        inset: 0,
-        overflow: 'clip',
-      }}
+      style={drawerStyle}
       className="z-50"
     >
       <div className="absolute inset-x-0 top-[72px] bottom-0 overflow-y-auto bg-cream-50">
@@ -165,7 +172,8 @@ export default function MobileNav() {
                   aria-expanded={expanded}
                   aria-controls={expanded ? panelId : undefined}
                   aria-label={`Toggle ${g.label} services`}
-                  onClick={() => setOpenCategory((v) => (v === g.category ? null : g.category))}
+                  data-category={g.category}
+                  onClick={toggleCategory}
                   className="ml-2 rounded p-1 text-forest-700 transition hover:bg-moss-100"
                 >
                   <svg viewBox="0 0 20 20" fill="currentColor" className={`h-5 w-5 transition-transform${expanded ? ' rotate-180' : ''}`} aria-hidden>

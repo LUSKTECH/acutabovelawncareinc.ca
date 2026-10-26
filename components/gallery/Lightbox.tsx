@@ -1,8 +1,20 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import type { CSSProperties } from 'react';
 import Image from 'next/image';
 import type { GalleryItem } from '@/lib/images';
+
+const dialogStyle: CSSProperties = {
+  margin: 0,
+  padding: 0,
+  border: 'none',
+  background: 'transparent',
+  maxWidth: '100vw',
+  maxHeight: '100vh',
+  width: '100vw',
+  height: '100vh',
+};
 
 type Props = Readonly<{
   items: GalleryItem[];
@@ -111,16 +123,7 @@ export default function Lightbox({ items, openIndex, onClose, onPrev, onNext }: 
       aria-label="Image viewer"
       aria-modal="true"
       onClose={onClose}
-      style={{
-        margin: 0,
-        padding: 0,
-        border: 'none',
-        background: 'transparent',
-        maxWidth: '100vw',
-        maxHeight: '100vh',
-        width: '100vw',
-        height: '100vh',
-      }}
+      style={dialogStyle}
       className="fixed inset-0 z-50 bg-forest-900/95"
     >
       {item && (

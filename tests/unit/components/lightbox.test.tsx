@@ -46,6 +46,11 @@ const ITEMS: GalleryItem[] = [
 
 const noop = vi.fn();
 
+const IMAGES_1: string[] = [];
+const IMAGES_2 = ['/a.jpg', '/b.jpg'];
+const IMAGES_3 = ['/a.jpg', '/b.jpg', '/c.jpg'];
+const IMAGES_4 = ['/a.jpg'];
+
 describe('Lightbox', () => {
   it('renders the dialog element', () => {
     render(
@@ -146,23 +151,23 @@ describe('Lightbox', () => {
 
 describe('ServiceGallery', () => {
   it('renders null when images array is empty', () => {
-    const { container } = render(<ServiceGallery images={[]} title="Test" />);
+    const { container } = render(<ServiceGallery images={IMAGES_1} title="Test" />);
     expect(container.firstChild).toBeNull();
   });
 
   it('renders the section heading with title', () => {
-    render(<ServiceGallery images={['/a.jpg', '/b.jpg']} title="Lawn Aeration" />);
+    render(<ServiceGallery images={IMAGES_2} title="Lawn Aeration" />);
     expect(screen.getByText(/lawn aeration/i)).toBeTruthy();
   });
 
   it('renders a button per image', () => {
-    render(<ServiceGallery images={['/a.jpg', '/b.jpg', '/c.jpg']} title="Retaining Walls" />);
+    render(<ServiceGallery images={IMAGES_3} title="Retaining Walls" />);
     const btns = screen.getAllByRole('button', { name: /view retaining walls photo/i });
     expect(btns).toHaveLength(3);
   });
 
   it('opens the lightbox dialog when a thumbnail is clicked', () => {
-    render(<ServiceGallery images={['/a.jpg']} title="Hardscaping" />);
+    render(<ServiceGallery images={IMAGES_4} title="Hardscaping" />);
     const btn = screen.getByRole('button', { name: /view hardscaping photo 1/i });
     act(() => { fireEvent.click(btn); });
     // showModal should have been called on the dialog
@@ -170,7 +175,7 @@ describe('ServiceGallery', () => {
   });
 
   it('renders a Close button when the lightbox is open', () => {
-    render(<ServiceGallery images={['/a.jpg']} title="Paving" />);
+    render(<ServiceGallery images={IMAGES_4} title="Paving" />);
     act(() => {
       fireEvent.click(screen.getByRole('button', { name: /view paving photo 1/i }));
     });
@@ -178,7 +183,7 @@ describe('ServiceGallery', () => {
   });
 
   it('closes the lightbox when Escape is pressed', () => {
-    render(<ServiceGallery images={['/a.jpg']} title="Fencing" />);
+    render(<ServiceGallery images={IMAGES_4} title="Fencing" />);
     act(() => {
       fireEvent.click(screen.getByRole('button', { name: /view fencing photo 1/i }));
     });

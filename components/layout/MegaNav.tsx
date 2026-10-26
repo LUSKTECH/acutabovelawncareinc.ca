@@ -39,6 +39,12 @@ function CategoryDropdown({
   const handleToggle = useCallback(() => onToggle(category), [category, onToggle]);
   const handleEnter = useCallback(() => onMouseEnter(category), [category, onMouseEnter]);
   const handleLeave = useCallback(() => onMouseLeave(category), [category, onMouseLeave]);
+  const handleBlur = useCallback(
+    (e: React.FocusEvent<HTMLDivElement>) => {
+      if (!e.currentTarget.contains(e.relatedTarget as Node)) handleLeave();
+    },
+    [handleLeave],
+  );
 
   return (
     <div
@@ -46,7 +52,7 @@ function CategoryDropdown({
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
       onFocus={handleEnter}
-      onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node)) handleLeave(); }}
+      onBlur={handleBlur}
     >
       <div className="flex items-center">
         <Link
@@ -105,6 +111,12 @@ export default function MegaNav() {
   const handleAreasLeave = useCallback(
     () => setOpen((v) => (v === 'areas' ? null : v)),
     [],
+  );
+  const handleAreasBlur = useCallback(
+    (e: React.FocusEvent<HTMLDivElement>) => {
+      if (!e.currentTarget.contains(e.relatedTarget as Node)) handleAreasLeave();
+    },
+    [handleAreasLeave],
   );
   const handleAreasToggle = useCallback(
     () => setOpen((v) => (v === 'areas' ? null : 'areas')),
@@ -180,7 +192,7 @@ export default function MegaNav() {
         onMouseEnter={handleAreasEnter}
         onMouseLeave={handleAreasLeave}
         onFocus={handleAreasEnter}
-        onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node)) handleAreasLeave(); }}
+        onBlur={handleAreasBlur}
       >
         <button
           type="button"
