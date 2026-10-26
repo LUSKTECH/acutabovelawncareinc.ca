@@ -122,14 +122,18 @@ export default function MegaNav() {
 
   const handleClose = useCallback(() => setOpen(null), []);
   const handleAreasEnter = useCallback(() => setOpen('areas'), []);
-  const handleAreasLeave = useCallback(() => setOpen((v) => (v === 'areas' ? null : v)), []);
+  const handleAreasLeave = useCallback(() => {
+    setOpen((v) => (v === 'areas' ? null : v));
+  }, []);
   const handleAreasBlur = useCallback(
     (e: React.FocusEvent<HTMLDivElement>) => {
       if (!e.currentTarget.contains(e.relatedTarget as Node)) handleAreasLeave();
     },
     [handleAreasLeave],
   );
-  const handleAreasToggle = useCallback(() => setOpen((v) => (v === 'areas' ? null : 'areas')), []);
+  const handleAreasToggle = useCallback(() => {
+    setOpen((v) => (v === 'areas' ? null : 'areas'));
+  }, []);
   const handleToggle = useCallback(
     (category: ServiceCategory) => setOpen((v) => (v === category ? null : category)),
     [],
