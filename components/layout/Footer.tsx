@@ -4,6 +4,8 @@ import { site } from '@/content/site';
 import { getCategorizedServices } from '@/content/services/_meta';
 import { cities } from '@/content/areas';
 
+const currentYear = new Date().getFullYear();
+
 export default function Footer() {
   const groups = getCategorizedServices();
   return (
@@ -73,7 +75,7 @@ export default function Footer() {
       </div>
       <div className="border-t border-forest-700/40">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-6 text-xs text-moss-100/70 lg:px-8">
-          <p>© {new Date().getFullYear()} A Cut Above Lawn Care Inc.</p>
+          <p>© {currentYear} A Cut Above Lawn Care Inc.</p>
           <p>Serving {site.serviceAreas.slice(0, 3).join(', ')} & the Halton Region</p>
         </div>
       </div>
