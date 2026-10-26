@@ -52,7 +52,7 @@ describe('LocalBusinessJsonLd', () => {
       container.querySelector('script[type="application/ld+json"]')!.innerHTML,
     );
     expect(data.name).toBe(site.name);
-    expect(data.telephone).toBe(site.phone);
+    expect(data.telephone).toBe(site.phoneE164);
     expect(data.address?.addressLocality).toBe(site.address.locality);
   });
 

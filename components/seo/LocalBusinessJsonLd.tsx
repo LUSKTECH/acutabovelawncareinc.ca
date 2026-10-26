@@ -9,7 +9,7 @@ export default function LocalBusinessJsonLd() {
     name: site.name,
     description:
       'Full-service landscaping, hardscaping, and lawn care serving Burlington, Oakville, Milton, and the Halton Region.',
-    telephone: site.phone,
+    telephone: site.phoneE164,
     email: site.email,
     url: site.url,
     image: `${site.url}/images/hero/hero.jpg`,

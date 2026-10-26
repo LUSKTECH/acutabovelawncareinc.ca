@@ -69,7 +69,7 @@ export default async function CityPage({
     name: site.name,
     description: `${c.intro.slice(0, 200)}...`,
     url: `${site.url}/areas/${c.slug}`,
-    telephone: site.phone,
+    telephone: site.phoneE164,
     email: site.email,
     areaServed: {
       '@type': 'City',

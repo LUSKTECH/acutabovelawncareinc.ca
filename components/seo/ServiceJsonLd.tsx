@@ -25,7 +25,7 @@ export default function ServiceJsonLd({ title, description, slug, image }: Props
       provider: {
         '@type': 'LandscapingService',
         name: site.name,
-        telephone: site.phone,
+        telephone: site.phoneE164,
         url: site.url,
         areaServed: site.serviceAreas,
       },
