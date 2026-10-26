@@ -15,7 +15,7 @@ jobs:
   pr-event:
     name: PR webhook
     if: ${{ github.event_name == 'pull_request' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
       - name: Notify Discord
         env:
@@ -57,7 +57,7 @@ jobs:
   workflow-event:
     name: Workflow result webhook
     if: ${{ github.event_name == 'workflow_run' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
       - name: Notify Discord
         env:
