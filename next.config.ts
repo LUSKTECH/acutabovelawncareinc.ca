@@ -1,12 +1,9 @@
 import type { NextConfig } from 'next';
-import createMDX from '@next/mdx';
 import { redirects as wpRedirects } from './lib/redirects';
-
-const withMDX = createMDX({ extension: /\.mdx?$/ });
 
 // Allowed origins for script-src and connect-src:
 //  - 'self'                         Next.js chunks and API routes
-//  - 'unsafe-inline'                next/script inline JSON-LD block (no nonce available for static export)
+//  - 'unsafe-inline'                inline JSON-LD scripts (no nonce available for static export)
 //  - us.i.posthog.com, app.posthog.com  PostHog analytics (direct)
 //  - p.acutabovelawncareinc.ca      PostHog reverse proxy (config.js + XHR API calls)
 const CSP = [
@@ -32,7 +29,6 @@ const securityHeaders = [
 
 const config: NextConfig = {
   reactStrictMode: true,
-  pageExtensions: ['ts', 'tsx', 'md', 'mdx'],
   turbopack: { root: __dirname },
   images: {
     formats: ['image/avif', 'image/webp'],
@@ -58,4 +54,4 @@ const config: NextConfig = {
   },
 };
 
-export default withMDX(config);
+export default config;

@@ -18,10 +18,11 @@ function fd(fields: Record<string, string>): FormData {
 
 beforeEach(() => {
   fetchMock.mockReset();
-  vi.mocked(headers).mockImplementation(async () =>
-    ({
-      get: (k: string) => (k === 'x-forwarded-for' ? `ip-${Math.random()}` : null),
-    }) as unknown as Awaited<ReturnType<typeof headers>>,
+  vi.mocked(headers).mockImplementation(
+    async () =>
+      ({
+        get: (k: string) => (k === 'x-forwarded-for' ? `ip-${Math.random()}` : null),
+      }) as unknown as Awaited<ReturnType<typeof headers>>,
   );
 });
 
@@ -178,5 +179,21 @@ describe('submitContact', () => {
       results.push(await submitContact({ status: 'idle' }, fd(valid)));
     }
     expect(results[5]?.status).toBe('error');
+    const last = results[5];
+    if (last?.status === 'error') expect(last.message).toMatch(/in \d+ minutes? /);
+  });
+
+  it('passes an abort signal so a hung Web3Forms call times out', async () => {
+    process.env.WEB3FORMS_ACCESS_KEY = 'test-key';
+    fetchMock.mockResolvedValueOnce({ json: async () => ({ success: true }) });
+    await submitContact(
+      { status: 'idle' },
+      fd({
+        name: 'Dana',
+        email: 'dana@example.com',
+        message: 'Please send me a quote, I need lawn aeration this April.',
+      }),
+    );
+    expect(fetchMock.mock.calls[0]?.[1]?.signal).toBeInstanceOf(AbortSignal);
   });
 });

@@ -29,12 +29,13 @@ export async function submitContact(
   formData: FormData,
 ): Promise<ContactState> {
   const hdrs = await headers();
-  const ip = (hdrs.get('x-forwarded-for') ?? '').split(',')[0]?.trim() || 'unknown';
+  const ip = ((hdrs.get('x-forwarded-for') ?? '').split(',')[0]?.trim() || 'unknown').slice(0, 45);
   const rl = rateLimit(`contact:${ip}`, { max: 5, windowMs: 10 * 60 * 1000 });
   if (!rl.ok) {
+    const waitMin = Math.ceil(rl.retryAfterMs / 60_000);
     return {
       status: 'error',
-      message: `Too many requests right now — please try again later or call ${site.phone}.`,
+      message: `Too many submissions — please try again in ${waitMin} minute${waitMin !== 1 ? 's' : ''} or call us at ${site.phone}.`,
     };
   }
 
@@ -81,6 +82,7 @@ export async function submitContact(
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(8_000),
     });
 
     const json = (await res.json()) as { success: boolean; message?: string };
