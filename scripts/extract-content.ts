@@ -47,7 +47,9 @@ function expandTokens(s: string): string {
 function collapseWhitespace(s: string): string {
   return s
     .replaceAll('\r\n', '\n')
-    .split('\n').map(line => line.trimEnd()).join('\n')
+    .split('\n')
+    .map((line) => line.trimEnd())
+    .join('\n')
     .replace(/\n{3,}/g, '\n\n')
     .replace(/[ \t]{2,}/g, ' ')
     .trim();
@@ -71,15 +73,22 @@ function htmlToMarkdown(html: string): string {
       .join('');
 
     switch (tag) {
-      case 'h1': return `\n\n# ${inner.trim()}\n\n`;
-      case 'h2': return `\n\n## ${inner.trim()}\n\n`;
-      case 'h3': return `\n\n### ${inner.trim()}\n\n`;
-      case 'h4': return `\n\n#### ${inner.trim()}\n\n`;
-      case 'p':  return `\n\n${inner.trim()}\n\n`;
+      case 'h1':
+        return `\n\n# ${inner.trim()}\n\n`;
+      case 'h2':
+        return `\n\n## ${inner.trim()}\n\n`;
+      case 'h3':
+        return `\n\n### ${inner.trim()}\n\n`;
+      case 'h4':
+        return `\n\n#### ${inner.trim()}\n\n`;
+      case 'p':
+        return `\n\n${inner.trim()}\n\n`;
       case 'strong':
-      case 'b': return `**${inner}**`;
+      case 'b':
+        return `**${inner}**`;
       case 'em':
-      case 'i': return `*${inner}*`;
+      case 'i':
+        return `*${inner}*`;
       case 'a': {
         const href = $(el).attr('href') ?? '#';
         return `[${inner}](${href})`;
@@ -100,13 +109,18 @@ function htmlToMarkdown(html: string): string {
           .join('\n');
         return `\n\n${items}\n\n`;
       }
-      case 'li': return inner;
-      case 'br': return '\n';
-      case 'img': return '';
+      case 'li':
+        return inner;
+      case 'br':
+        return '\n';
+      case 'img':
+        return '';
       case 'script':
       case 'style':
-      case 'iframe': return '';
-      default: return inner; // unwrap unknown tags
+      case 'iframe':
+        return '';
+      default:
+        return inner; // unwrap unknown tags
     }
   }
 
@@ -138,11 +152,28 @@ function cleanContent(raw: string): string {
 }
 
 const SERVICE_SLUGS = new Set([
-  'commercial-garden-design', 'commercial-landscaping', 'landscape-construction',
-  'landscape-design', 'landscaping', 'aeration', 'commercial-lawn-mowing', 'lawn-mowing',
-  'lawn-care', 'hardscapes', 'retaining-walls', 'commercial-property-maintenance',
-  'fertilization', 'lawn-pest-control', 'mulching', 'shrubs-and-hedges', 'sodding',
-  'sprinklers', 'xeriscaping', 'irrigation', 'tree-removal', 'commercial-snow-removal',
+  'commercial-garden-design',
+  'commercial-landscaping',
+  'landscape-construction',
+  'landscape-design',
+  'landscaping',
+  'aeration',
+  'commercial-lawn-mowing',
+  'lawn-mowing',
+  'lawn-care',
+  'hardscapes',
+  'retaining-walls',
+  'commercial-property-maintenance',
+  'fertilization',
+  'lawn-pest-control',
+  'mulching',
+  'shrubs-and-hedges',
+  'sodding',
+  'sprinklers',
+  'xeriscaping',
+  'irrigation',
+  'tree-removal',
+  'commercial-snow-removal',
 ]);
 
 const PAGE_MAP: Record<string, string> = {

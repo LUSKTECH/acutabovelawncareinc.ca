@@ -10,15 +10,7 @@ import { site } from '@/content/site';
 // next/script renders asynchronously in the real Next.js runtime; stub it to a
 // plain <script> so SSR-style inline JSON-LD is inspectable in jsdom.
 vi.mock('next/script', () => ({
-  default: ({
-    children,
-    id,
-    type,
-  }: {
-    children?: string;
-    id?: string;
-    type?: string;
-  }) => (
+  default: ({ children, id, type }: { children?: string; id?: string; type?: string }) => (
     <script id={id} type={type}>
       {children}
     </script>

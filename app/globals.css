@@ -1,25 +1,25 @@
-@import "tailwindcss";
-@plugin "@tailwindcss/typography";
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
 
 @theme {
-  --color-forest-900: #0F2A1D;
-  --color-forest-700: #1E4D33;
-  --color-forest-500: #2F6A47;
-  --color-sage-500:   #4E6B40; /* darkened from #6B8E5A → 5.6:1 on cream-50 (WCAG AA) */
-  --color-sage-300:   #A9BE9A;
-  --color-moss-100:   #E8EDE2;
-  --color-cream-50:   #FCFCFA;
-  --color-clay-500:   #B4633A;
-  --color-clay-700:   #8F3F1C; /* darker terracotta for small text — ≥4.5:1 on cream/white (WCAG AA) */
-  --color-ink-900:    #1A1A1A;
-  --color-ink-700:    #333333;
-  --color-ink-500:    #5C5C5C;
-  --color-ink-300:    #B8B8B8;
+  --color-forest-900: #0f2a1d;
+  --color-forest-700: #1e4d33;
+  --color-forest-500: #2f6a47;
+  --color-sage-500: #4e6b40; /* darkened from #6B8E5A → 5.6:1 on cream-50 (WCAG AA) */
+  --color-sage-300: #a9be9a;
+  --color-moss-100: #e8ede2;
+  --color-cream-50: #fcfcfa;
+  --color-clay-500: #b4633a;
+  --color-clay-700: #8f3f1c; /* darker terracotta for small text — ≥4.5:1 on cream/white (WCAG AA) */
+  --color-ink-900: #1a1a1a;
+  --color-ink-700: #333333;
+  --color-ink-500: #5c5c5c;
+  --color-ink-300: #b8b8b8;
 
-  --font-display: "Fraunces", ui-serif, Georgia, serif;
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Fraunces', ui-serif, Georgia, serif;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
 
-  --shadow-card: 0 1px 2px rgba(15,42,29,.04), 0 8px 24px -8px rgba(15,42,29,.12);
+  --shadow-card: 0 1px 2px rgba(15, 42, 29, 0.04), 0 8px 24px -8px rgba(15, 42, 29, 0.12);
   --radius-card: 14px;
 }
 
@@ -35,7 +35,10 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     font-family: var(--font-display);
     font-weight: 500;
     letter-spacing: -0.01em;
@@ -46,7 +49,9 @@
     border-radius: 4px;
   }
   @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
+    *,
+    *::before,
+    *::after {
       animation: none !important;
       transition: none !important;
     }
@@ -54,8 +59,13 @@
 }
 
 @layer utilities {
-  .container-prose { max-width: 68ch; margin-inline: auto; }
-  .text-balance { text-wrap: balance; }
+  .container-prose {
+    max-width: 68ch;
+    margin-inline: auto;
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
 }
 
 /* ---------------------------------------------------------------------------
@@ -69,30 +79,54 @@
   html.js-reveal [data-reveal] {
     opacity: 0;
     transform: translateY(12px);
-    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    transition:
+      opacity 0.5s ease-out,
+      transform 0.5s ease-out;
     will-change: opacity, transform;
   }
   html.js-reveal [data-reveal].reveal-in {
     opacity: 1;
     transform: none;
   }
-  html.js-reveal [data-reveal-delay="1"] { transition-delay: 0.06s; }
-  html.js-reveal [data-reveal-delay="2"] { transition-delay: 0.12s; }
-  html.js-reveal [data-reveal-delay="3"] { transition-delay: 0.18s; }
-  html.js-reveal [data-reveal-delay="4"] { transition-delay: 0.24s; }
+  html.js-reveal [data-reveal-delay='1'] {
+    transition-delay: 0.06s;
+  }
+  html.js-reveal [data-reveal-delay='2'] {
+    transition-delay: 0.12s;
+  }
+  html.js-reveal [data-reveal-delay='3'] {
+    transition-delay: 0.18s;
+  }
+  html.js-reveal [data-reveal-delay='4'] {
+    transition-delay: 0.24s;
+  }
 
   /* Hero entrance — CSS-only, one-time on load (no JS dependency). */
   .hero-rise {
     opacity: 0;
     animation: hero-rise-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
-  .hero-rise-1 { animation-delay: 0.05s; }
-  .hero-rise-2 { animation-delay: 0.15s; }
-  .hero-rise-3 { animation-delay: 0.25s; }
-  .hero-rise-4 { animation-delay: 0.35s; }
+  .hero-rise-1 {
+    animation-delay: 0.05s;
+  }
+  .hero-rise-2 {
+    animation-delay: 0.15s;
+  }
+  .hero-rise-3 {
+    animation-delay: 0.25s;
+  }
+  .hero-rise-4 {
+    animation-delay: 0.35s;
+  }
   @keyframes hero-rise-in {
-    from { opacity: 0; transform: translateY(14px); }
-    to   { opacity: 1; transform: none; }
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
   }
 
   /* Hero parallax — subtle scroll-driven drift, Chromium-only. Browsers without
@@ -104,8 +138,12 @@
       will-change: transform;
     }
     @keyframes hero-drift {
-      from { transform: translateY(-4%) scale(1.06); }
-      to   { transform: translateY(4%) scale(1.06); }
+      from {
+        transform: translateY(-4%) scale(1.06);
+      }
+      to {
+        transform: translateY(4%) scale(1.06);
+      }
     }
   }
 }

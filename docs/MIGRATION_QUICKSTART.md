@@ -3,6 +3,7 @@
 ## Prerequisites
 
 1. Create `.env.local` with Sanity credentials:
+
 ```bash
 NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id
 NEXT_PUBLIC_SANITY_DATASET=production
@@ -11,6 +12,7 @@ REVALIDATE_SECRET=your_webhook_secret
 ```
 
 2. Ensure SSH access to server:
+
 ```bash
 ssh rouge
 ```
@@ -22,6 +24,7 @@ npm run migrate:all
 ```
 
 This will:
+
 1. ✅ Export WordPress content using wp-cli
 2. ✅ Download all media files via rsync
 3. ✅ Import content to Sanity CMS
@@ -62,18 +65,21 @@ npm run dev
 ## Troubleshooting
 
 **SSH fails:**
+
 ```bash
 # Test connection
 ssh rouge "echo 'Connection OK'"
 ```
 
 **wp-cli not found:**
+
 ```bash
 # Check wp-cli
 ssh rouge "wp --version --allow-root"
 ```
 
 **Sanity import fails:**
+
 - Verify `SANITY_API_TOKEN` has write permissions
 - Check project ID and dataset are correct
 
@@ -84,7 +90,7 @@ ssh rouge "wp --version --allow-root"
 ✅ Service content  
 ✅ Categories and tags  
 ✅ URL structure  
-✅ Site metadata  
+✅ Site metadata
 
 ## Output Files
 

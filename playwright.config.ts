@@ -24,7 +24,5 @@ export default defineConfig({
     stderr: 'pipe',
   },
   use: { baseURL },
-  projects: [
-    { name: 'desktop', use: { ...devices['Desktop Chrome'] } },
-  ],
+  projects: [{ name: 'desktop', use: { ...devices['Desktop Chrome'] } }],
 });

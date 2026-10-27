@@ -26,19 +26,24 @@ export default function ServicesIndex() {
             sizes="100vw"
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-forest-900/80 via-forest-900/30 to-transparent" />
+          <div className="from-forest-900/80 via-forest-900/30 absolute inset-0 bg-gradient-to-t to-transparent" />
           <div className="absolute inset-x-0 bottom-0 mx-auto max-w-7xl px-4 pb-8 lg:px-8">
-            <p className="text-sm uppercase tracking-widest text-cream-50/80">What we do</p>
-            <h1 className="font-display text-4xl text-cream-50 sm:text-5xl">Services</h1>
-            <p className="mt-3 max-w-2xl text-base text-cream-50/85">
-              Full-service landscaping, lawn care, and hardscaping for commercial
-              properties across Halton.
+            <p className="text-cream-50/80 text-sm tracking-widest uppercase">What we do</p>
+            <h1 className="font-display text-cream-50 text-4xl sm:text-5xl">Services</h1>
+            <p className="text-cream-50/85 mt-3 max-w-2xl text-base">
+              Full-service landscaping, lawn care, and hardscaping for commercial properties across
+              Halton.
             </p>
           </div>
         </div>
       </section>
       {groups.map((g) => (
-        <ServiceCategorySection key={g.category} id={g.category} label={g.label} services={g.services} />
+        <ServiceCategorySection
+          key={g.category}
+          id={g.category}
+          label={g.label}
+          services={g.services}
+        />
       ))}
     </>
   );

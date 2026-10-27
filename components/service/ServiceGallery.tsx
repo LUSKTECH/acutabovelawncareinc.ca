@@ -1,7 +1,19 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import type { CSSProperties } from 'react';
 import Image from 'next/image';
+
+const dialogStyle: CSSProperties = {
+  margin: 0,
+  padding: 0,
+  border: 'none',
+  background: 'transparent',
+  maxWidth: '100vw',
+  maxHeight: '100vh',
+  width: '100vw',
+  height: '100vh',
+};
 
 type Props = Readonly<{ images: string[]; title: string }>;
 
@@ -42,14 +54,20 @@ export default function ServiceGallery({ images, title }: Props) {
     if (!lightboxSrc) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
-    return () => { document.body.style.overflow = prev; };
+    return () => {
+      document.body.style.overflow = prev;
+    };
   }, [lightboxSrc]);
 
   // Keyboard: Escape + Tab-trap inside dialog.
   useEffect(() => {
     if (!lightboxSrc) return;
     function onKey(e: KeyboardEvent) {
-      if (e.key === 'Escape') { e.preventDefault(); close(); return; }
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        close();
+        return;
+      }
       if (e.key === 'Tab' && dialogRef.current) {
         const focusables = dialogRef.current.querySelectorAll<HTMLElement>(
           'button, [href], [tabindex]:not([tabindex="-1"])',
@@ -58,8 +76,13 @@ export default function ServiceGallery({ images, title }: Props) {
         const first = focusables[0]!;
         const last = focusables[focusables.length - 1]!;
         const active = document.activeElement;
-        if (e.shiftKey && active === first) { e.preventDefault(); last.focus(); }
-        else if (!e.shiftKey && active === last) { e.preventDefault(); first.focus(); }
+        if (e.shiftKey && active === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && active === last) {
+          e.preventDefault();
+          first.focus();
+        }
       }
     }
     globalThis.addEventListener('keydown', onKey, true);
@@ -73,9 +96,7 @@ export default function ServiceGallery({ images, title }: Props) {
   return (
     <>
       <section className="mx-auto max-w-4xl px-4 pb-12 lg:px-0" data-reveal>
-        <h2 className="font-display text-2xl text-forest-900">
-          {title} — project photos
-        </h2>
+        <h2 className="font-display text-forest-900 text-2xl">{title} — project photos</h2>
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
           {images.map((src, i) => (
             <button
@@ -96,7 +117,7 @@ export default function ServiceGallery({ images, title }: Props) {
                   className="object-cover transition duration-300 group-hover:scale-[1.03]"
                 />
                 {/* Always-visible expand affordance so touch users (no hover) see it's interactive. */}
-                <span className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-forest-900/60 text-cream-50">
+                <span className="bg-forest-900/60 text-cream-50 absolute top-2 right-2 flex h-8 w-8 items-center justify-center rounded-full">
                   <svg
                     aria-hidden="true"
                     viewBox="0 0 24 24"
@@ -108,8 +129,8 @@ export default function ServiceGallery({ images, title }: Props) {
                     <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
                   </svg>
                 </span>
-                <div className="absolute inset-0 flex items-center justify-center bg-forest-900/0 opacity-0 transition group-hover:bg-forest-900/20 group-hover:opacity-100">
-                  <span className="rounded-full bg-forest-900/70 px-3 py-1 text-sm text-cream-50">
+                <div className="bg-forest-900/0 group-hover:bg-forest-900/20 absolute inset-0 flex items-center justify-center opacity-0 transition group-hover:opacity-100">
+                  <span className="bg-forest-900/70 text-cream-50 rounded-full px-3 py-1 text-sm">
                     View larger
                   </span>
                 </div>
@@ -124,20 +145,11 @@ export default function ServiceGallery({ images, title }: Props) {
         aria-label="Project photo"
         aria-modal="true"
         onClose={close}
-        style={{
-          margin: 0,
-          padding: 0,
-          border: 'none',
-          background: 'transparent',
-          maxWidth: '100vw',
-          maxHeight: '100vh',
-          width: '100vw',
-          height: '100vh',
-        }}
+        style={dialogStyle}
         // No `flex`/`display` on the <dialog> itself: that would override the UA
         // `dialog:not([open]) { display: none }` rule, leaving the closed overlay
         // covering the page. Centering happens on the inner wrapper instead.
-        className="fixed inset-0 z-50 bg-forest-900/95 p-4"
+        className="bg-forest-900/95 fixed inset-0 z-50 p-4"
       >
         {lightboxSrc && (
           <div className="flex h-full w-full items-center justify-center">
@@ -146,11 +158,11 @@ export default function ServiceGallery({ images, title }: Props) {
               type="button"
               onClick={close}
               aria-label="Close"
-              className="absolute right-4 top-4 rounded-full bg-cream-50/10 px-4 py-2 text-cream-50 hover:bg-cream-50/20"
+              className="bg-cream-50/10 text-cream-50 hover:bg-cream-50/20 absolute top-4 right-4 rounded-full px-4 py-2"
             >
               Close
             </button>
-            <div className="relative max-h-[85vh] max-w-5xl w-full h-full">
+            <div className="relative h-full max-h-[85vh] w-full max-w-5xl">
               <Image
                 src={lightboxSrc}
                 alt={`${title} project photo`}

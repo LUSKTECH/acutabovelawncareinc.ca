@@ -36,7 +36,7 @@ const lnmCityRedirects: R[] = [
 
 // Direct city-service slugs at root that may have been indexed
 const areaRedirects: R[] = ['burlington', 'milton', 'oakville'].flatMap((city) =>
-  services.map((s) => ({ from: `/${city}-${s.slug}`, to: `/areas/${city}` }))
+  services.map((s) => ({ from: `/${city}-${s.slug}`, to: `/areas/${city}` })),
 );
 
 const lnmRedirects = [...lnmCityRedirects, ...areaRedirects];

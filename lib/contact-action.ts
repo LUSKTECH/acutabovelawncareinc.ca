@@ -8,7 +8,11 @@ import { rateLimit } from '@/lib/rate-limit';
 const Schema = z.object({
   name: z.string().min(2).max(100),
   email: z.email(),
-  phone: z.string().max(40).optional().transform((v) => v?.trim() || undefined),
+  phone: z
+    .string()
+    .max(40)
+    .optional()
+    .transform((v) => v?.trim() || undefined),
   message: z.string().min(10).max(5000),
   // Honeypot: bots fill any field they see; humans don't. We allow the field
   // through schema validation so the runtime check below can silently drop

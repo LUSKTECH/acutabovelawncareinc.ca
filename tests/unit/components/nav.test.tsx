@@ -75,16 +75,22 @@ describe('MegaNav', () => {
   it('opens the Areas dropdown on click', () => {
     render(<MegaNav />);
     const btn = screen.getByRole('button', { name: /areas/i });
-    act(() => { fireEvent.click(btn); });
+    act(() => {
+      fireEvent.click(btn);
+    });
     expect(btn.getAttribute('aria-expanded')).toBe('true');
   });
 
   it('closes the Areas dropdown on Escape', () => {
     render(<MegaNav />);
     const btn = screen.getByRole('button', { name: /areas/i });
-    act(() => { fireEvent.click(btn); });
+    act(() => {
+      fireEvent.click(btn);
+    });
     expect(btn.getAttribute('aria-expanded')).toBe('true');
-    act(() => { fireEvent.keyDown(document, { key: 'Escape' }); });
+    act(() => {
+      fireEvent.keyDown(document, { key: 'Escape' });
+    });
     expect(btn.getAttribute('aria-expanded')).toBe('false');
   });
 
@@ -107,16 +113,22 @@ describe('MegaNav', () => {
     const btns = screen.getAllByRole('button');
     // First button should be a service category
     const categoryBtn = btns[0]!;
-    act(() => { fireEvent.click(categoryBtn); });
+    act(() => {
+      fireEvent.click(categoryBtn);
+    });
     expect(categoryBtn.getAttribute('aria-expanded')).toBe('true');
   });
 
   it('closes dropdown when clicking outside', () => {
     render(<MegaNav />);
     const btn = screen.getByRole('button', { name: /areas/i });
-    act(() => { fireEvent.click(btn); });
+    act(() => {
+      fireEvent.click(btn);
+    });
     expect(btn.getAttribute('aria-expanded')).toBe('true');
-    act(() => { fireEvent.mouseDown(document.body); });
+    act(() => {
+      fireEvent.mouseDown(document.body);
+    });
     expect(btn.getAttribute('aria-expanded')).toBe('false');
   });
 });
@@ -138,51 +150,75 @@ describe('MobileNav', () => {
   it('sets aria-expanded=true after clicking the hamburger', () => {
     render(<MobileNav />);
     const btn = screen.getByRole('button', { name: /open menu/i });
-    act(() => { fireEvent.click(btn); });
+    act(() => {
+      fireEvent.click(btn);
+    });
     expect(btn.getAttribute('aria-expanded')).toBe('true');
   });
 
   it('changes label to "Close menu" when open', () => {
     render(<MobileNav />);
     const btn = screen.getByRole('button', { name: /open menu/i });
-    act(() => { fireEvent.click(btn); });
+    act(() => {
+      fireEvent.click(btn);
+    });
     expect(screen.getByRole('button', { name: /close menu/i })).toBeTruthy();
   });
 
   it('closes the drawer on Escape', () => {
     render(<MobileNav />);
     const btn = screen.getByRole('button', { name: /open menu/i });
-    act(() => { fireEvent.click(btn); });
+    act(() => {
+      fireEvent.click(btn);
+    });
     expect(btn.getAttribute('aria-expanded')).toBe('true');
-    act(() => { fireEvent.keyDown(window, { key: 'Escape' }); });
+    act(() => {
+      fireEvent.keyDown(window, { key: 'Escape' });
+    });
     expect(btn.getAttribute('aria-expanded')).toBe('false');
   });
 
   it('resets the open category when the drawer closes via Escape', () => {
     render(<MobileNav />);
-    act(() => { fireEvent.click(screen.getByRole('button', { name: /open menu/i })); });
+    act(() => {
+      fireEvent.click(screen.getByRole('button', { name: /open menu/i }));
+    });
     const categoryBtn = screen.getAllByRole('button', { name: /toggle .+ services/i })[0]!;
-    act(() => { fireEvent.click(categoryBtn); });
+    act(() => {
+      fireEvent.click(categoryBtn);
+    });
     expect(categoryBtn.getAttribute('aria-expanded')).toBe('true');
-    act(() => { fireEvent.keyDown(window, { key: 'Escape' }); });
-    act(() => { fireEvent.click(screen.getByRole('button', { name: /open menu/i })); });
-    expect(screen.getAllByRole('button', { name: /toggle .+ services/i })[0]!.getAttribute('aria-expanded')).toBe(
-      'false',
-    );
+    act(() => {
+      fireEvent.keyDown(window, { key: 'Escape' });
+    });
+    act(() => {
+      fireEvent.click(screen.getByRole('button', { name: /open menu/i }));
+    });
+    expect(
+      screen
+        .getAllByRole('button', { name: /toggle .+ services/i })[0]!
+        .getAttribute('aria-expanded'),
+    ).toBe('false');
   });
 
   it('locks body scroll when open', () => {
     render(<MobileNav />);
     const btn = screen.getByRole('button', { name: /open menu/i });
-    act(() => { fireEvent.click(btn); });
+    act(() => {
+      fireEvent.click(btn);
+    });
     expect(document.body.style.overflow).toBe('hidden');
   });
 
   it('restores body scroll when closed', () => {
     render(<MobileNav />);
     const btn = screen.getByRole('button', { name: /open menu/i });
-    act(() => { fireEvent.click(btn); });
-    act(() => { fireEvent.click(btn); });
+    act(() => {
+      fireEvent.click(btn);
+    });
+    act(() => {
+      fireEvent.click(btn);
+    });
     expect(document.body.style.overflow).toBe('');
   });
 
@@ -190,7 +226,9 @@ describe('MobileNav', () => {
     mockPathname.mockReturnValue('/');
     render(<MobileNav />);
     // Links are inside the drawer — open it first.
-    act(() => { fireEvent.click(screen.getByRole('button', { name: /open menu/i })); });
+    act(() => {
+      fireEvent.click(screen.getByRole('button', { name: /open menu/i }));
+    });
     const homeLink = screen.getByRole('link', { name: /^home$/i });
     expect(homeLink.getAttribute('aria-current')).toBe('page');
   });
@@ -198,7 +236,9 @@ describe('MobileNav', () => {
   it('marks Service Areas as current when on /service-areas', () => {
     mockPathname.mockReturnValue('/service-areas');
     render(<MobileNav />);
-    act(() => { fireEvent.click(screen.getByRole('button', { name: /open menu/i })); });
+    act(() => {
+      fireEvent.click(screen.getByRole('button', { name: /open menu/i }));
+    });
     const areasLink = screen.getByRole('link', { name: /service areas/i });
     expect(areasLink.getAttribute('aria-current')).toBe('page');
   });
@@ -206,7 +246,9 @@ describe('MobileNav', () => {
   it('marks Service Areas as current when on /areas/burlington', () => {
     mockPathname.mockReturnValue('/areas/burlington');
     render(<MobileNav />);
-    act(() => { fireEvent.click(screen.getByRole('button', { name: /open menu/i })); });
+    act(() => {
+      fireEvent.click(screen.getByRole('button', { name: /open menu/i }));
+    });
     const areasLink = screen.getByRole('link', { name: /service areas/i });
     expect(areasLink.getAttribute('aria-current')).toBe('page');
   });

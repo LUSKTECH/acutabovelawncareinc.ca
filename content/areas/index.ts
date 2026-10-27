@@ -31,9 +31,9 @@ export const cities: CityArea[] = [
     region: 'Halton Region, ON',
     heroImage: '/images/projects/landscaping-01.jpg',
     intro:
-      'A Cut Above Lawn Care Inc. has served Burlington properties for years — from mature lakefront estates in Roseland and Aldershot to newer developments in Alton Village and Orchard. We know the city\'s clay-heavy soils, its microclimate in the shadow of the Niagara Escarpment, and the seasonal demands that come with it.',
+      "A Cut Above Lawn Care Inc. has served Burlington properties for years — from mature lakefront estates in Roseland and Aldershot to newer developments in Alton Village and Orchard. We know the city's clay-heavy soils, its microclimate in the shadow of the Niagara Escarpment, and the seasonal demands that come with it.",
     localContext:
-      'Burlington\'s Niagara Escarpment geography creates significant soil variation across the city. Properties north of Upper Middle Road tend toward thin, rocky topsoil over limestone bedrock, while homes near the lake deal with dense, poorly-draining clay. We tailor every aeration, overseeding, and fertilization program to your specific microzone — not a one-size template.',
+      "Burlington's Niagara Escarpment geography creates significant soil variation across the city. Properties north of Upper Middle Road tend toward thin, rocky topsoil over limestone bedrock, while homes near the lake deal with dense, poorly-draining clay. We tailor every aeration, overseeding, and fertilization program to your specific microzone — not a one-size template.",
     highlights: [
       'Escarpment-zone expertise — rocky topsoil, compaction management',
       'Lakefront and heritage-district lawn restoration',
@@ -49,7 +49,7 @@ export const cities: CityArea[] = [
       {
         question: 'Do Burlington by-laws restrict water use during droughts?',
         answer:
-          'Yes. Burlington follows Halton Region\'s Outdoor Water Use By-law, which limits lawn irrigation to alternate-day schedules during Stage 1 restrictions and bans it entirely during Stage 2. An automated drip-irrigation system with soil-moisture sensors keeps you compliant and avoids fines.',
+          "Yes. Burlington follows Halton Region's Outdoor Water Use By-law, which limits lawn irrigation to alternate-day schedules during Stage 1 restrictions and bans it entirely during Stage 2. An automated drip-irrigation system with soil-moisture sensors keeps you compliant and avoids fines.",
       },
       {
         question: 'Why does my Burlington lawn have bare patches every spring?',
@@ -63,7 +63,12 @@ export const cities: CityArea[] = [
       },
     ],
     featuredServiceSlugs: [
-      'lawn-care', 'aeration', 'landscaping', 'hardscapes', 'retaining-walls', 'irrigation',
+      'lawn-care',
+      'aeration',
+      'landscaping',
+      'hardscapes',
+      'retaining-walls',
+      'irrigation',
     ],
   },
 
@@ -73,9 +78,9 @@ export const cities: CityArea[] = [
     region: 'Halton Region, ON',
     heroImage: '/images/projects/landscape-design-01.jpg',
     intro:
-      'Oakville properties demand a higher standard — and we deliver it. Whether you\'re maintaining a century-old estate on Lakeshore Road, landscaping a new build in Joshua Creek, or managing commercial grounds for a Glen Abbey business plaza, A Cut Above brings the precision and reliability Oakville property managers expect.',
+      "Oakville properties demand a higher standard — and we deliver it. Whether you're maintaining a century-old estate on Lakeshore Road, landscaping a new build in Joshua Creek, or managing commercial grounds for a Glen Abbey business plaza, A Cut Above brings the precision and reliability Oakville property managers expect.",
     localContext:
-      'Oakville\'s wide range of property ages and styles means no two projects are alike. Heritage lots along the old lake shore have decades of mature canopy that shapes every planting decision. In contrast, the newer communities north of Dundas Street offer blank-canvas opportunities for full landscape design and installation. We work across both contexts.',
+      "Oakville's wide range of property ages and styles means no two projects are alike. Heritage lots along the old lake shore have decades of mature canopy that shapes every planting decision. In contrast, the newer communities north of Dundas Street offer blank-canvas opportunities for full landscape design and installation. We work across both contexts.",
     highlights: [
       'Design-forward landscape installation for new Oakville builds',
       'Mature-tree preservation and understory planting for heritage lots',
@@ -86,7 +91,7 @@ export const cities: CityArea[] = [
       {
         question: 'What paving stone works best for Oakville patios?',
         answer:
-          'Cambridge Cobble and Unilock Umbriano both hold up well to Oakville\'s freeze-thaw cycles and suit the neighbourhood aesthetic. For estate properties near the lake, natural Eramosa limestone from the local quarry system blends seamlessly with mature landscaping and adds long-term value.',
+          "Cambridge Cobble and Unilock Umbriano both hold up well to Oakville's freeze-thaw cycles and suit the neighbourhood aesthetic. For estate properties near the lake, natural Eramosa limestone from the local quarry system blends seamlessly with mature landscaping and adds long-term value.",
       },
       {
         question: 'How do you handle tree-root conflicts with hardscaping?',
@@ -105,7 +110,12 @@ export const cities: CityArea[] = [
       },
     ],
     featuredServiceSlugs: [
-      'landscape-design', 'hardscapes', 'commercial-landscaping', 'lawn-care', 'irrigation', 'commercial-property-maintenance',
+      'landscape-design',
+      'hardscapes',
+      'commercial-landscaping',
+      'lawn-care',
+      'irrigation',
+      'commercial-property-maintenance',
     ],
   },
 
@@ -115,7 +125,7 @@ export const cities: CityArea[] = [
     region: 'Halton Region, ON',
     heroImage: '/images/projects/landscaping-03.jpg',
     intro:
-      'Milton is one of Canada\'s fastest-growing communities, and we\'ve grown with it. From established properties in Old Milton to the constant wave of new builds in Boyne Survey, Hawthorne Village, and Dempsey, we help Milton property managers establish beautiful, resilient outdoor spaces from the ground up.',
+      "Milton is one of Canada's fastest-growing communities, and we've grown with it. From established properties in Old Milton to the constant wave of new builds in Boyne Survey, Hawthorne Village, and Dempsey, we help Milton property managers establish beautiful, resilient outdoor spaces from the ground up.",
     localContext:
       'New construction in Milton presents specific challenges: stripped, compacted topsoil, builder-grade sod laid over clay fill, and irrigations systems that often need upgrading. We specialize in getting these properties back to healthy soil profiles and dense turf within a season or two using aggressive aeration and overseeding programs.',
     highlights: [
@@ -126,28 +136,33 @@ export const cities: CityArea[] = [
     ],
     faq: [
       {
-        question: 'My new Milton home has thin, patchy grass — what\'s wrong?',
+        question: "My new Milton home has thin, patchy grass — what's wrong?",
         answer:
-          'Almost certainly builder topsoil: builders typically strip and sell the natural topsoil, replace it with 2-4 inches of inconsistent fill, then lay sod on top. Within two years the sod roots hit compacted clay or gravel and fail. The fix is core aeration, top-dressing with quality compost, and overseeding with a turf blend suited to Milton\'s clay-loam base.',
+          "Almost certainly builder topsoil: builders typically strip and sell the natural topsoil, replace it with 2-4 inches of inconsistent fill, then lay sod on top. Within two years the sod roots hit compacted clay or gravel and fail. The fix is core aeration, top-dressing with quality compost, and overseeding with a turf blend suited to Milton's clay-loam base.",
       },
       {
         question: 'When should a new Milton property start landscaping?',
         answer:
-          'Spring of the first year is ideal for lawn rehab and grading. Landscape planting beds are best started in mid-spring once frost risk passes. Hardscaping — patios, walkways, retaining walls — can start as soon as the ground has drained and settled after the builder\'s work is complete, usually 12-18 months after possession.',
+          "Spring of the first year is ideal for lawn rehab and grading. Landscape planting beds are best started in mid-spring once frost risk passes. Hardscaping — patios, walkways, retaining walls — can start as soon as the ground has drained and settled after the builder's work is complete, usually 12-18 months after possession.",
       },
       {
         question: 'Does Milton have watering restrictions like Burlington?',
         answer:
-          'Yes — Milton follows Halton Region\'s outdoor water use restrictions, the same as Burlington and Oakville. New sod and seed are typically exempt for the first 30 days after installation if you register with the Town. We handle that paperwork as part of every new-installation project.',
+          "Yes — Milton follows Halton Region's outdoor water use restrictions, the same as Burlington and Oakville. New sod and seed are typically exempt for the first 30 days after installation if you register with the Town. We handle that paperwork as part of every new-installation project.",
       },
       {
         question: 'Can you do landscaping near the Niagara Escarpment Biosphere?',
         answer:
-          'Yes, with care. Properties within or adjacent to the Escarpment Plan Area have restrictions on grading, vegetation removal, and impervious surface coverage. We are familiar with the Niagara Escarpment Commission\'s development permit requirements and can advise you before any project begins.',
+          "Yes, with care. Properties within or adjacent to the Escarpment Plan Area have restrictions on grading, vegetation removal, and impervious surface coverage. We are familiar with the Niagara Escarpment Commission's development permit requirements and can advise you before any project begins.",
       },
     ],
     featuredServiceSlugs: [
-      'sodding', 'lawn-care', 'aeration', 'landscaping', 'landscape-design', 'irrigation',
+      'sodding',
+      'lawn-care',
+      'aeration',
+      'landscaping',
+      'landscape-design',
+      'irrigation',
     ],
   },
 
@@ -159,7 +174,7 @@ export const cities: CityArea[] = [
     intro:
       'Halton Hills — encompassing Georgetown, Acton, and the surrounding rural properties — is where suburban meets countryside. A Cut Above serves commercial properties throughout the area, from the retail plazas on Guelph Street to the industrial parks along Armstrong Avenue and the institutional campuses dotting the Niagara Escarpment corridor.',
     localContext:
-      'The unique mix of urban centres and agricultural land means property management here ranges from standard commercial lot maintenance to large-acreage estate grounds. Georgetown\'s rapid growth brings new commercial developments that need professional landscape installation, while established businesses in Acton require reliable year-round maintenance programs.',
+      "The unique mix of urban centres and agricultural land means property management here ranges from standard commercial lot maintenance to large-acreage estate grounds. Georgetown's rapid growth brings new commercial developments that need professional landscape installation, while established businesses in Acton require reliable year-round maintenance programs.",
     highlights: [
       'Commercial property maintenance for Georgetown and Acton businesses',
       'Large-acreage grounds management for rural estates and institutions',
@@ -175,7 +190,7 @@ export const cities: CityArea[] = [
       {
         question: 'Can you handle large rural commercial properties?',
         answer:
-          'Absolutely. We maintain multi-acre properties including institutional campuses, golf course perimeters, and agricultural business frontages. Our commercial equipment fleet is sized for properties that residential-focused companies can\'t handle efficiently.',
+          "Absolutely. We maintain multi-acre properties including institutional campuses, golf course perimeters, and agricultural business frontages. Our commercial equipment fleet is sized for properties that residential-focused companies can't handle efficiently.",
       },
       {
         question: 'What snow removal coverage do you offer in Halton Hills?',
@@ -183,13 +198,19 @@ export const cities: CityArea[] = [
           'We offer 24/7 snow and ice management for commercial properties with guaranteed response times. Contracts include plowing, salting, sidewalk clearing, and roof snow removal for properties along the Highway 7 corridor, Mountainview Road, and the Georgetown industrial areas.',
       },
       {
-        question: 'How far in advance should we book landscape installation for a new Georgetown development?',
+        question:
+          'How far in advance should we book landscape installation for a new Georgetown development?',
         answer:
           'For new commercial builds, we recommend engaging 8-12 weeks before your target completion date. This allows time for site assessment, design approval, material sourcing, and scheduling around weather. Spring and early fall are our busiest installation seasons.',
       },
     ],
     featuredServiceSlugs: [
-      'commercial-property-maintenance', 'commercial-snow-removal', 'landscape-design', 'commercial-lawn-mowing', 'hardscapes', 'irrigation',
+      'commercial-property-maintenance',
+      'commercial-snow-removal',
+      'landscape-design',
+      'commercial-lawn-mowing',
+      'hardscapes',
+      'irrigation',
     ],
   },
 
@@ -199,9 +220,9 @@ export const cities: CityArea[] = [
     region: 'Hamilton, ON',
     heroImage: '/images/projects/landscaping-03.jpg',
     intro:
-      'Hamilton\'s industrial heritage meets modern commercial growth, and A Cut Above is there for both. From the revitalized James Street corridor to the sprawling business parks in Ancaster and Stoney Creek, we maintain commercial properties that need to project professionalism year-round.',
+      "Hamilton's industrial heritage meets modern commercial growth, and A Cut Above is there for both. From the revitalized James Street corridor to the sprawling business parks in Ancaster and Stoney Creek, we maintain commercial properties that need to project professionalism year-round.",
     localContext:
-      'Hamilton\'s diverse geography — from the lower city core to the Escarpment face and the upper mountain — means soil conditions, drainage patterns, and microclimates vary dramatically within a short distance. Our crews understand these local conditions and adapt maintenance programs accordingly, whether dealing with the clay-heavy soils near the harbour or the well-drained loam on the mountain.',
+      "Hamilton's diverse geography — from the lower city core to the Escarpment face and the upper mountain — means soil conditions, drainage patterns, and microclimates vary dramatically within a short distance. Our crews understand these local conditions and adapt maintenance programs accordingly, whether dealing with the clay-heavy soils near the harbour or the well-drained loam on the mountain.",
     highlights: [
       'Commercial grounds maintenance across Hamilton, Ancaster, Dundas, and Stoney Creek',
       'Property management for condo corporations and multi-unit complexes',
@@ -227,11 +248,16 @@ export const cities: CityArea[] = [
       {
         question: 'What makes your commercial snow removal different?',
         answer:
-          'We deploy GPS-tracked equipment with per-event documentation, salt usage tracking for environmental compliance, and guaranteed response times from first flake. Hamilton\'s lake-effect snow patterns mean we pre-stage equipment before storms hit.',
+          "We deploy GPS-tracked equipment with per-event documentation, salt usage tracking for environmental compliance, and guaranteed response times from first flake. Hamilton's lake-effect snow patterns mean we pre-stage equipment before storms hit.",
       },
     ],
     featuredServiceSlugs: [
-      'commercial-property-maintenance', 'commercial-snow-removal', 'hardscapes', 'commercial-lawn-mowing', 'landscape-construction', 'commercial-garden-design',
+      'commercial-property-maintenance',
+      'commercial-snow-removal',
+      'hardscapes',
+      'commercial-lawn-mowing',
+      'landscape-construction',
+      'commercial-garden-design',
     ],
   },
 ];
@@ -243,15 +269,19 @@ export function getCityBySlug(slug: string): CityArea {
 }
 
 export function getCityServices(city: CityArea) {
-  return city.featuredServiceSlugs.map((slug) => {
-    const svc = services.find((s) => s.slug === slug);
-    if (!svc) {
-      // Log in dev so stale slugs surface immediately rather than silently
-      // rendering fewer cards.
-      if (process.env.NODE_ENV !== 'production') {
-        console.warn(`[areas] city="${city.slug}" — featuredServiceSlug "${slug}" not found in services`);
+  return city.featuredServiceSlugs
+    .map((slug) => {
+      const svc = services.find((s) => s.slug === slug);
+      if (!svc) {
+        // Log in dev so stale slugs surface immediately rather than silently
+        // rendering fewer cards.
+        if (process.env.NODE_ENV !== 'production') {
+          console.warn(
+            `[areas] city="${city.slug}" — featuredServiceSlug "${slug}" not found in services`,
+          );
+        }
       }
-    }
-    return svc;
-  }).filter(Boolean);
+      return svc;
+    })
+    .filter(Boolean);
 }

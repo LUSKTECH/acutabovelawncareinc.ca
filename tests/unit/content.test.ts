@@ -1,5 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { getServiceSlugs, getServiceBySlug, getFeaturedServices, getPageBySlug } from '@/lib/content';
+import {
+  getServiceSlugs,
+  getServiceBySlug,
+  getFeaturedServices,
+  getPageBySlug,
+} from '@/lib/content';
 import { getCategorizedServices, services } from '@/content/services/_meta';
 
 describe('content layer', () => {

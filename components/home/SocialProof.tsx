@@ -9,7 +9,8 @@
 import CountUp from '@/components/motion/CountUp';
 import VideoReel from '@/components/home/VideoReel';
 
-const GOOGLE_LISTING_URL = 'https://www.google.com/maps/place/?q=place_id:ChIJLaal10JjK4gRNjaQLr2g6zY';
+const GOOGLE_LISTING_URL =
+  'https://www.google.com/maps/place/?q=place_id:ChIJLaal10JjK4gRNjaQLr2g6zY';
 
 const stats: ReadonlyArray<{
   to: number;
@@ -45,7 +46,7 @@ const testimonials: ReadonlyArray<{ quote: string; name: string; meta: string }>
 
 function Stars() {
   return (
-    <div className="flex gap-0.5 text-clay-500" role="img" aria-label="Rated 5 out of 5 stars">
+    <div className="text-clay-500 flex gap-0.5" role="img" aria-label="Rated 5 out of 5 stars">
       {Array.from({ length: 5 }, (_, i) => (
         <svg key={i} viewBox="0 0 20 20" className="h-4 w-4" fill="currentColor" aria-hidden="true">
           <path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 14.9 4.8 17.6l1-5.8L1.5 7.7l5.9-.9L10 1.5z" />
@@ -57,12 +58,15 @@ function Stars() {
 
 export default function SocialProof() {
   return (
-    <section className="mx-auto max-w-7xl px-4 py-20 lg:px-8" aria-labelledby="social-proof-heading">
+    <section
+      className="mx-auto max-w-7xl px-4 py-20 lg:px-8"
+      aria-labelledby="social-proof-heading"
+    >
       <div className="text-center" data-reveal>
-        <p className="text-sm uppercase tracking-widest text-sage-500">Trusted locally</p>
+        <p className="text-sage-500 text-sm tracking-widest uppercase">Trusted locally</p>
         <h2
           id="social-proof-heading"
-          className="mt-2 font-display text-3xl text-forest-900 sm:text-4xl"
+          className="font-display text-forest-900 mt-2 text-3xl sm:text-4xl"
         >
           What our clients say
         </h2>
@@ -73,10 +77,10 @@ export default function SocialProof() {
         {stats.map((s) => {
           const inner = (
             <>
-              <span className="block font-display text-3xl text-forest-900">
+              <span className="font-display text-forest-900 block text-3xl">
                 <CountUp to={s.to} decimals={s.decimals} suffix={s.suffix} />
               </span>
-              <span className="mt-1 block text-sm text-ink-500">{s.label}</span>
+              <span className="text-ink-500 mt-1 block text-sm">{s.label}</span>
             </>
           );
           return s.href ? (
@@ -86,14 +90,14 @@ export default function SocialProof() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${s.label}: ${s.to} (opens Google listing in a new tab)`}
-              className="rounded-xl border border-ink-300/20 bg-white p-6 text-center shadow-sm transition hover:border-forest-700"
+              className="border-ink-300/20 hover:border-forest-700 rounded-xl border bg-white p-6 text-center shadow-sm transition"
             >
               {inner}
             </a>
           ) : (
             <div
               key={s.label}
-              className="rounded-xl border border-ink-300/20 bg-white p-6 text-center shadow-sm"
+              className="border-ink-300/20 rounded-xl border bg-white p-6 text-center shadow-sm"
             >
               {inner}
             </div>
@@ -104,12 +108,12 @@ export default function SocialProof() {
       {/* Video reel */}
       <div className="mt-10 text-center" data-reveal>
         <VideoReel />
-        <p className="mt-3 text-sm text-ink-500">Leading the switch to electric</p>
+        <p className="text-ink-500 mt-3 text-sm">Leading the switch to electric</p>
         <a
           href="https://www.instagram.com/reel/DZXiV2cxHsF/"
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-1 inline-block text-xs text-ink-500 hover:text-forest-700"
+          className="text-ink-500 hover:text-forest-700 mt-1 inline-block text-xs"
         >
           via @greenworks_commercial_crew_ca
         </a>
@@ -122,14 +126,14 @@ export default function SocialProof() {
             key={t.name}
             data-reveal
             data-reveal-delay={i + 1}
-            className="flex flex-col rounded-xl border border-ink-300/20 bg-white p-6 shadow-sm"
+            className="border-ink-300/20 flex flex-col rounded-xl border bg-white p-6 shadow-sm"
           >
             <Stars />
-            <blockquote className="mt-4 flex-1 font-serif text-ink-700">
+            <blockquote className="text-ink-700 mt-4 flex-1 font-serif">
               <p>“{t.quote}”</p>
             </blockquote>
             <figcaption className="mt-4 text-sm">
-              <span className="font-medium text-forest-900">{t.name}</span>
+              <span className="text-forest-900 font-medium">{t.name}</span>
               <span className="text-ink-500"> · {t.meta}</span>
             </figcaption>
           </figure>

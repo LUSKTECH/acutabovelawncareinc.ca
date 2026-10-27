@@ -1,8 +1,20 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import type { CSSProperties } from 'react';
 import Image from 'next/image';
 import type { GalleryItem } from '@/lib/images';
+
+const dialogStyle: CSSProperties = {
+  margin: 0,
+  padding: 0,
+  border: 'none',
+  background: 'transparent',
+  maxWidth: '100vw',
+  maxHeight: '100vh',
+  width: '100vw',
+  height: '100vh',
+};
 
 type Props = Readonly<{
   items: GalleryItem[];
@@ -111,17 +123,8 @@ export default function Lightbox({ items, openIndex, onClose, onPrev, onNext }: 
       aria-label="Image viewer"
       aria-modal="true"
       onClose={onClose}
-      style={{
-        margin: 0,
-        padding: 0,
-        border: 'none',
-        background: 'transparent',
-        maxWidth: '100vw',
-        maxHeight: '100vh',
-        width: '100vw',
-        height: '100vh',
-      }}
-      className="fixed inset-0 z-50 bg-forest-900/95"
+      style={dialogStyle}
+      className="bg-forest-900/95 fixed inset-0 z-50"
     >
       {item && (
         <>
@@ -130,7 +133,7 @@ export default function Lightbox({ items, openIndex, onClose, onPrev, onNext }: 
             ref={closeButtonRef}
             onClick={onClose}
             aria-label="Close"
-            className="absolute right-4 top-4 z-10 rounded-full bg-cream-50/10 px-4 py-2 text-cream-50 hover:bg-cream-50/20"
+            className="bg-cream-50/10 text-cream-50 hover:bg-cream-50/20 absolute top-4 right-4 z-10 rounded-full px-4 py-2"
           >
             Close
           </button>
@@ -138,7 +141,7 @@ export default function Lightbox({ items, openIndex, onClose, onPrev, onNext }: 
             type="button"
             onClick={onPrev}
             aria-label="Previous image"
-            className="absolute left-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-cream-50/10 px-4 py-3 text-cream-50 hover:bg-cream-50/20"
+            className="bg-cream-50/10 text-cream-50 hover:bg-cream-50/20 absolute top-1/2 left-4 z-10 -translate-y-1/2 rounded-full px-4 py-3"
           >
             ‹
           </button>
@@ -146,7 +149,7 @@ export default function Lightbox({ items, openIndex, onClose, onPrev, onNext }: 
             type="button"
             onClick={onNext}
             aria-label="Next image"
-            className="absolute right-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-cream-50/10 px-4 py-3 text-cream-50 hover:bg-cream-50/20"
+            className="bg-cream-50/10 text-cream-50 hover:bg-cream-50/20 absolute top-1/2 right-4 z-10 -translate-y-1/2 rounded-full px-4 py-3"
           >
             ›
           </button>

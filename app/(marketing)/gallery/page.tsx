@@ -14,14 +14,12 @@ export default async function GalleryPage() {
   return (
     <>
       <section className="mx-auto max-w-7xl px-4 pt-20 pb-12 lg:px-8">
-        <p className="text-sm uppercase tracking-widest text-sage-500">Recent work</p>
-        <h1 className="mt-2 font-display text-4xl text-forest-900 sm:text-5xl">Gallery</h1>
+        <p className="text-sage-500 text-sm tracking-widest uppercase">Recent work</p>
+        <h1 className="font-display text-forest-900 mt-2 text-4xl sm:text-5xl">Gallery</h1>
       </section>
       <section className="mx-auto max-w-7xl px-4 pb-24 lg:px-8" data-reveal>
         {items.length === 0 ? (
-          <p className="py-16 text-center text-ink-500">
-            Gallery photos are coming soon.
-          </p>
+          <p className="text-ink-500 py-16 text-center">Gallery photos are coming soon.</p>
         ) : (
           <Masonry items={items} />
         )}

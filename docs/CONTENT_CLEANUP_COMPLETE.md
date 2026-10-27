@@ -46,24 +46,28 @@ Updated `transformContentToPortableText()` function in `lib/migration.ts` to:
 Tested multiple service pages via Playwright browser automation:
 
 ### ✅ Fertilization Page
+
 - Clean, professional content
 - No shortcodes visible
 - Company name properly displayed
 - Proper formatting and paragraphs
 
 ### ✅ Lawn Mowing Page
+
 - Clean content throughout
 - No template variables
 - Professional presentation
 - All text readable and formatted
 
 ### ✅ Landscaping Page
+
 - Content displays properly
 - No WordPress artifacts
 - Clean paragraphs and structure
 - Professional appearance
 
 ### ✅ Homepage
+
 - Service previews display
 - Content is clean
 - No shortcodes in service descriptions
@@ -71,6 +75,7 @@ Tested multiple service pages via Playwright browser automation:
 ## Current State
 
 ### What's Working
+
 - ✅ All 35 services imported to Sanity
 - ✅ Content transformation removes all WordPress artifacts
 - ✅ Clean, readable text on all pages

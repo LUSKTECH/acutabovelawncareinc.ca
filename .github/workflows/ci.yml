@@ -31,6 +31,9 @@ jobs:
       - name: Lint (oxlint)
         run: npm run lint
 
+      - name: Format (prettier)
+        run: npm run format:check
+
       - name: TypeScript
         run: npm run typecheck
 

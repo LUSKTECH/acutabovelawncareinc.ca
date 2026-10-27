@@ -9,7 +9,7 @@ const currentYear = new Date().getFullYear();
 export default function Footer() {
   const groups = getCategorizedServices();
   return (
-    <footer className="mt-24 border-t border-moss-100 bg-forest-900 text-moss-100">
+    <footer className="border-moss-100 bg-forest-900 text-moss-100 mt-24 border-t">
       <div className="mx-auto grid max-w-7xl gap-12 px-4 py-16 lg:grid-cols-[1.2fr_3fr] lg:px-8">
         {/* Brand + contact */}
         <div>
@@ -21,17 +21,17 @@ export default function Footer() {
               height={48}
               className="h-12 w-12 rounded-full object-cover opacity-90 brightness-0 invert"
             />
-            <p className="font-display text-2xl text-cream-50">A Cut Above Lawn Care</p>
+            <p className="font-display text-cream-50 text-2xl">A Cut Above Lawn Care</p>
           </div>
-          <p className="mt-2 italic text-moss-100/70">{site.tagline}</p>
+          <p className="text-moss-100/70 mt-2 italic">{site.tagline}</p>
           <p className="mt-6 text-sm">
             {site.address.locality}, {site.address.region}
             <br />
-            <a href={`tel:${site.phoneE164}`} className="inline-block py-1 hover:text-cream-50">
+            <a href={`tel:${site.phoneE164}`} className="hover:text-cream-50 inline-block py-1">
               {site.phone}
             </a>
             <br />
-            <a href={`mailto:${site.email}`} className="inline-block py-1 hover:text-cream-50">
+            <a href={`mailto:${site.email}`} className="hover:text-cream-50 inline-block py-1">
               {site.email}
             </a>
           </p>
@@ -42,7 +42,7 @@ export default function Footer() {
         <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-5">
           {groups.map((g) => (
             <div key={g.category}>
-              <p className="font-medium text-cream-50">{g.label}</p>
+              <p className="text-cream-50 font-medium">{g.label}</p>
               <ul className="mt-3 space-y-1.5 text-sm">
                 {g.services.map((s) => (
                   <li key={s.slug}>
@@ -55,7 +55,7 @@ export default function Footer() {
             </div>
           ))}
           <div>
-            <p className="font-medium text-cream-50">Service areas</p>
+            <p className="text-cream-50 font-medium">Service areas</p>
             <ul className="mt-3 space-y-1.5 text-sm">
               {cities.map((c) => (
                 <li key={c.slug}>
@@ -73,8 +73,8 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      <div className="border-t border-forest-700/40">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-6 text-xs text-moss-100/70 lg:px-8">
+      <div className="border-forest-700/40 border-t">
+        <div className="text-moss-100/70 mx-auto flex max-w-7xl items-center justify-between px-4 py-6 text-xs lg:px-8">
           <p>© {currentYear} A Cut Above Lawn Care Inc.</p>
           <p>Serving {site.serviceAreas.slice(0, 3).join(', ')} & the Halton Region</p>
         </div>

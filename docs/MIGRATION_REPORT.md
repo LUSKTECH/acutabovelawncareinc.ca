@@ -6,6 +6,7 @@
 ## Export Summary
 
 ### Content Statistics
+
 - **Total Posts/Pages:** 37
 - **Published Content:** 34 pages
 - **Draft Content:** 3 pages
@@ -14,6 +15,7 @@
 - **Tags:** Exported
 
 ### Site Information
+
 - **Site Name:** A Cut Above Lawn Care Inc
 - **Admin Email:** Exported
 - **Permalink Structure:** Exported
@@ -21,7 +23,9 @@
 ## Content Breakdown
 
 ### Published Pages (34)
+
 Key pages identified:
+
 - Home
 - About Us
 - Service Areas
@@ -41,6 +45,7 @@ Key pages identified:
 - And 18 more pages...
 
 ### Media Files (46)
+
 - All images downloaded to: `wordpress-export/latest/media-files/`
 - Total size: 26.7 MB
 - Formats: JPEG, PNG
@@ -49,12 +54,14 @@ Key pages identified:
 ## Migration Status
 
 ### ✅ Completed
+
 1. WordPress content export via wp-cli
 2. Media files download via rsync
 3. URL structure documentation
 4. Site metadata export
 
 ### ⏳ Ready for Execution
+
 The following can now be done:
 
 1. **Content Review** - Review exported content for accuracy
@@ -65,9 +72,11 @@ The following can now be done:
 ### 📋 Recommended Next Steps
 
 #### Option 1: Manual Import (Recommended for Production)
+
 For a production site, manual review and import is recommended:
 
 1. **Review Content**
+
    ```bash
    # View all published pages
    jq '[.[] | select(.post_status == "publish")] | .[] | {title: .post_title, slug: .post_name}' wordpress-export/latest/posts-detailed.json
@@ -85,6 +94,7 @@ For a production site, manual review and import is recommended:
    ```
 
 #### Option 2: Automated Import (Use with Caution)
+
 The automated import script is available but should be tested on a staging environment first:
 
 ```bash
@@ -96,6 +106,7 @@ npm run migrate:import
 ## URL Redirect Planning
 
 ### WordPress URLs to Preserve
+
 Based on the permalink structure, we need to create redirects for:
 
 - All page URLs: `/{slug}`
@@ -103,7 +114,9 @@ Based on the permalink structure, we need to create redirects for:
 - Feed URLs: `/feed`, `/comments/feed`
 
 ### Redirect Configuration
+
 The redirect configuration will be generated and can be applied with:
+
 ```bash
 npm run migrate:configure-redirects
 ```
@@ -111,7 +124,9 @@ npm run migrate:configure-redirects
 ## Content Mapping Strategy
 
 ### Services
+
 WordPress pages that should become Sanity "service" documents:
+
 - Landscaping Services
 - Commercial Garden Design
 - Commercial Landscaping
@@ -127,14 +142,18 @@ WordPress pages that should become Sanity "service" documents:
 - Commercial Property Maintenance
 
 ### Regular Pages
+
 Pages that should remain as regular pages:
+
 - Home
 - About Us
 - Service Areas
 - Contact (if exists)
 
 ### Gallery Images
+
 Media files that should go into the gallery:
+
 - Service photos
 - Project photos
 - Before/after images
@@ -157,6 +176,7 @@ Before going live, verify:
 ## Rollback Plan
 
 If issues arise:
+
 1. Keep WordPress site running
 2. Test new site on staging URL first
 3. Only switch DNS after full verification
@@ -165,18 +185,21 @@ If issues arise:
 ## Files and Locations
 
 ### Exported Data
+
 - **Location:** `./wordpress-export/latest/`
 - **Posts:** `posts-detailed.json` (206 KB)
 - **Media:** `media-detailed.json` (9.8 KB)
 - **Media Files:** `media-files/` directory (26.7 MB)
 
 ### Scripts
+
 - **Export:** `scripts/export-wordpress.sh`
 - **Download:** `scripts/download-media.sh`
 - **Import:** `scripts/import-to-sanity.ts`
 - **Redirects:** `scripts/configure-redirects.ts`
 
 ### Documentation
+
 - **Migration Guide:** `MIGRATION_GUIDE.md`
 - **Quick Start:** `MIGRATION_QUICKSTART.md`
 - **This Report:** `MIGRATION_REPORT.md`
@@ -184,12 +207,14 @@ If issues arise:
 ## Support and Next Actions
 
 ### Immediate Actions Required
+
 1. **Decision:** Choose manual or automated import approach
 2. **Review:** Examine exported content for accuracy
 3. **Plan:** Determine which content goes where in Sanity
 4. **Test:** Set up staging environment for testing
 
 ### Questions to Answer
+
 - Which pages should be services vs regular pages?
 - Which images should go in the gallery?
 - Are there any custom post types to handle?

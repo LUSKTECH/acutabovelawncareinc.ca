@@ -9,15 +9,15 @@ const citySlugByName = new Map<string, string>(
 
 export default function ServiceAreasStrip() {
   return (
-    <section className="bg-forest-700 py-12 text-cream-50">
+    <section className="bg-forest-700 text-cream-50 py-12">
       <div className="mx-auto max-w-7xl px-4 text-center lg:px-8" data-reveal>
-        <p className="text-sm uppercase tracking-[0.3em] text-cream-50/70">Service areas</p>
-        <p className="mt-3 font-display text-2xl sm:text-3xl">
+        <p className="text-cream-50/70 text-sm tracking-[0.3em] uppercase">Service areas</p>
+        <p className="font-display mt-3 text-2xl sm:text-3xl">
           {site.serviceAreas.map((area, i) => {
             const slug = citySlugByName.get(area);
             return (
               <Fragment key={area}>
-                {i > 0 && <span className="mx-2 text-cream-50/50">·</span>}
+                {i > 0 && <span className="text-cream-50/50 mx-2">·</span>}
                 {slug ? (
                   <Link href={`/areas/${slug}`} className="underline-offset-4 hover:underline">
                     {area}

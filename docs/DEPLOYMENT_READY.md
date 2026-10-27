@@ -11,12 +11,14 @@ The A Cut Above Lawn Care website migration from WordPress to Next.js + Sanity C
 ## Deployment Checklist
 
 ### ✅ Content Migration
+
 - [x] 35 posts imported to Sanity CMS
 - [x] 46 media files uploaded to Sanity
 - [x] 41 URL redirects configured
 - [x] Content verified in Sanity Studio
 
 ### ✅ Code Quality
+
 - [x] All 309 tests passing (100%)
 - [x] Zero TypeScript errors
 - [x] Zero ESLint errors
@@ -24,12 +26,14 @@ The A Cut Above Lawn Care website migration from WordPress to Next.js + Sanity C
 - [x] Bundle size optimized
 
 ### ✅ Performance
+
 - [x] Image optimization configured (AVIF/WebP)
 - [x] Static site generation (SSG)
 - [x] Cache headers configured
 - [x] Bundle size under limits
 
 ### ✅ SEO & Accessibility
+
 - [x] Meta tags configured
 - [x] Sitemap.xml generated
 - [x] Robots.txt configured
@@ -37,6 +41,7 @@ The A Cut Above Lawn Care website migration from WordPress to Next.js + Sanity C
 - [x] ARIA labels implemented
 
 ### ✅ Functionality
+
 - [x] Contact form working
 - [x] Gallery with lightbox
 - [x] Service pages dynamic
@@ -46,6 +51,7 @@ The A Cut Above Lawn Care website migration from WordPress to Next.js + Sanity C
 ## Build Statistics
 
 ### Production Build
+
 ```
 Route (app)
 ┌ ○ /                          (homepage)
@@ -62,6 +68,7 @@ Bundle size: Optimized
 ```
 
 ### Test Results
+
 ```
 Test Suites: 21 passed, 21 total
 Tests:       309 passed, 309 total
@@ -75,6 +82,7 @@ Time:        ~18 seconds
 ### Option 1: Vercel (Recommended)
 
 **Why Vercel:**
+
 - Built by Next.js creators
 - Zero configuration needed
 - Automatic HTTPS
@@ -83,6 +91,7 @@ Time:        ~18 seconds
 - Instant rollbacks
 
 **Steps:**
+
 ```bash
 # 1. Install Vercel CLI
 npm i -g vercel
@@ -101,6 +110,7 @@ vercel
 ```
 
 **Environment Variables to Set:**
+
 ```
 NEXT_PUBLIC_SANITY_PROJECT_ID=vz89uigu
 NEXT_PUBLIC_SANITY_DATASET=production
@@ -112,12 +122,14 @@ NEXT_PUBLIC_SITE_URL=https://acutabovelawncareinc.ca
 ### Option 2: Netlify
 
 **Why Netlify:**
+
 - Simple deployment
 - Form handling built-in
 - Split testing
 - Free tier available
 
 **Steps:**
+
 ```bash
 # 1. Install Netlify CLI
 npm i -g netlify-cli
@@ -135,6 +147,7 @@ netlify deploy --prod
 ### Option 3: Self-Hosted (VPS/Dedicated Server)
 
 **Requirements:**
+
 - Node.js 20+
 - PM2 or similar process manager
 - Nginx reverse proxy
@@ -160,6 +173,7 @@ NEXT_PUBLIC_SITE_URL=https://acutabovelawncareinc.ca
 ```
 
 **Generate a secure revalidate secret:**
+
 ```bash
 openssl rand -base64 32
 ```
@@ -205,6 +219,7 @@ After deployment, configure Sanity webhook:
 **Before DNS cutover:**
 
 1. **Backup WordPress database:**
+
    ```bash
    ssh rouge
    cd /var/www/acutabovelawncareinc.ca/htdocs/
@@ -212,6 +227,7 @@ After deployment, configure Sanity webhook:
    ```
 
 2. **Backup WordPress files:**
+
    ```bash
    tar -czf wordpress-backup-$(date +%Y%m%d).tar.gz .
    ```
@@ -223,18 +239,21 @@ After deployment, configure Sanity webhook:
 ### Immediate Checks (First 5 Minutes)
 
 1. **Homepage loads:**
+
    ```bash
    curl -I https://acutabovelawncareinc.ca
    # Should return 200 OK
    ```
 
 2. **Service pages work:**
+
    ```bash
    curl -I https://acutabovelawncareinc.ca/services/lawn-mowing
    # Should return 200 OK
    ```
 
 3. **Redirects work:**
+
    ```bash
    curl -I https://acutabovelawncareinc.ca/wp-admin
    # Should return 301 redirect to /
@@ -294,17 +313,20 @@ After deployment, configure Sanity webhook:
 If issues arise, you can rollback quickly:
 
 ### Option 1: Instant Rollback (Vercel/Netlify)
+
 - Go to hosting dashboard
 - Select previous deployment
 - Click "Promote to Production"
 - Takes effect immediately
 
 ### Option 2: DNS Rollback
+
 - Update DNS to point back to WordPress
 - Takes 5-60 minutes to propagate
 - WordPress site still running as backup
 
 ### Option 3: Redeploy Previous Version
+
 ```bash
 # Revert to previous commit
 git revert HEAD
@@ -317,6 +339,7 @@ vercel --prod
 ## Success Metrics
 
 ### Technical Metrics
+
 - ✅ Build time: ~12 seconds
 - ✅ Test coverage: 309 tests passing
 - ✅ Bundle size: Optimized
@@ -324,12 +347,14 @@ vercel --prod
 - ✅ ESLint errors: 0
 
 ### Performance Metrics (Expected)
+
 - 🎯 Page load time: < 1 second
 - 🎯 Lighthouse score: 90+
 - 🎯 Core Web Vitals: All green
 - 🎯 Time to Interactive: < 2 seconds
 
 ### Business Metrics (Monitor)
+
 - 📊 Bounce rate: Should decrease
 - 📊 Page views: Should increase
 - 📊 Contact form submissions: Track
@@ -340,21 +365,25 @@ vercel --prod
 ### Common Issues
 
 **Issue: Build fails on deployment**
+
 - Check environment variables are set
 - Verify Sanity credentials are correct
 - Check build logs for specific errors
 
 **Issue: Images not loading**
+
 - Verify Sanity project ID is correct
 - Check image URLs in browser console
 - Verify Sanity API token has read access
 
 **Issue: Contact form not working**
+
 - Check form service configuration
 - Verify API endpoint is accessible
 - Check browser console for errors
 
 **Issue: Redirects not working**
+
 - Verify next.config.ts has redirects
 - Check hosting platform redirect rules
 - Test with curl to see actual response
@@ -362,12 +391,14 @@ vercel --prod
 ### Getting Help
 
 **Documentation:**
+
 - Next.js: https://nextjs.org/docs
 - Sanity: https://www.sanity.io/docs
 - Vercel: https://vercel.com/docs
 - Netlify: https://docs.netlify.com
 
 **Project Documentation:**
+
 - [PROJECT_STATUS.md](./PROJECT_STATUS.md) - Current status
 - [MIGRATION_SUCCESS.md](./MIGRATION_SUCCESS.md) - Migration details
 - [SANITY_SETUP.md](./SANITY_SETUP.md) - CMS setup

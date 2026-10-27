@@ -9,14 +9,14 @@ export default function FeaturedServices() {
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         <div className="flex flex-wrap items-end justify-between gap-4" data-reveal>
           <div>
-            <p className="text-sm uppercase tracking-widest text-sage-500">Our work</p>
-            <h2 className="mt-2 font-display text-3xl text-forest-900 sm:text-4xl">
+            <p className="text-sage-500 text-sm tracking-widest uppercase">Our work</p>
+            <h2 className="font-display text-forest-900 mt-2 text-3xl sm:text-4xl">
               Featured services
             </h2>
           </div>
           <Link
             href="/services"
-            className="text-sm font-medium text-forest-700 hover:text-forest-900"
+            className="text-forest-700 hover:text-forest-900 text-sm font-medium"
           >
             See all services →
           </Link>

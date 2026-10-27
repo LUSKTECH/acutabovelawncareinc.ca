@@ -13,7 +13,7 @@ export default function FloatingCallCta() {
       href={`tel:${site.phoneE164}`}
       aria-label={`Call ${site.phone}`}
       // Offset by the iOS home-indicator / gesture-bar safe area so it never sits under OS chrome.
-      className="fixed right-4 bottom-[calc(1rem+env(safe-area-inset-bottom))] z-30 inline-flex h-14 w-14 items-center justify-center rounded-full bg-forest-700 text-cream-50 shadow-card transition hover:bg-forest-900 md:hidden"
+      className="bg-forest-700 text-cream-50 shadow-card hover:bg-forest-900 fixed right-4 bottom-[calc(1rem+env(safe-area-inset-bottom))] z-30 inline-flex h-14 w-14 items-center justify-center rounded-full transition md:hidden"
     >
       <svg
         viewBox="0 0 24 24"

@@ -1,5 +1,5 @@
 import { site } from '@/content/site';
-import { safeJsonLd } from '@/lib/json-ld';
+import { jsonLdHtml } from '@/lib/json-ld';
 
 export default function LocalBusinessJsonLd() {
   const data = {
@@ -72,6 +72,6 @@ export default function LocalBusinessJsonLd() {
   // are false positives on this official pattern.
   return (
     // eslint-disable-next-line react/no-danger, xss/no-mixed-html
-    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(data) }} />
+    <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdHtml(data)} />
   );
 }

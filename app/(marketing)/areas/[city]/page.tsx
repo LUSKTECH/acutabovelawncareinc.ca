@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { cities, getCityBySlug, getCityServices, CityNotFoundError } from '@/content/areas';
-import { safeJsonLd } from '@/lib/json-ld';
+import { jsonLdHtml } from '@/lib/json-ld';
 import ServiceCard from '@/components/service/ServiceCard';
 import { site } from '@/content/site';
 
@@ -45,11 +45,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function CityPage({
-  params,
-}: {
-  params: Promise<{ city: string }>;
-}) {
+export default async function CityPage({ params }: { params: Promise<{ city: string }> }) {
   const { city: slug } = await params;
   let city;
   try {
@@ -96,9 +92,9 @@ export default async function CityPage({
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdHtml(jsonLd)} />
       {c.faq.length > 0 && (
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(faqJsonLd) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdHtml(faqJsonLd)} />
       )}
 
       {/* Hero */}
@@ -113,12 +109,12 @@ export default async function CityPage({
             sizes="100vw"
             className="hero-parallax object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-forest-900/80 via-forest-900/40 to-transparent" />
+          <div className="from-forest-900/80 via-forest-900/40 absolute inset-0 bg-gradient-to-t to-transparent" />
           <div className="absolute inset-x-0 bottom-0 mx-auto max-w-4xl px-4 pb-8 lg:px-8">
-            <p className="hero-rise hero-rise-1 text-sm uppercase tracking-[0.3em] text-cream-50/80">
+            <p className="hero-rise hero-rise-1 text-cream-50/80 text-sm tracking-[0.3em] uppercase">
               Serving {c.region}
             </p>
-            <h1 className="hero-rise hero-rise-2 font-display text-4xl text-cream-50 sm:text-5xl md:text-6xl">
+            <h1 className="hero-rise hero-rise-2 font-display text-cream-50 text-4xl sm:text-5xl md:text-6xl">
               Landscaping in {c.name}
             </h1>
           </div>
@@ -127,14 +123,12 @@ export default async function CityPage({
 
       {/* Intro */}
       <section className="mx-auto max-w-4xl px-4 py-16 lg:px-8">
-        <p className="text-lg text-ink-700">{c.intro}</p>
-        <div className="mt-8 rounded-2xl bg-moss-100 px-6 py-5 text-ink-700">
-          {c.localContext}
-        </div>
+        <p className="text-ink-700 text-lg">{c.intro}</p>
+        <div className="bg-moss-100 text-ink-700 mt-8 rounded-2xl px-6 py-5">{c.localContext}</div>
         <ul className="mt-6 space-y-2">
           {c.highlights.map((h) => (
-            <li key={h} className="flex items-start gap-2 text-ink-700">
-              <span className="mt-1 text-sage-500">✓</span>
+            <li key={h} className="text-ink-700 flex items-start gap-2">
+              <span className="text-sage-500 mt-1">✓</span>
               <span>{h}</span>
             </li>
           ))}
@@ -144,10 +138,8 @@ export default async function CityPage({
       {/* Services in this city */}
       <section className="bg-moss-100/40 py-16">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
-          <h2 className="font-display text-3xl text-forest-900">
-            Services we offer in {c.name}
-          </h2>
-          <p className="mt-2 text-ink-500">
+          <h2 className="font-display text-forest-900 text-3xl">Services we offer in {c.name}</h2>
+          <p className="text-ink-500 mt-2">
             All services available across {c.name} and nearby {c.region} communities.
           </p>
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -164,7 +156,7 @@ export default async function CityPage({
           <div className="mt-8 text-center">
             <Link
               href="/services"
-              className="text-sm font-medium text-forest-700 hover:text-forest-900"
+              className="text-forest-700 hover:text-forest-900 text-sm font-medium"
             >
               See all 22 services →
             </Link>
@@ -174,20 +166,20 @@ export default async function CityPage({
 
       {/* FAQ */}
       <section className="mx-auto max-w-4xl px-4 py-16 lg:px-8">
-        <h2 className="font-display text-3xl text-forest-900">
+        <h2 className="font-display text-forest-900 text-3xl">
           {c.name} landscaping — common questions
         </h2>
         <div className="mt-8 space-y-6">
           {c.faq.map((item) => (
             <details
               key={item.question}
-              className="group rounded-xl border border-moss-100 bg-white"
+              className="group border-moss-100 rounded-xl border bg-white"
             >
-              <summary className="flex cursor-pointer items-center justify-between px-5 py-4 font-medium text-forest-900 marker:content-none">
+              <summary className="text-forest-900 flex cursor-pointer items-center justify-between px-5 py-4 font-medium marker:content-none">
                 {item.question}
                 <svg
                   aria-hidden="true"
-                  className="h-5 w-5 shrink-0 text-sage-500 transition group-open:rotate-180"
+                  className="text-sage-500 h-5 w-5 shrink-0 transition group-open:rotate-180"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -196,7 +188,7 @@ export default async function CityPage({
                   <path d="M19 9l-7 7-7-7" />
                 </svg>
               </summary>
-              <p className="px-5 pb-4 text-ink-700">{item.answer}</p>
+              <p className="text-ink-700 px-5 pb-4">{item.answer}</p>
             </details>
           ))}
         </div>
@@ -204,19 +196,19 @@ export default async function CityPage({
 
       {/* CTA */}
       <section className="mx-auto max-w-4xl px-4 pb-24 text-center lg:px-8">
-        <h2 className="font-display text-3xl text-forest-900 sm:text-4xl">
+        <h2 className="font-display text-forest-900 text-3xl sm:text-4xl">
           Ready for a free estimate in {c.name}?
         </h2>
-        <p className="mt-4 text-ink-700">
+        <p className="text-ink-700 mt-4">
           Call us at{' '}
-          <a href={`tel:${site.phoneE164}`} className="font-medium text-forest-700">
+          <a href={`tel:${site.phoneE164}`} className="text-forest-700 font-medium">
             {site.phone}
           </a>{' '}
           or use the form below — we typically respond the same business day.
         </p>
         <Link
           href="/contact"
-          className="mt-6 inline-block rounded-full bg-forest-700 px-8 py-4 font-medium text-cream-50 hover:bg-forest-900"
+          className="bg-forest-700 text-cream-50 hover:bg-forest-900 mt-6 inline-block rounded-full px-8 py-4 font-medium"
         >
           Get a free estimate
         </Link>

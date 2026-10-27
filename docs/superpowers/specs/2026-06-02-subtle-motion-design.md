@@ -44,14 +44,27 @@ reduced-motion media query:
   html.js-reveal [data-reveal] {
     opacity: 0;
     transform: translateY(12px);
-    transition: opacity .5s ease-out, transform .5s ease-out;
+    transition:
+      opacity 0.5s ease-out,
+      transform 0.5s ease-out;
   }
-  html.js-reveal [data-reveal].reveal-in { opacity: 1; transform: none; }
+  html.js-reveal [data-reveal].reveal-in {
+    opacity: 1;
+    transform: none;
+  }
   /* stagger for grid children */
-  html.js-reveal [data-reveal-delay="1"] { transition-delay: .06s; }
-  html.js-reveal [data-reveal-delay="2"] { transition-delay: .12s; }
-  html.js-reveal [data-reveal-delay="3"] { transition-delay: .18s; }
-  html.js-reveal [data-reveal-delay="4"] { transition-delay: .24s; }
+  html.js-reveal [data-reveal-delay='1'] {
+    transition-delay: 0.06s;
+  }
+  html.js-reveal [data-reveal-delay='2'] {
+    transition-delay: 0.12s;
+  }
+  html.js-reveal [data-reveal-delay='3'] {
+    transition-delay: 0.18s;
+  }
+  html.js-reveal [data-reveal-delay='4'] {
+    transition-delay: 0.24s;
+  }
 }
 ```
 
@@ -62,11 +75,13 @@ server components; they only add `data-reveal` (and optional `data-reveal-delay`
 ## Components (units)
 
 ### `components/motion/ScrollReveal.tsx` (client)
+
 - Purpose: enable scroll reveals via one shared observer.
 - Interface: no props; render `null`; mount once in `app/(marketing)/layout.tsx`.
 - Depends on: DOM `IntersectionObserver`, `matchMedia`.
 
 ### `components/motion/CountUp.tsx` (client)
+
 - Purpose: animate a number from 0 → target when first scrolled into view.
 - Props: `to: number`, `decimals?: number` (default 0), `suffix?: string`
   (e.g. `"+"`, `"★"`), `durationMs?: number` (default ~1200).
@@ -78,6 +93,7 @@ server components; they only add `data-reveal` (and optional `data-reveal-delay`
 - Depends on: DOM `IntersectionObserver`, `requestAnimationFrame`, `matchMedia`.
 
 ### CSS (`app/globals.css`)
+
 - Reveal base/visible/stagger rules (above).
 - Hero entrance: keyframes + helper classes, gated by `no-preference`.
 - Parallax: gated by `no-preference` **and** `@supports (animation-timeline: view())`.

@@ -13,6 +13,7 @@ Successfully analyzed the production WordPress site using browsermcp. Identified
 ### 1. URL Structure - MAJOR DIFFERENCE ⚠️
 
 **Production Site (WordPress):**
+
 - Services organized in category folders:
   - `/landscaping-services/` (5 services)
   - `/lawn-services/` (4 services)
@@ -21,6 +22,7 @@ Successfully analyzed the production WordPress site using browsermcp. Identified
 - Example: `/lawn-services/lawn-mowing/`
 
 **New Site (Next.js):**
+
 - All services flat under `/services/`:
   - `/services/lawn-mowing`
   - `/services/fertilization`
@@ -33,6 +35,7 @@ Successfully analyzed the production WordPress site using browsermcp. Identified
 ### 2. Navigation Structure
 
 **Production Site:**
+
 - Dropdown menus with categories:
   - **Landscaping** (5 sub-items)
   - **Lawn** (4 sub-items)
@@ -43,6 +46,7 @@ Successfully analyzed the production WordPress site using browsermcp. Identified
   - Service Areas
 
 **New Site:**
+
 - Simple flat navigation:
   - Home
   - Services (links to index)
@@ -54,6 +58,7 @@ Successfully analyzed the production WordPress site using browsermcp. Identified
 ### 3. Header Differences
 
 **Production Site:**
+
 - Logo with company name
 - Tagline: "BIG ENOUGH TO SERVICE YOU, SMALL ENOUGH TO CARE"
 - Weather widget integration
@@ -61,12 +66,14 @@ Successfully analyzed the production WordPress site using browsermcp. Identified
 - Dropdown navigation with categories
 
 **New Site:**
+
 - Simple logo + company name
 - Flat navigation
 - No tagline
 - Placeholder phone: (555) 123-4567
 
 **Required Actions:**
+
 - Add tagline to header
 - Update phone number to real: (905) 638-0884
 - Implement dropdown navigation
@@ -75,6 +82,7 @@ Successfully analyzed the production WordPress site using browsermcp. Identified
 ### 4. Homepage Differences
 
 **Production Site:**
+
 - Full-screen hero slider with background images
 - Service carousel showing 3 services at a time
 - "Specializing in Condominiums and Commercial Property Maintenance" callout
@@ -83,12 +91,14 @@ Successfully analyzed the production WordPress site using browsermcp. Identified
 - "Get In Touch With Us Today" CTA button
 
 **New Site:**
+
 - Hero section with tagline and CTAs
 - Services overview (first 3 services)
 - Featured gallery section
 - Contact CTA section
 
 **Required Actions:**
+
 - Consider adding hero slider (or keep simpler version)
 - Add "Specializing in..." callout
 - Ensure CTAs are prominent
@@ -96,6 +106,7 @@ Successfully analyzed the production WordPress site using browsermcp. Identified
 ### 5. Footer Differences
 
 **Production Site:**
+
 - Business hours:
   - Monday to Friday: 8:00AM - 5:00PM
   - By Appointment Only Sat-Sun
@@ -104,12 +115,14 @@ Successfully analyzed the production WordPress site using browsermcp. Identified
 - Credit to Lusk Technologies
 
 **New Site:**
+
 - Company name and description
 - Contact Us heading (no details)
 - Quick Links navigation
 - Copyright notice
 
 **Required Actions:**
+
 - Add business hours to footer
 - Add disclaimer text
 - Consider Lusk Technologies credit
@@ -117,6 +130,7 @@ Successfully analyzed the production WordPress site using browsermcp. Identified
 ### 6. Contact Page Differences
 
 **Production Site:**
+
 - Contact form with fields:
   - Name*
   - Email*
@@ -130,6 +144,7 @@ Successfully analyzed the production WordPress site using browsermcp. Identified
   - Email: info@acutabovelawncareinc.ca
 
 **New Site:**
+
 - Contact form with fields:
   - Name*
   - Email*
@@ -138,6 +153,7 @@ Successfully analyzed the production WordPress site using browsermcp. Identified
 - Business hours and contact info in text
 
 **Required Actions:**
+
 - Update phone number to (905) 638-0884
 - Add fax number: (905) 332-0645
 - Add address: Burlington ON L7P 0B1
@@ -146,6 +162,7 @@ Successfully analyzed the production WordPress site using browsermcp. Identified
 ### 7. Service Page Structure
 
 **Production Site:**
+
 - Clean article layout
 - H1 main heading
 - H2 and H3 subheadings
@@ -154,6 +171,7 @@ Successfully analyzed the production WordPress site using browsermcp. Identified
 - "Get In Touch With Us Today" CTA button at bottom
 
 **New Site:**
+
 - Service title (H1)
 - Description content
 - "Ready to Get Started?" CTA section
@@ -164,6 +182,7 @@ Successfully analyzed the production WordPress site using browsermcp. Identified
 ### 8. Real Business Information
 
 **From Production Site:**
+
 - **Phone:** (905) 638-0884
 - **Fax:** (905) 332-0645
 - **Email:** info@acutabovelawncareinc.ca
@@ -226,6 +245,7 @@ Successfully analyzed the production WordPress site using browsermcp. Identified
 ## Service Categories Breakdown
 
 ### Landscaping Services (5)
+
 1. Commercial Garden Design
 2. Commercial Landscaping
 3. Landscape Construction
@@ -233,16 +253,19 @@ Successfully analyzed the production WordPress site using browsermcp. Identified
 5. Landscaping
 
 ### Lawn Services (4)
+
 1. Aeration
 2. Commercial Lawn Mowing
 3. Lawn Mowing
 4. Lawn Care
 
 ### Hardscaping (2)
+
 1. Hardscapes
 2. Retaining Walls
 
 ### Other Services (11)
+
 1. Commercial Property Maintenance
 2. Fertilization
 3. Lawn Pest Control
@@ -258,6 +281,7 @@ Successfully analyzed the production WordPress site using browsermcp. Identified
 **Total:** 22 services (vs 35 imported from WordPress)
 
 **Note:** We imported 35 services, but production only shows 22 in navigation. The extra 13 are likely:
+
 - Privacy Policy
 - Home
 - About Us
@@ -272,6 +296,7 @@ Successfully analyzed the production WordPress site using browsermcp. Identified
 ## Next Steps
 
 ### 1. Fix Redirects (Critical)
+
 ```typescript
 // Update next.config.ts with correct category redirects
 {
@@ -297,11 +322,13 @@ Successfully analyzed the production WordPress site using browsermcp. Identified
 ```
 
 ### 2. Update Components
+
 - Header: Add tagline, update phone, implement dropdowns
 - Footer: Add business hours, disclaimer
 - Contact: Update all contact information
 
 ### 3. Test Thoroughly
+
 - Test all redirects work
 - Test navigation dropdowns
 - Test contact form

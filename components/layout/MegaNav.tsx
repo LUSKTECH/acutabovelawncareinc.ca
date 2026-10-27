@@ -17,7 +17,9 @@ const categoryBySlug = new Map<string, ServiceCategory>(
 
 const linkBase = 'rounded px-3 py-2 text-sm font-medium transition';
 const linkClass = (active: boolean) =>
-  active ? `${linkBase} font-semibold text-forest-700` : `${linkBase} text-ink-700 hover:text-forest-700`;
+  active
+    ? `${linkBase} font-semibold text-forest-700`
+    : `${linkBase} text-ink-700 hover:text-forest-700`;
 
 type CategoryDropdownProps = Readonly<{
   category: ServiceCategory;
@@ -32,13 +34,26 @@ type CategoryDropdownProps = Readonly<{
 }>;
 
 function CategoryDropdown({
-  category, label, services, isOpen, isActive,
-  onToggle, onClose, onMouseEnter, onMouseLeave,
+  category,
+  label,
+  services,
+  isOpen,
+  isActive,
+  onToggle,
+  onClose,
+  onMouseEnter,
+  onMouseLeave,
 }: CategoryDropdownProps) {
   const panelId = `meganav-panel-${category}`;
   const handleToggle = useCallback(() => onToggle(category), [category, onToggle]);
   const handleEnter = useCallback(() => onMouseEnter(category), [category, onMouseEnter]);
   const handleLeave = useCallback(() => onMouseLeave(category), [category, onMouseLeave]);
+  const handleBlur = useCallback(
+    (e: React.FocusEvent<HTMLDivElement>) => {
+      if (!e.currentTarget.contains(e.relatedTarget as Node)) handleLeave();
+    },
+    [handleLeave],
+  );
 
   return (
     <div
@@ -46,14 +61,10 @@ function CategoryDropdown({
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
       onFocus={handleEnter}
-      onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node)) handleLeave(); }}
+      onBlur={handleBlur}
     >
       <div className="flex items-center">
-        <Link
-          href={`/services#${category}`}
-          onClick={onClose}
-          className={linkClass(isActive)}
-        >
+        <Link href={`/services#${category}`} onClick={onClose} className={linkClass(isActive)}>
           {label}
         </Link>
         <button
@@ -63,23 +74,32 @@ function CategoryDropdown({
           aria-controls={isOpen ? panelId : undefined}
           aria-label={`Toggle ${label} menu`}
           onClick={handleToggle}
-          className="ml-0.5 rounded p-1 text-ink-700 transition hover:text-forest-700"
+          className="text-ink-700 hover:text-forest-700 ml-0.5 rounded p-1 transition"
         >
-          <svg viewBox="0 0 20 20" fill="currentColor" className={`h-4 w-4 transition-transform${isOpen ? ' rotate-180' : ''}`} aria-hidden>
-            <path fillRule="evenodd" clipRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+          <svg
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            className={`h-4 w-4 transition-transform${isOpen ? 'rotate-180' : ''}`}
+            aria-hidden
+          >
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+            />
           </svg>
         </button>
       </div>
       {isOpen && (
         <div
           id={panelId}
-          className="absolute left-1/2 top-full w-72 -translate-x-1/2 rounded-xl border border-moss-100 bg-cream-50 p-2 shadow-card"
+          className="border-moss-100 bg-cream-50 shadow-card absolute top-full left-1/2 w-72 -translate-x-1/2 rounded-xl border p-2"
         >
           {services.map((s) => (
             <Link
               key={s.slug}
               href={`/services/${s.slug}`}
-              className="block rounded-lg px-3 py-2 text-sm text-ink-700 hover:bg-moss-100 hover:text-forest-900"
+              className="text-ink-700 hover:bg-moss-100 hover:text-forest-900 block rounded-lg px-3 py-2 text-sm"
               onClick={onClose}
             >
               {s.title}
@@ -102,14 +122,18 @@ export default function MegaNav() {
 
   const handleClose = useCallback(() => setOpen(null), []);
   const handleAreasEnter = useCallback(() => setOpen('areas'), []);
-  const handleAreasLeave = useCallback(
-    () => setOpen((v) => (v === 'areas' ? null : v)),
-    [],
+  const handleAreasLeave = useCallback(() => {
+    setOpen((v) => (v === 'areas' ? null : v));
+  }, []);
+  const handleAreasBlur = useCallback(
+    (e: React.FocusEvent<HTMLDivElement>) => {
+      if (!e.currentTarget.contains(e.relatedTarget as Node)) handleAreasLeave();
+    },
+    [handleAreasLeave],
   );
-  const handleAreasToggle = useCallback(
-    () => setOpen((v) => (v === 'areas' ? null : 'areas')),
-    [],
-  );
+  const handleAreasToggle = useCallback(() => {
+    setOpen((v) => (v === 'areas' ? null : 'areas'));
+  }, []);
   const handleToggle = useCallback(
     (category: ServiceCategory) => setOpen((v) => (v === category ? null : category)),
     [],
@@ -180,7 +204,7 @@ export default function MegaNav() {
         onMouseEnter={handleAreasEnter}
         onMouseLeave={handleAreasLeave}
         onFocus={handleAreasEnter}
-        onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node)) handleAreasLeave(); }}
+        onBlur={handleAreasBlur}
       >
         <button
           type="button"
@@ -195,22 +219,22 @@ export default function MegaNav() {
         {open === 'areas' && (
           <div
             id="meganav-panel-areas"
-            className="absolute left-1/2 top-full w-56 -translate-x-1/2 rounded-xl border border-moss-100 bg-cream-50 p-2 shadow-card"
+            className="border-moss-100 bg-cream-50 shadow-card absolute top-full left-1/2 w-56 -translate-x-1/2 rounded-xl border p-2"
           >
             {cities.map((c) => (
               <Link
                 key={c.slug}
                 href={`/areas/${c.slug}`}
-                className="block rounded-lg px-3 py-2 text-sm text-ink-700 hover:bg-moss-100 hover:text-forest-900"
+                className="text-ink-700 hover:bg-moss-100 hover:text-forest-900 block rounded-lg px-3 py-2 text-sm"
                 onClick={handleClose}
               >
                 {c.name}
               </Link>
             ))}
-            <div className="mx-3 my-1 border-t border-moss-100" />
+            <div className="border-moss-100 mx-3 my-1 border-t" />
             <Link
               href="/service-areas"
-              className="block rounded-lg px-3 py-2 text-sm text-ink-500 hover:bg-moss-100 hover:text-forest-900"
+              className="text-ink-500 hover:bg-moss-100 hover:text-forest-900 block rounded-lg px-3 py-2 text-sm"
               onClick={handleClose}
             >
               All service areas →

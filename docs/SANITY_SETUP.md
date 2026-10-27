@@ -26,6 +26,7 @@ SANITY_API_TOKEN=your_api_token_here
 ```
 
 To get an API token:
+
 1. Go to https://www.sanity.io/manage
 2. Select your project
 3. Go to "API" → "Tokens"
@@ -59,7 +60,7 @@ export default {
       name: 'title',
       title: 'Title',
       type: 'string',
-      validation: Rule => Rule.required()
+      validation: (Rule) => Rule.required(),
     },
     {
       name: 'slug',
@@ -67,32 +68,32 @@ export default {
       type: 'slug',
       options: {
         source: 'title',
-        maxLength: 96
+        maxLength: 96,
       },
-      validation: Rule => Rule.required()
+      validation: (Rule) => Rule.required(),
     },
     {
       name: 'description',
       title: 'Description',
       type: 'text',
-      validation: Rule => Rule.required()
+      validation: (Rule) => Rule.required(),
     },
     {
       name: 'featuredImage',
       title: 'Featured Image',
       type: 'image',
       options: {
-        hotspot: true
+        hotspot: true,
       },
       fields: [
         {
           name: 'alt',
           title: 'Alt Text',
           type: 'string',
-          validation: Rule => Rule.required()
-        }
+          validation: (Rule) => Rule.required(),
+        },
       ],
-      validation: Rule => Rule.required()
+      validation: (Rule) => Rule.required(),
     },
     {
       name: 'additionalImages',
@@ -102,24 +103,24 @@ export default {
         {
           type: 'image',
           options: {
-            hotspot: true
+            hotspot: true,
           },
           fields: [
             {
               name: 'alt',
               title: 'Alt Text',
               type: 'string',
-              validation: Rule => Rule.required()
-            }
-          ]
-        }
-      ]
+              validation: (Rule) => Rule.required(),
+            },
+          ],
+        },
+      ],
     },
     {
       name: 'order',
       title: 'Display Order',
       type: 'number',
-      validation: Rule => Rule.required().min(0)
+      validation: (Rule) => Rule.required().min(0),
     },
     {
       name: 'seo',
@@ -129,40 +130,40 @@ export default {
         {
           name: 'title',
           title: 'SEO Title',
-          type: 'string'
+          type: 'string',
         },
         {
           name: 'description',
           title: 'SEO Description',
-          type: 'text'
+          type: 'text',
         },
         {
           name: 'keywords',
           title: 'Keywords',
           type: 'array',
-          of: [{type: 'string'}]
+          of: [{ type: 'string' }],
         },
         {
           name: 'ogImage',
           title: 'Open Graph Image',
-          type: 'image'
+          type: 'image',
         },
         {
           name: 'noIndex',
           title: 'No Index',
           type: 'boolean',
-          description: 'Prevent search engines from indexing this page'
-        }
-      ]
-    }
+          description: 'Prevent search engines from indexing this page',
+        },
+      ],
+    },
   ],
   preview: {
     select: {
       title: 'title',
-      media: 'featuredImage'
-    }
-  }
-}
+      media: 'featuredImage',
+    },
+  },
+};
 ```
 
 ### Gallery Image Schema
@@ -177,29 +178,29 @@ export default {
       name: 'title',
       title: 'Title',
       type: 'string',
-      validation: Rule => Rule.required()
+      validation: (Rule) => Rule.required(),
     },
     {
       name: 'image',
       title: 'Image',
       type: 'image',
       options: {
-        hotspot: true
+        hotspot: true,
       },
       fields: [
         {
           name: 'alt',
           title: 'Alt Text',
           type: 'string',
-          validation: Rule => Rule.required()
-        }
+          validation: (Rule) => Rule.required(),
+        },
       ],
-      validation: Rule => Rule.required()
+      validation: (Rule) => Rule.required(),
     },
     {
       name: 'description',
       title: 'Description',
-      type: 'text'
+      type: 'text',
     },
     {
       name: 'category',
@@ -207,27 +208,27 @@ export default {
       type: 'string',
       options: {
         list: [
-          {title: 'Lawn Care', value: 'lawn-care'},
-          {title: 'Landscaping', value: 'landscaping'},
-          {title: 'Garden Design', value: 'garden-design'},
-          {title: 'Maintenance', value: 'maintenance'}
-        ]
-      }
+          { title: 'Lawn Care', value: 'lawn-care' },
+          { title: 'Landscaping', value: 'landscaping' },
+          { title: 'Garden Design', value: 'garden-design' },
+          { title: 'Maintenance', value: 'maintenance' },
+        ],
+      },
     },
     {
       name: 'order',
       title: 'Display Order',
       type: 'number',
-      validation: Rule => Rule.required().min(0)
-    }
+      validation: (Rule) => Rule.required().min(0),
+    },
   ],
   preview: {
     select: {
       title: 'title',
-      media: 'image'
-    }
-  }
-}
+      media: 'image',
+    },
+  },
+};
 ```
 
 ### Page Schema
@@ -242,7 +243,7 @@ export default {
       name: 'title',
       title: 'Title',
       type: 'string',
-      validation: Rule => Rule.required()
+      validation: (Rule) => Rule.required(),
     },
     {
       name: 'slug',
@@ -250,15 +251,15 @@ export default {
       type: 'slug',
       options: {
         source: 'title',
-        maxLength: 96
+        maxLength: 96,
       },
-      validation: Rule => Rule.required()
+      validation: (Rule) => Rule.required(),
     },
     {
       name: 'content',
       title: 'Content',
       type: 'text',
-      validation: Rule => Rule.required()
+      validation: (Rule) => Rule.required(),
     },
     {
       name: 'seo',
@@ -268,38 +269,38 @@ export default {
         {
           name: 'title',
           title: 'SEO Title',
-          type: 'string'
+          type: 'string',
         },
         {
           name: 'description',
           title: 'SEO Description',
-          type: 'text'
+          type: 'text',
         },
         {
           name: 'keywords',
           title: 'Keywords',
           type: 'array',
-          of: [{type: 'string'}]
+          of: [{ type: 'string' }],
         },
         {
           name: 'ogImage',
           title: 'Open Graph Image',
-          type: 'image'
+          type: 'image',
         },
         {
           name: 'noIndex',
           title: 'No Index',
-          type: 'boolean'
-        }
-      ]
-    }
+          type: 'boolean',
+        },
+      ],
+    },
   ],
   preview: {
     select: {
-      title: 'title'
-    }
-  }
-}
+      title: 'title',
+    },
+  },
+};
 ```
 
 ### Site Settings Schema
@@ -314,36 +315,36 @@ export default {
       name: 'siteName',
       title: 'Site Name',
       type: 'string',
-      validation: Rule => Rule.required()
+      validation: (Rule) => Rule.required(),
     },
     {
       name: 'logo',
       title: 'Logo',
       type: 'image',
       options: {
-        hotspot: true
+        hotspot: true,
       },
       fields: [
         {
           name: 'alt',
           title: 'Alt Text',
           type: 'string',
-          validation: Rule => Rule.required()
-        }
+          validation: (Rule) => Rule.required(),
+        },
       ],
-      validation: Rule => Rule.required()
+      validation: (Rule) => Rule.required(),
     },
     {
       name: 'contactEmail',
       title: 'Contact Email',
       type: 'string',
-      validation: Rule => Rule.required().email()
+      validation: (Rule) => Rule.required().email(),
     },
     {
       name: 'contactPhone',
       title: 'Contact Phone',
       type: 'string',
-      validation: Rule => Rule.required()
+      validation: (Rule) => Rule.required(),
     },
     {
       name: 'socialMedia',
@@ -353,27 +354,27 @@ export default {
         {
           name: 'facebook',
           title: 'Facebook URL',
-          type: 'url'
+          type: 'url',
         },
         {
           name: 'instagram',
           title: 'Instagram URL',
-          type: 'url'
-        }
-      ]
+          type: 'url',
+        },
+      ],
     },
     {
       name: 'footerText',
       title: 'Footer Text',
-      type: 'text'
-    }
+      type: 'text',
+    },
   ],
   preview: {
     select: {
-      title: 'siteName'
-    }
-  }
-}
+      title: 'siteName',
+    },
+  },
+};
 ```
 
 ## Step 5: Add Schemas to Sanity Studio
@@ -384,12 +385,12 @@ If using Sanity Studio locally:
 2. Import them in `schemas/index.js`:
 
 ```javascript
-import service from './service'
-import galleryImage from './galleryImage'
-import page from './page'
-import siteSettings from './siteSettings'
+import service from './service';
+import galleryImage from './galleryImage';
+import page from './page';
+import siteSettings from './siteSettings';
 
-export const schemaTypes = [service, galleryImage, page, siteSettings]
+export const schemaTypes = [service, galleryImage, page, siteSettings];
 ```
 
 3. Deploy the schema:
@@ -421,6 +422,7 @@ The CMS client should now be able to fetch content from Sanity.
 ### CORS Errors
 
 If you encounter CORS errors:
+
 1. Go to https://www.sanity.io/manage
 2. Select your project
 3. Go to "API" → "CORS Origins"
@@ -429,6 +431,7 @@ If you encounter CORS errors:
 ### Missing Content
 
 If content doesn't appear:
+
 1. Verify your Project ID and Dataset in `.env.local`
 2. Check that content is published in Sanity Studio
 3. Verify API token has correct permissions
@@ -436,6 +439,7 @@ If content doesn't appear:
 ### Image Loading Issues
 
 If images don't load:
+
 1. Verify images have alt text in Sanity
 2. Check that images are published
 3. Verify the image URL builder is working correctly
@@ -443,5 +447,6 @@ If images don't load:
 ## Next Steps
 
 After completing this setup:
+
 - Proceed to Task 2.2: Create CMS client interface (already implemented)
 - Proceed to Task 2.3: Write unit tests for CMS client
