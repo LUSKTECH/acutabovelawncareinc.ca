@@ -47,7 +47,7 @@
     "@types/react-dom": "^19.3.0",
     "@vitest/coverage-v8": "^5.1.0",
     "cheerio": "^1.0.0",
-    "jsdom": "^31.0.0",
+    "jsdom": "^31.0.1",
     "oxlint": "^1.93.0",
     "pa11y-ci": "5.0.0",
     "prettier": "^3.10.1",
